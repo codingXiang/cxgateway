@@ -43,3 +43,13 @@ func (r *RequestHandler) ValidFormField(data interface{}) error {
 	}
 	return nil
 }
+
+
+func (r *RequestHandler) ValidValidation(v *validation.Validation) error {
+	if v.HasErrors() {
+		for _, err := range v.Errors {
+			return e.ParameterError(fmt.Sprintf("parameter `%s` %s.", err.Key, err.Message))
+		}
+	}
+	return nil
+}
