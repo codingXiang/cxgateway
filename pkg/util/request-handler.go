@@ -12,6 +12,8 @@ type RequestHandlerInterface interface {
 	BindBody(c *gin.Context, body interface{}) error
 	//ValidFormField : 驗證表單資訊
 	ValidFormField(data interface{}) error
+	//ValidValidation : 驗證表單資訊
+	ValidValidation(v *validation.Validation) error
 }
 
 type RequestHandler struct {
