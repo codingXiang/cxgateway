@@ -24,8 +24,6 @@ func NewApiGateway() delivery.HttpHandler {
 	gateway.handler = util.NewRequestHandler()
 	gateway.engine.Use(middleware.RequestIDMiddleware(settings.ConfigData.GetApplication().GetAppID())).Use(middleware.Logger(), gin.Recovery())
 
-	gateway.engine.Use(middleware.Logger(), gin.Recovery())
-
 	gateway.Api = gateway.engine.Group("/api")
 	return gateway
 }
