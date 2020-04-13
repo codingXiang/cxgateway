@@ -10,8 +10,6 @@ import (
 type RequestHandlerInterface interface {
 	//BindBody : 綁定 body
 	BindBody(c *gin.Context, body interface{}) error
-	//ValidFormField : 驗證表單資訊
-	ValidFormField(data interface{}) error
 	//ValidValidation : 驗證表單資訊
 	ValidValidation(v *validation.Validation) error
 }
@@ -24,6 +22,7 @@ func NewRequestHandler() RequestHandlerInterface {
 	return &RequestHandler{}
 }
 
+//BindBody : 綁定 body
 func (r *RequestHandler) BindBody(c *gin.Context, body interface{}) error {
 	var err = c.Bind(&body)
 	if err != nil {
@@ -32,21 +31,7 @@ func (r *RequestHandler) BindBody(c *gin.Context, body interface{}) error {
 	return nil
 }
 
-func (r *RequestHandler) ValidFormField(data interface{}) error {
-	var v = &validation.Validation{}
-	var hasError, err = v.Valid(&data)
-	if err != nil {
-		return e.UnknownError(fmt.Sprintf("valid form something error = %s", err.Error()))
-	}
-	if hasError {
-		for _, err := range v.Errors {
-			return e.ParameterError(fmt.Sprintf("parameter `%s` %s.", err.Key, err.Message))
-		}
-	}
-	return nil
-}
-
-
+//ValidValidation : 驗證表單資訊
 func (r *RequestHandler) ValidValidation(v *validation.Validation) error {
 	if v.HasErrors() {
 		for _, err := range v.Errors {
