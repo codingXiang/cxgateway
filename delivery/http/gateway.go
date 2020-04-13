@@ -3,6 +3,7 @@ package http
 import (
 	"github.com/codingXiang/cxgateway/delivery"
 	"github.com/codingXiang/cxgateway/middleware"
+	"github.com/codingXiang/cxgateway/pkg/settings"
 	"github.com/codingXiang/cxgateway/pkg/util"
 	"github.com/gin-gonic/gin"
 )
@@ -21,6 +22,8 @@ func NewApiGateway() delivery.HttpHandler {
 		}
 	)
 	gateway.handler = util.NewRequestHandler()
+	gateway.engine.Use(middleware.RequestIDMiddleware(settings.ConfigData.GetApplication().GetAppID())).Use(middleware.Logger(), gin.Recovery())
+
 	gateway.engine.Use(middleware.Logger(), gin.Recovery())
 
 	gateway.Api = gateway.engine.Group("/api")

@@ -9,6 +9,8 @@ type (
 	ApplicationInterface interface {
 		GetPort() int
 		GetMode() string
+		GetAppID() string
+		GetAppToken() string
 		GetLog() logger.Logger
 		GetTimeout() TimeoutInterface
 	}
@@ -22,7 +24,8 @@ type (
 		Port     int           `yaml:"port"`     //運行開放port
 		Mode     string        `yaml:"mode"`     //運行模式（有release、test 與 debug）
 		Log      logger.Logger `yaml:"log"`      //Log 配置
-		AppToken string        `yaml:"appToken"` //應用 id
+		AppToken string        `yaml:"appToken"` //應用 token
+		AppID    string        `yaml:"appId"`    //應用 id
 		Timeout  *Timeout      `yaml:"timeout"`  //超時參數
 	}
 	//Timeout : 超時參數
@@ -45,6 +48,16 @@ func (a *Application) GetMode() string {
 //GetLog 取得 log 設定
 func (a *Application) GetLog() logger.Logger {
 	return a.Log
+}
+
+//GetAppID 取得 AppID
+func (a *Application) GetAppID() string {
+	return a.AppID
+}
+
+//GetAppToken 取得 App Token
+func (a *Application) GetAppToken() string {
+	return a.AppToken
 }
 
 //GetTimeout 取得 Timeout

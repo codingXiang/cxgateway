@@ -28,3 +28,4 @@ application:
     level: "debug"
     format: "json"
   appId: "iam"
+  appToken: ""
