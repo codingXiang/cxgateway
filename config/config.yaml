@@ -1,31 +1,31 @@
-db:
-  url: '@DB_URL@'
-  port: '@DB_PORT@'
-  name: '@DB_NAME@'
-  username: '@DB_USERNAME@'
-  password: '@DB_PASSWORD@'
-  type: '@DB_TYPE@'
-  tablePrefix: "@DB_TABLE_PREFIX@"
-  maxOpenConns: '@DB_MAX_OPEN_CONNECTION@'
-  maxIdleConns: '@DB_MAX_IDLE_CONNECTION@'
-  maxLifeTime: '@DB_MAX_LIFETIME@'
+database:
+  url: '127.0.0.1'
+  port: 3307
+  name: 'test'
+  username: 'root'
+  password: 'a12345'
+  type: 'mysql'
+  tablePrefix: ""
+  maxOpenConns: 1000
+  maxIdleConns: 1000
+  maxLifeTime: 5
+  logMode: true
+  upgradeFilePath: 'sql/'
+  version:
+    version: "1.0.2"
 redis:
-  url: '@REDIS_URL@'
-  port: '@REDIS_PORT@'
-  password: '@REDIS_PASSWORD@'
-  DB: '@REDIS_DB@'
+  url: '127.0.0.1'
+  port: 6379
+  password: 'a12345'
+  db: 0
 application:
   timeout:
-    read: ""
-    write: ""
-  port: '@PORT@'
-  mode: "@RUN_MODE@"
+    read: 1000
+    write: 1000
+  port: 8080
+  mode: "test"
   log:
-    level: "@LOG_LEVEL@"
-    format: "@LOG_FORMAT@"
-  appId: "@APP_ID@"
-  authHeader: "hsinxiang-middleware-auth-user"
-  permissionHeader: "hsinxiang-middleware-permission"
-  jwt:
-    secret: "@AUTH_JWT_SECRET@"
-    expireTime: '@AUTH_JWT_EXPIRETIME@'
+    level: "debug"
+    format: "json"
+  appId: "iam"
+  appToken: ""
