@@ -7,7 +7,7 @@ require (
 	github.com/codingXiang/configer v1.0.0
 	github.com/codingXiang/go-logger v1.0.0
 	github.com/codingXiang/go-orm v1.0.1-0.20200414075438-006e6ca570cf
-	github.com/codingXiang/gogo-i18n v1.0.2-0.20200417065301-aeaccfd44778
+	github.com/codingXiang/gogo-i18n v1.0.2-0.20200417093325-c191114c00c4
 	github.com/fsnotify/fsnotify v1.4.9 // indirect
 	github.com/gin-gonic/gin v1.6.2
 	github.com/mitchellh/mapstructure v1.2.2 // indirect
