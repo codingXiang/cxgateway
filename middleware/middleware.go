@@ -2,7 +2,9 @@ package middleware
 
 import (
 	"fmt"
+	"github.com/codingXiang/configer"
 	"github.com/codingXiang/go-logger"
+	"github.com/codingXiang/gogo-i18n"
 	"github.com/gin-gonic/gin"
 	"github.com/sirupsen/logrus"
 	"math"
@@ -58,5 +60,32 @@ func Logger() gin.HandlerFunc {
 				entry.Info(msg)
 			}
 		}
+	}
+}
+
+func GoI18nMiddleware() gin.HandlerFunc {
+	var i18n gogo_i18n.GoGoi18nInterface
+	if data, err := configer.Config.GetCore("config").ReadConfig(); err == nil {
+		if lang, err := gogo_i18n.LangHandler.GetLanguageTag(data.GetString("i18n.defaultLanguage")); err == nil {
+			i18n = gogo_i18n.NewGoGoi18n(lang)
+			i18n.SetFileType(data.GetString("i18n.file.type"))
+			i18n.LoadTranslationFileArray(data.GetString("i18n.file.path"),
+				gogo_i18n.ServerLanguage,
+			)
+		}
+	}
+	return func(c *gin.Context) {
+		locale := c.Query("locale")
+		if locale != "" {
+			c.Request.Header.Set("Accept-Language", locale)
+		}
+		if lang, err := gogo_i18n.LangHandler.GetLanguageTag(c.GetHeader("Accept-Language")); err == nil {
+			i18n.SetUseLanguage(lang)
+			c.Set("i18n", i18n)
+			c.Next()
+		} else {
+			c.Abort()
+		}
+
 	}
 }

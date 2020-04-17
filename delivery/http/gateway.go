@@ -24,12 +24,15 @@ func NewApiGateway() delivery.HttpHandler {
 	gateway.handler = util.NewRequestHandler()
 
 	if data, err := configer.Config.GetCore("config").ReadConfig(); err == nil {
-		gateway.engine.Use(middleware.RequestIDMiddleware(data.GetString("application.appId"))).Use(middleware.Logger(), gin.Recovery())
+		gateway.engine.
+			Use(middleware.RequestIDMiddleware(data.GetString("application.appId"))).
+			Use(middleware.Logger(), gin.Recovery()).
+			Use(middleware.GoI18nMiddleware())
 
+		gateway.Api = gateway.engine.Group(data.GetString("application.apiBaseRoute"))
 	}
 
 
-	gateway.Api = gateway.engine.Group("/api")
 	return gateway
 }
 

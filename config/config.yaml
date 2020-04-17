@@ -29,3 +29,9 @@ application:
     format: "json"
   appId: "iam"
   appToken: ""
+  apiBaseRoute: "/api"
+i18n:
+  defaultLanguage: "zh_Hant"
+  file:
+    path: "./i18n"
+    type: "yaml"
