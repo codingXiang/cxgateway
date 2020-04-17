@@ -5,7 +5,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func GetI18nData(c *gin.Context) (gogo_i18n.GoGoi18n) {
+func GetI18nData(c *gin.Context) (gogo_i18n.GoGoi18nInterface) {
 	data, _ := c.Get("i18n")
-	return data.(gogo_i18n.GoGoi18n)
+	return data.(*gogo_i18n.GoGoi18n)
 }
