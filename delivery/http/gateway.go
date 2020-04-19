@@ -67,8 +67,7 @@ i18n:
 			configer.Config.GetCore(gateway.configName).SetAutomaticEnv()
 		}
 	} else {
-
-		configer.Config.AddCore(gateway.configName, configer.NewConfigerCore("yaml", "config", "./config", "."))
+		configer.Config.AddCore(gateway.configName, core)
 		configer.Config.GetCore(gateway.configName).SetAutomaticEnv()
 	}
 
