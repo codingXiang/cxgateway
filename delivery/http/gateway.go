@@ -14,14 +14,38 @@ import (
 )
 
 type ApiGateway struct {
-	engine     *gin.Engine
-	Api        *gin.RouterGroup
-	handler    util.RequestHandlerInterface
-	configName string
+	engine      *gin.Engine
+	Api         *gin.RouterGroup
+	handler     util.RequestHandlerInterface
+	configName  string
+	defaultData []byte
 }
 
 var (
-	defaultConfig = []byte(`application:
+	Gateway delivery.HttpHandler
+)
+
+func NewApiGateway(configName string, core configer.CoreInterface) delivery.HttpHandler {
+	var (
+		//config  = settings.ConfigData.Data.Application
+		gateway = &ApiGateway{
+			engine:      gin.Default(),
+			defaultData: nil,
+		}
+	)
+	if configName != "" {
+		gateway.configName = configName
+	} else {
+		gateway.configName = "default"
+	}
+	//初始化 configer
+	configer.Config = configer.NewConfiger()
+	//設定多語系 Handler
+	gogo_i18n.LangHandler = gogo_i18n.NewLanguageHandler()
+	//設定預設資料
+	if core == nil {
+		if gateway.configName == "default" {
+			gateway.defaultData = []byte(`application:
   timeout:
     read: 1000
     write: 1000
@@ -39,40 +63,18 @@ i18n:
     path: "./i18n"
     type: "yaml"
 `)
-	Gateway delivery.HttpHandler
-)
-
-func NewApiGateway(configName string, core configer.CoreInterface) delivery.HttpHandler {
-	var (
-		//config  = settings.ConfigData.Data.Application
-		gateway = &ApiGateway{
-			engine: gin.Default(),
-		}
-	)
-	if configName != "" {
-		gateway.configName = configName
-	} else {
-		gateway.configName = "default"
-	}
-	//初始化 configer
-	configer.Config = configer.NewConfiger()
-	//設定多語系 Handler
-	gogo_i18n.LangHandler = gogo_i18n.NewLanguageHandler()
-	//設定預設資料
-	if core == nil {
-		if gateway.configName == "default" {
-			configer.Config.AddCore(gateway.configName, configer.NewConfigerCore("yaml", "config", "./config", "."))
+			configer.Config.AddCore(gateway.configName, configer.NewConfigerCore("yaml", "", ))
 			configer.Config.GetCore(gateway.configName).SetAutomaticEnv()
-			configer.Config.GetCore(gateway.configName).ReadConfig(defaultConfig)
 		}
 	} else {
+
 		configer.Config.AddCore(gateway.configName, configer.NewConfigerCore("yaml", "config", "./config", "."))
 		configer.Config.GetCore(gateway.configName).SetAutomaticEnv()
 	}
 
 	gateway.handler = util.NewRequestHandler()
 
-	if data, err := gateway.GetConfig().ReadConfig(nil); err == nil {
+	if data, err := gateway.GetConfig().ReadConfig(gateway.defaultData); err == nil {
 		//設定 log 等級與格式
 		logger.Log = logger.NewLogger(logger.InterfaceToLogger(data.Get("application.log")))
 		gateway.engine.
@@ -104,7 +106,7 @@ func (this *ApiGateway) GetConfig() configer.CoreInterface {
 }
 
 func (this *ApiGateway) Run() {
-	if data, err := this.GetConfig().ReadConfig(nil); err == nil {
+	if data, err := this.GetConfig().ReadConfig(this.defaultData); err == nil {
 		var (
 			port         = data.GetInt("application.port")          //伺服器的 port
 			writeTimeout = data.GetInt("application.timeout.write") //伺服器的寫入超時時間

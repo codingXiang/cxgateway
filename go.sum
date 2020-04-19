@@ -29,6 +29,8 @@ github.com/codingXiang/configer v1.0.2-0.20200419154742-2e3ad44373b6 h1:teKerSWx
 github.com/codingXiang/configer v1.0.2-0.20200419154742-2e3ad44373b6/go.mod h1:wqXpFanBrOjlre2/KWQWv1UxtX55UO6XoEgNXsb6j1c=
 github.com/codingXiang/configer v1.0.2-0.20200419160120-f61f125ea00c h1:sKl0B5YdEj2f1aFzw3vjyd5kIY/RRXA71OFV/CUvkto=
 github.com/codingXiang/configer v1.0.2-0.20200419160120-f61f125ea00c/go.mod h1:wqXpFanBrOjlre2/KWQWv1UxtX55UO6XoEgNXsb6j1c=
+github.com/codingXiang/configer v1.0.2-0.20200419161117-a512be4c66b5 h1:e47ZfwqW1VP26eHXHrpx7QABm5eFtUTDCFm0+03PUIw=
+github.com/codingXiang/configer v1.0.2-0.20200419161117-a512be4c66b5/go.mod h1:wqXpFanBrOjlre2/KWQWv1UxtX55UO6XoEgNXsb6j1c=
 github.com/codingXiang/go-logger v0.0.0-20200413095609-e84fcee56812 h1:Atgx1ak7CcRabMwrzm/w6DYmH18/VoOMc4TWtlnP4rg=
 github.com/codingXiang/go-logger v0.0.0-20200413095609-e84fcee56812/go.mod h1:qYgivc8J4H7zK5hpZUiUsCdNDpaI4dACjGCFuDbG9Wg=
 github.com/codingXiang/go-logger v1.0.0 h1:0jDfu5Dysa9Wvt8VR22Juz+dqR7fWRnxQwZEYfrphuM=
