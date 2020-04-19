@@ -10,9 +10,9 @@ import (
 
 func init() {
 	//初始化 Gateway
-	Gateway = NewApiGateway("test", nil)
+	Gateway = NewApiGateway("", nil)
 	configer.Config.AddCore("storage", configer.NewConfigerCore("yaml", "storage", "./config", "."))
-	if data, err := configer.Config.GetCore("storage").ReadConfig(); err == nil {
+	if data, err := configer.Config.GetCore("storage").ReadConfig(nil); err == nil {
 		//設定 Database 連線
 		if setting := data.Get("database"); setting != nil {
 			orm.NewOrm(orm.InterfaceToDatabase(setting))

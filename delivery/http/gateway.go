@@ -21,6 +21,24 @@ type ApiGateway struct {
 }
 
 var (
+	defaultConfig = []byte(`application:
+  timeout:
+    read: 1000
+    write: 1000
+  port: 8080
+  mode: "test"
+  log:
+    level: "debug"
+    format: "json"
+  appId: "iam"
+  appToken: ""
+  apiBaseRoute: "/api"
+i18n:
+  defaultLanguage: "zh_Hant"
+  file:
+    path: "./i18n"
+    type: "yaml"
+`)
 	Gateway delivery.HttpHandler
 )
 
@@ -41,33 +59,11 @@ func NewApiGateway(configName string, core configer.CoreInterface) delivery.Http
 	//設定多語系 Handler
 	gogo_i18n.LangHandler = gogo_i18n.NewLanguageHandler()
 	//設定預設資料
-	if core == nil{
+	if core == nil {
 		if gateway.configName == "default" {
 			configer.Config.AddCore(gateway.configName, configer.NewConfigerCore("yaml", "config", "./config", "."))
 			configer.Config.GetCore(gateway.configName).SetAutomaticEnv()
-			configer.Config.GetCore(gateway.configName).SetDefault("i18n", map[string]interface{}{
-				"defaultLanguage": "zh_Hant",
-				"file": map[string]string{
-					"path": "./i18n",
-					"type": "yaml",
-				},
-			})
-			configer.Config.GetCore(gateway.configName).
-				SetDefault("application", map[string]interface{}{
-					"timeout": map[string]int{
-						"read":  1000,
-						"write": 1000,
-					},
-					"port":  8080,
-					"appId": "app",
-					"mode":  "debug",
-					"log": map[string]string{
-						"level":  "debug",
-						"format": "json",
-					},
-					"appToken":     "defaultToken",
-					"appBaseRoute": "/api",
-				})
+			configer.Config.GetCore(gateway.configName).ReadConfig(defaultConfig)
 		}
 	} else {
 		configer.Config.AddCore(gateway.configName, configer.NewConfigerCore("yaml", "config", "./config", "."))
@@ -76,7 +72,7 @@ func NewApiGateway(configName string, core configer.CoreInterface) delivery.Http
 
 	gateway.handler = util.NewRequestHandler()
 
-	if data, err := gateway.GetConfig().ReadConfig(); err == nil {
+	if data, err := gateway.GetConfig().ReadConfig(nil); err == nil {
 		//設定 log 等級與格式
 		logger.Log = logger.NewLogger(logger.InterfaceToLogger(data.Get("application.log")))
 		gateway.engine.
@@ -108,12 +104,12 @@ func (this *ApiGateway) GetConfig() configer.CoreInterface {
 }
 
 func (this *ApiGateway) Run() {
-	if data, err := this.GetConfig().ReadConfig(); err == nil {
+	if data, err := this.GetConfig().ReadConfig(nil); err == nil {
 		var (
 			port         = data.GetInt("application.port")          //伺服器的 port
 			writeTimeout = data.GetInt("application.timeout.write") //伺服器的寫入超時時間
 			readTimeout  = data.GetInt("application.timeout.read")  //伺服器讀取超時時間
-			mode         = data.GetString("application.mode")             //伺服器模式
+			mode         = data.GetString("application.mode")       //伺服器模式
 		)
 		//設定運行模式
 		if mode == "release" {

@@ -23,6 +23,10 @@ github.com/codingXiang/configer v1.0.0 h1:MxiQLbA9z1wBWUnMYJqBtXBLU8vskl8UykEO5E
 github.com/codingXiang/configer v1.0.0/go.mod h1:qLu0e+73ifexhLSrsZDDAZlu149PftNvnMX9efVVGTs=
 github.com/codingXiang/configer v1.0.1 h1:bCwRVFqaszg9J4BquFq0YUdBhP0zRUa4S3AkgAuIXEc=
 github.com/codingXiang/configer v1.0.1/go.mod h1:wqXpFanBrOjlre2/KWQWv1UxtX55UO6XoEgNXsb6j1c=
+github.com/codingXiang/configer v1.0.2-0.20200419154252-451cbeb600cb h1:ioZuI46fWqQ9BRSNoJ/XA4Qptsr1rH6jM73TirBupsY=
+github.com/codingXiang/configer v1.0.2-0.20200419154252-451cbeb600cb/go.mod h1:wqXpFanBrOjlre2/KWQWv1UxtX55UO6XoEgNXsb6j1c=
+github.com/codingXiang/configer v1.0.2-0.20200419154742-2e3ad44373b6 h1:teKerSWxzoC+GaNozb2RnHs9srNnclnAuhULrzm/eF8=
+github.com/codingXiang/configer v1.0.2-0.20200419154742-2e3ad44373b6/go.mod h1:wqXpFanBrOjlre2/KWQWv1UxtX55UO6XoEgNXsb6j1c=
 github.com/codingXiang/go-logger v0.0.0-20200413095609-e84fcee56812 h1:Atgx1ak7CcRabMwrzm/w6DYmH18/VoOMc4TWtlnP4rg=
 github.com/codingXiang/go-logger v0.0.0-20200413095609-e84fcee56812/go.mod h1:qYgivc8J4H7zK5hpZUiUsCdNDpaI4dACjGCFuDbG9Wg=
 github.com/codingXiang/go-logger v1.0.0 h1:0jDfu5Dysa9Wvt8VR22Juz+dqR7fWRnxQwZEYfrphuM=
