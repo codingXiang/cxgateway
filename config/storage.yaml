@@ -1,0 +1,20 @@
+database:
+  url: '127.0.0.1'
+  port: 3307
+  name: 'test'
+  username: 'root'
+  password: 'a12345'
+  type: 'mysql'
+  tablePrefix: ""
+  maxOpenConns: 1000
+  maxIdleConns: 1000
+  maxLifeTime: 5
+  logMode: true
+  upgradeFilePath: 'sql/'
+  version:
+    version: "1.0.2"
+redis:
+  url: '127.0.0.1'
+  port: 6379
+  password: 'a12345'
+  db: 0

@@ -2,11 +2,11 @@ package middleware
 
 import (
 	"fmt"
-	"github.com/codingXiang/configer"
 	"github.com/codingXiang/go-logger"
 	"github.com/codingXiang/gogo-i18n"
 	"github.com/gin-gonic/gin"
 	"github.com/sirupsen/logrus"
+	"github.com/spf13/viper"
 	"math"
 	"os"
 	"time"
@@ -63,18 +63,21 @@ func Logger() gin.HandlerFunc {
 	}
 }
 
-func GoI18nMiddleware() gin.HandlerFunc {
+func GoI18nMiddleware(data *viper.Viper) gin.HandlerFunc {
 	var i18n gogo_i18n.GoGoi18nInterface
-	if data, err := configer.Config.GetCore("config").ReadConfig(); err == nil {
-		if lang, err := gogo_i18n.LangHandler.GetLanguageTag(data.GetString("i18n.defaultLanguage")); err == nil {
-			i18n = gogo_i18n.NewGoGoi18n(lang)
-			i18n.SetFileType(data.GetString("i18n.file.type"))
-			i18n.LoadTranslationFileArray(data.GetString("i18n.file.path"),
-				gogo_i18n.ServerLanguage,
-			)
-		}
+	if lang, err := gogo_i18n.LangHandler.GetLanguageTag(data.GetString("i18n.defaultLanguage")); err == nil {
+		i18n = gogo_i18n.NewGoGoi18n(lang)
+		i18n.SetFileType(data.GetString("i18n.file.type"))
+		i18n.LoadTranslationFileArray(data.GetString("i18n.file.path"),
+			gogo_i18n.ServerLanguage,
+		)
 	}
 	return func(c *gin.Context) {
+		if i18n == nil {
+			panic("i18n is not set")
+			c.Abort()
+		}
+
 		locale := c.Query("locale")
 		if locale != "" {
 			c.Request.Header.Set("Accept-Language", locale)
