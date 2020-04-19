@@ -38,36 +38,37 @@ func NewApiGateway(configName string, core configer.CoreInterface) delivery.Http
 	}
 	//初始化 configer
 	configer.Config = configer.NewConfiger()
-
 	//設定多語系 Handler
 	gogo_i18n.LangHandler = gogo_i18n.NewLanguageHandler()
 	//設定預設資料
-	if core == nil {
-		configer.Config.AddCore(gateway.configName, configer.NewConfigerCore("yaml", "config", "./config", "."))
-		configer.Config.GetCore(gateway.configName).SetAutomaticEnv()
-		configer.Config.GetCore(gateway.configName).SetDefault("i18n", map[string]interface{}{
-			"defaultLanguage": "zh_Hant",
-			"file": map[string]string{
-				"path": "./i18n",
-				"type": "yaml",
-			},
-		})
-		configer.Config.GetCore(gateway.configName).
-			SetDefault("application", map[string]interface{}{
-				"timeout": map[string]int{
-					"read":  1000,
-					"write": 1000,
+	if core == nil{
+		if gateway.configName == "default" {
+			configer.Config.AddCore(gateway.configName, configer.NewConfigerCore("yaml", "config", "./config", "."))
+			configer.Config.GetCore(gateway.configName).SetAutomaticEnv()
+			configer.Config.GetCore(gateway.configName).SetDefault("i18n", map[string]interface{}{
+				"defaultLanguage": "zh_Hant",
+				"file": map[string]string{
+					"path": "./i18n",
+					"type": "yaml",
 				},
-				"port":  8080,
-				"appId": "app",
-				"mode":  "debug",
-				"log": map[string]string{
-					"level":  "debug",
-					"format": "json",
-				},
-				"appToken":     "defaultToken",
-				"appBaseRoute": "/api",
 			})
+			configer.Config.GetCore(gateway.configName).
+				SetDefault("application", map[string]interface{}{
+					"timeout": map[string]int{
+						"read":  1000,
+						"write": 1000,
+					},
+					"port":  8080,
+					"appId": "app",
+					"mode":  "debug",
+					"log": map[string]string{
+						"level":  "debug",
+						"format": "json",
+					},
+					"appToken":     "defaultToken",
+					"appBaseRoute": "/api",
+				})
+		}
 	} else {
 		configer.Config.AddCore(gateway.configName, configer.NewConfigerCore("yaml", "config", "./config", "."))
 		configer.Config.GetCore(gateway.configName).SetAutomaticEnv()
@@ -75,7 +76,7 @@ func NewApiGateway(configName string, core configer.CoreInterface) delivery.Http
 
 	gateway.handler = util.NewRequestHandler()
 
-	if data, err := configer.Config.GetCore(gateway.configName).ReadConfig(); err == nil {
+	if data, err := gateway.GetConfig().ReadConfig(); err == nil {
 		//設定 log 等級與格式
 		logger.Log = logger.NewLogger(logger.InterfaceToLogger(data.Get("application.log")))
 		gateway.engine.
