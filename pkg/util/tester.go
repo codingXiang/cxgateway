@@ -1,4 +1,4 @@
-package tester
+package util
 
 import (
 	"bytes"
@@ -6,6 +6,7 @@ import (
 	"github.com/codingXiang/cxgateway/pkg/e"
 	"github.com/gin-gonic/gin"
 	"io/ioutil"
+	"net/http"
 	"net/http/httptest"
 )
 
@@ -33,11 +34,11 @@ func (h *HttpTester) GET(uri string) (int, *e.Response) {
 
 	var (
 		statusCode int
-		response   = &e.Response{}
+		response   = new(e.Response)
 	)
 
 	// 构造get请求
-	req := httptest.NewRequest("GET", uri, nil)
+	req := httptest.NewRequest(http.MethodGet, uri, nil)
 	// 初始化响应
 	w := httptest.NewRecorder()
 
@@ -62,13 +63,13 @@ func (h *HttpTester) GET(uri string) (int, *e.Response) {
 func (h *HttpTester) POST(uri string, param interface{}) (int, *e.Response) {
 	var (
 		statusCode int
-		response   = &e.Response{}
+		response   = new(e.Response)
 	)
 	// 轉換參數
 	jsonByte, _ := json.Marshal(param)
 
 	// 將 json data 放在 body 進行 request
-	req := httptest.NewRequest("POST", uri, bytes.NewReader(jsonByte))
+	req := httptest.NewRequest(http.MethodPost, uri, bytes.NewReader(jsonByte))
 
 	// 初始化 rquest
 	w := httptest.NewRecorder()
@@ -93,13 +94,13 @@ func (h *HttpTester) POST(uri string, param interface{}) (int, *e.Response) {
 func (h *HttpTester) PUT(uri string, param interface{}) (int, *e.Response) {
 	var (
 		statusCode int
-		response   *e.Response
+		response   = new(e.Response)
 	)
 	// 轉換參數
 	jsonByte, _ := json.Marshal(param)
 
 	// 將 json data 放在 body 進行 request
-	req := httptest.NewRequest("PUT", uri, bytes.NewReader(jsonByte))
+	req := httptest.NewRequest(http.MethodPut, uri, bytes.NewReader(jsonByte))
 
 	// 初始化 rquest
 	w := httptest.NewRecorder()
@@ -124,13 +125,13 @@ func (h *HttpTester) PUT(uri string, param interface{}) (int, *e.Response) {
 func (h *HttpTester) PATCH(uri string, param interface{}) (int, *e.Response) {
 	var (
 		statusCode int
-		response   *e.Response
+		response   = new(e.Response)
 	)
 	// 轉換參數
 	jsonByte, _ := json.Marshal(param)
 
 	// 將 json data 放在 body 進行 request
-	req := httptest.NewRequest("PATCH", uri, bytes.NewReader(jsonByte))
+	req := httptest.NewRequest(http.MethodPatch, uri, bytes.NewReader(jsonByte))
 
 	// 初始化 rquest
 	w := httptest.NewRecorder()
@@ -155,13 +156,13 @@ func (h *HttpTester) PATCH(uri string, param interface{}) (int, *e.Response) {
 func (h *HttpTester) DELETE(uri string, param interface{}) (int, *e.Response) {
 	var (
 		statusCode int
-		response   *e.Response
+		response   = new(e.Response)
 	)
 	// 轉換參數
 	jsonByte, _ := json.Marshal(param)
 
 	// 將 json data 放在 body 進行 request
-	req := httptest.NewRequest("DELETE", uri, bytes.NewReader(jsonByte))
+	req := httptest.NewRequest(http.MethodDelete, uri, bytes.NewReader(jsonByte))
 
 	// 初始化 rquest
 	w := httptest.NewRecorder()
