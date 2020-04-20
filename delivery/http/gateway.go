@@ -25,12 +25,45 @@ var (
 	Gateway delivery.HttpHandler
 )
 
-func NewApiGateway(configName string, core configer.CoreInterface) delivery.HttpHandler {
+func NewApiGatewayWithData(configName string, defaultData []byte) delivery.HttpHandler {
 	var (
 		//config  = settings.ConfigData.Data.Application
 		gateway = &ApiGateway{
 			engine:      gin.Default(),
-			defaultData: nil,
+			defaultData: defaultData,
+			configName:  configName,
+		}
+	)
+	//初始化 configer
+	configer.Config = configer.NewConfiger()
+	//設定多語系 Handler
+	gogo_i18n.LangHandler = gogo_i18n.NewLanguageHandler()
+	//設定預設資料
+	configer.Config.AddCore(gateway.configName, configer.NewConfigerCore("yaml", "", ))
+	configer.Config.GetCore(gateway.configName).SetAutomaticEnv()
+
+	gateway.handler = util.NewRequestHandler()
+
+	if data, err := gateway.GetConfig().ReadConfig(gateway.defaultData); err == nil {
+		//設定 log 等級與格式
+		logger.Log = logger.NewLogger(logger.InterfaceToLogger(data.Get("application.log")))
+		gateway.engine.
+			Use(middleware.Logger(), gin.Recovery()).
+			Use(middleware.RequestIDMiddleware(data.GetString("application.appId"))).
+			Use(middleware.GoI18nMiddleware(data))
+		gateway.Api = gateway.engine.Group(data.GetString("application.apiBaseRoute"))
+	} else {
+		panic(fmt.Sprintf("config %s is not set", gateway.configName))
+	}
+
+	return gateway
+}
+
+func NewApiGateway(configName string, core configer.CoreInterface) delivery.HttpHandler {
+	var (
+		//config  = settings.ConfigData.Data.Application
+		gateway = &ApiGateway{
+			engine: gin.Default(),
 		}
 	)
 	if configName != "" {
