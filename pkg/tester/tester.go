@@ -33,7 +33,7 @@ func (h *HttpTester) GET(uri string) (int, *e.Response) {
 
 	var (
 		statusCode int
-		response   *e.Response
+		response   = &e.Response{}
 	)
 
 	// 构造get请求
@@ -62,7 +62,7 @@ func (h *HttpTester) GET(uri string) (int, *e.Response) {
 func (h *HttpTester) POST(uri string, param interface{}) (int, *e.Response) {
 	var (
 		statusCode int
-		response   *e.Response
+		response   = &e.Response{}
 	)
 	// 轉換參數
 	jsonByte, _ := json.Marshal(param)
@@ -148,7 +148,8 @@ func (h *HttpTester) PATCH(uri string, param interface{}) (int, *e.Response) {
 
 	json.Unmarshal(body, response)
 
-	return statusCode, response}
+	return statusCode, response
+}
 
 //DELETE 模擬 Delete Request的動作
 func (h *HttpTester) DELETE(uri string, param interface{}) (int, *e.Response) {
@@ -178,4 +179,5 @@ func (h *HttpTester) DELETE(uri string, param interface{}) (int, *e.Response) {
 
 	json.Unmarshal(body, response)
 
-	return statusCode, response}
+	return statusCode, response
+}
