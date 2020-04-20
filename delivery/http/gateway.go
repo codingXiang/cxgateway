@@ -54,7 +54,7 @@ func NewApiGateway(configName string, core configer.CoreInterface) delivery.Http
   log:
     level: "debug"
     format: "json"
-  appId: "iam"
+  appId: "app"
   appToken: ""
   apiBaseRoute: "/api"
 i18n:
