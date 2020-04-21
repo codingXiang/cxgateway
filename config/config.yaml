@@ -3,9 +3,9 @@ application:
     read: 1000
     write: 1000
   port: 8080
-  mode: "test"
+  mode: "release"
   log:
-    level: "debug"
+    level: "info"
     format: "json"
   appId: "iam"
   appToken: ""

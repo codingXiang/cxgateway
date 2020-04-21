@@ -27,33 +27,43 @@ var (
 
 func NewApiGatewayWithData(configName string, defaultData []byte) delivery.HttpHandler {
 	var (
-		//config  = settings.ConfigData.Data.Application
-		gateway = &ApiGateway{
-			engine:      gin.Default(),
-			defaultData: defaultData,
-			configName:  configName,
-		}
+		gateway = &ApiGateway{}
 	)
 	//初始化 configer
 	configer.Config = configer.NewConfiger()
 	//設定多語系 Handler
 	gogo_i18n.LangHandler = gogo_i18n.NewLanguageHandler()
 	//設定預設資料
-	configer.Config.AddCore(gateway.configName, configer.NewConfigerCore("yaml", "", ))
-	configer.Config.GetCore(gateway.configName).SetAutomaticEnv()
+	configer.Config.AddCore(configName, configer.NewConfigerCore("yaml", "", ))
+	configer.Config.GetCore(configName).SetAutomaticEnv()
+	if data, err := configer.Config.GetCore(configName).ReadConfig(defaultData); err == nil {
 
-	gateway.handler = util.NewRequestHandler()
+		var (
+			log  = data.Get("application.log")
+			mode = data.GetString("application.mode")
+		)
 
-	if data, err := gateway.GetConfig().ReadConfig(gateway.defaultData); err == nil {
 		//設定 log 等級與格式
-		logger.Log = logger.NewLogger(logger.InterfaceToLogger(data.Get("application.log")))
+		logger.Log = logger.NewLogger(logger.InterfaceToLogger(log))
+		//伺服器模式
+		logger.Log.Info("Server Mode =", mode)
+		gin.SetMode(mode)
+
+		gateway = &ApiGateway{
+			engine:      gin.Default(),
+			defaultData: defaultData,
+			configName:  configName,
+		}
+
+		gateway.handler = util.NewRequestHandler()
+
 		gateway.engine.
 			Use(middleware.Logger(), gin.Recovery()).
 			Use(middleware.RequestIDMiddleware(data.GetString("application.appId"))).
 			Use(middleware.GoI18nMiddleware(data))
 		gateway.Api = gateway.engine.Group(data.GetString("application.apiBaseRoute"))
 	} else {
-		panic(fmt.Sprintf("config %s is not set", gateway.configName))
+		panic(fmt.Sprintf("config %s is not set", configName))
 	}
 
 	return gateway
@@ -62,9 +72,7 @@ func NewApiGatewayWithData(configName string, defaultData []byte) delivery.HttpH
 func NewApiGateway(configName string, core configer.CoreInterface) delivery.HttpHandler {
 	var (
 		//config  = settings.ConfigData.Data.Application
-		gateway = &ApiGateway{
-			engine: gin.Default(),
-		}
+		gateway = &ApiGateway{}
 	)
 	if configName != "" {
 		gateway.configName = configName
@@ -103,19 +111,31 @@ i18n:
 		configer.Config.AddCore(gateway.configName, core)
 		configer.Config.GetCore(gateway.configName).SetAutomaticEnv()
 	}
-
-	gateway.handler = util.NewRequestHandler()
-
 	if data, err := gateway.GetConfig().ReadConfig(gateway.defaultData); err == nil {
+		var (
+			log          = data.Get("application.log")
+			appId        = data.GetString("application.appId")
+			apiBaseRoute = data.GetString("application.apiBaseRoute")
+			mode         = data.GetString("application.mode")
+		)
 		//設定 log 等級與格式
-		logger.Log = logger.NewLogger(logger.InterfaceToLogger(data.Get("application.log")))
+		logger.Log = logger.NewLogger(logger.InterfaceToLogger(log))
+		//伺服器模式
+		logger.Log.Info("Server Mode =", mode)
+		gin.SetMode(mode)
+		gateway.handler = util.NewRequestHandler()
+		gateway = &ApiGateway{
+			engine:      gin.Default(),
+			configName:  configName,
+		}
+		//設定 gateway 的中間件
 		gateway.engine.
 			Use(middleware.Logger(), gin.Recovery()).
-			Use(middleware.RequestIDMiddleware(data.GetString("application.appId"))).
+			Use(middleware.RequestIDMiddleware(appId)).
 			Use(middleware.GoI18nMiddleware(data))
-		gateway.Api = gateway.engine.Group(data.GetString("application.apiBaseRoute"))
+		gateway.Api = gateway.engine.Group(apiBaseRoute)
 	} else {
-		panic(fmt.Sprintf("config %s is not set", gateway.configName))
+		logger.Log.Error(fmt.Sprintf("config %s is not set, error = %s", gateway.configName, err))
 	}
 
 	return gateway
@@ -143,14 +163,8 @@ func (this *ApiGateway) Run() {
 			port         = data.GetInt("application.port")          //伺服器的 port
 			writeTimeout = data.GetInt("application.timeout.write") //伺服器的寫入超時時間
 			readTimeout  = data.GetInt("application.timeout.read")  //伺服器讀取超時時間
-			mode         = data.GetString("application.mode")       //伺服器模式
 		)
-		//設定運行模式
-		if mode == "release" {
-			gin.SetMode(mode)
-		}
-		logger.Log.Info("Setting Http Server Info")
-		logger.Log.Debug("server port = ", port)
+		logger.Log.Debug("Server port =", port)
 		// 設定 http server
 		server := &http.Server{
 			Addr:           fmt.Sprintf(":%d", port),
