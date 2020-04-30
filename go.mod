@@ -8,6 +8,7 @@ require (
 	github.com/codingXiang/go-logger v1.0.0
 	github.com/codingXiang/go-orm v1.0.1-0.20200414075438-006e6ca570cf
 	github.com/codingXiang/gogo-i18n v1.0.2-0.20200417093325-c191114c00c4
+	github.com/gin-contrib/cors v1.3.1 // indirect
 	github.com/gin-gonic/gin v1.6.2
 	github.com/mitchellh/go-homedir v1.1.0
 	github.com/satori/go.uuid v1.2.0

@@ -8,6 +8,7 @@ import (
 	"github.com/codingXiang/cxgateway/pkg/util"
 	"github.com/codingXiang/go-logger"
 	"github.com/codingXiang/gogo-i18n"
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"time"
@@ -58,6 +59,7 @@ func NewApiGatewayWithData(configName string, defaultData []byte) delivery.HttpH
 		gateway.handler = util.NewRequestHandler()
 
 		gateway.engine.
+			Use(cors.Default()).
 			Use(middleware.Logger(), gin.Recovery()).
 			Use(middleware.RequestIDMiddleware(data.GetString("application.appId"))).
 			Use(middleware.GoI18nMiddleware(data))
@@ -125,11 +127,12 @@ i18n:
 		gin.SetMode(mode)
 		gateway.handler = util.NewRequestHandler()
 		gateway = &ApiGateway{
-			engine:      gin.Default(),
-			configName:  configName,
+			engine:     gin.Default(),
+			configName: configName,
 		}
 		//設定 gateway 的中間件
 		gateway.engine.
+			Use(cors.Default()).
 			Use(middleware.Logger(), gin.Recovery()).
 			Use(middleware.RequestIDMiddleware(appId)).
 			Use(middleware.GoI18nMiddleware(data))
