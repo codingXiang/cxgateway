@@ -35,7 +35,7 @@ func NewApiGatewayWithData(configName string, defaultData []byte) delivery.HttpH
 	//設定多語系 Handler
 	gogo_i18n.LangHandler = gogo_i18n.NewLanguageHandler()
 	//設定預設資料
-	configer.Config.AddCore(configName, configer.NewConfigerCore("yaml", "", ))
+	configer.Config.AddCore(configName, configer.NewConfigerCore("yaml", ""))
 	configer.Config.GetCore(configName).SetAutomaticEnv()
 	if data, err := configer.Config.GetCore(configName).ReadConfig(defaultData); err == nil {
 
@@ -106,7 +106,7 @@ i18n:
     path: "./i18n"
     type: "yaml"
 `)
-			configer.Config.AddCore(gateway.configName, configer.NewConfigerCore("yaml", "", ))
+			configer.Config.AddCore(gateway.configName, configer.NewConfigerCore("yaml", ""))
 			configer.Config.GetCore(gateway.configName).SetAutomaticEnv()
 		}
 	} else {
@@ -130,9 +130,16 @@ i18n:
 			engine:     gin.Default(),
 			configName: configName,
 		}
+
+		//設定 cors
+		if data.Get("cors") == nil {
+			gateway.GetEngine().Use(cors.Default())
+		} else {
+			gateway.GetEngine().Use(middleware.GoCors(data))
+		}
+
 		//設定 gateway 的中間件
 		gateway.engine.
-			Use(cors.Default()).
 			Use(middleware.Logger(), gin.Recovery()).
 			Use(middleware.RequestIDMiddleware(appId)).
 			Use(middleware.GoI18nMiddleware(data))

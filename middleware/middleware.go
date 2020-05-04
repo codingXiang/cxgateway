@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/codingXiang/go-logger"
 	"github.com/codingXiang/gogo-i18n"
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
@@ -91,4 +92,18 @@ func GoI18nMiddleware(data *viper.Viper) gin.HandlerFunc {
 		}
 
 	}
+}
+
+func GoCors(data *viper.Viper) gin.HandlerFunc {
+	var (
+		allowOrigins = data.GetStringSlice("cors.allowOrigins")
+		allowMethods = data.GetStringSlice("cors.allowMethods")
+		allowHeaders = data.GetStringSlice("cors.allowHeaders")
+	)
+	logger.Log.Info("go cors")
+	config := cors.DefaultConfig()
+	config.AllowOrigins = allowOrigins
+	config.AllowHeaders = allowHeaders
+	config.AllowMethods = allowMethods
+	return cors.New(config)
 }
