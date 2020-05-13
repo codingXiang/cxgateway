@@ -9,48 +9,36 @@ import (
 )
 
 func init() {
+	//初始化 configer，設定預設讀取環境變數
+	config := configer.NewConfigerCore("yaml", "config", "./config", ".")
+	config.SetAutomaticEnv("")
+	db := configer.NewConfigerCore("yaml", "storage", "./config", ".")
+	db.SetAutomaticEnv("")
+	redis := configer.NewConfigerCore("yaml", "storage", "./config", ".")
+	redis.SetAutomaticEnv("")
 	//初始化 Gateway
-	Gateway = NewApiGateway("config", configer.NewConfigerCore("yaml", "config", "./config", "."))
-//	Gateway = NewApiGatewayWithData("config", []byte(`
-//application:
-//  timeout:
-//    read: 1000
-//    write: 1000
-//  port: 8080
-//  mode: "release"
-//  log:
-//    level: "debug"
-//    format: "text"
-//  appId: "app"
-//  appToken: ""
-//  apiBaseRoute: "/api"
-//i18n:
-//  defaultLanguage: "zh_Hant"
-//  file:
-//    path: "./i18n"
-//    type: "yaml"
-//`))
-	configer.Config.AddCore("storage", configer.NewConfigerCore("yaml", "storage", "./config", "."))
-	if data, err := configer.Config.GetCore("storage").ReadConfig(nil); err == nil {
-		//設定 Database 連線
-		if setting := data.Get("database"); setting != nil {
-			orm.NewOrm(orm.InterfaceToDatabase(setting))
-			logger.Log.Debug("create table")
-			{
-				orm.DatabaseORM.CheckTable(false, gogo_i18n.GoGoi18nMessage{})
-			}
-		} else {
-			logger.Log.Error("database setting is not exist")
-			panic("must need to setting database config")
+	Gateway = NewApiGateway("config", config)
 
+	var err error
+
+	//設定資料庫
+	if orm.DatabaseORM, err = orm.NewOrm("database", db); err == nil {
+		// 建立 Table Schema (Module)
+		logger.Log.Debug("create table")
+		{
+			_ = orm.DatabaseORM.CheckTable(false, gogo_i18n.GoGoi18nMessage{})
+			//工單模組
+			{
+
+			}
 		}
-		//設定 Redis 連線
-		if setting := data.Get("redis"); setting != nil {
-			orm.NewRedisClient(orm.InterfaceToRedis(setting))
-		} else {
-			logger.Log.Error("redis setting is not exist")
-			panic("must need to setting redis config")
-		}
+	} else {
+		logger.Log.Error(err.Error())
+		panic(err.Error())
+	}
+	if orm.RedisORM, err = orm.NewRedisClient("redis", redis); err != nil {
+		logger.Log.Error(err.Error())
+		panic(err.Error())
 	}
 }
 
