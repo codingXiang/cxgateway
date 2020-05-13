@@ -36,7 +36,6 @@ func NewApiGatewayWithData(configName string, defaultData []byte) delivery.HttpH
 	gogo_i18n.LangHandler = gogo_i18n.NewLanguageHandler()
 	//設定預設資料
 	configer.Config.AddCore(configName, configer.NewConfigerCore("yaml", ""))
-	configer.Config.GetCore(configName).SetAutomaticEnv()
 	if data, err := configer.Config.GetCore(configName).ReadConfig(defaultData); err == nil {
 
 		var (
@@ -107,11 +106,9 @@ i18n:
     type: "yaml"
 `)
 			configer.Config.AddCore(gateway.configName, configer.NewConfigerCore("yaml", ""))
-			configer.Config.GetCore(gateway.configName).SetAutomaticEnv()
 		}
 	} else {
 		configer.Config.AddCore(gateway.configName, core)
-		configer.Config.GetCore(gateway.configName).SetAutomaticEnv()
 	}
 	if data, err := gateway.GetConfig().ReadConfig(gateway.defaultData); err == nil {
 		var (
