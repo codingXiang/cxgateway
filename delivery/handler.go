@@ -11,5 +11,6 @@ type HttpHandler interface {
 	GetApiRoute() *gin.RouterGroup
 	GetHandler() util.RequestHandlerInterface
 	GetConfig() configer.CoreInterface
+	GetUploadPath() string
 	Run()
 }

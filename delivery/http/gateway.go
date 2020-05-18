@@ -168,6 +168,10 @@ func (this *ApiGateway) GetConfig() configer.CoreInterface {
 	return configer.Config.GetCore(this.configName)
 }
 
+func (this *ApiGateway) GetUploadPath() string {
+	return this.uploadPath
+}
+
 func (this *ApiGateway) Run() {
 	if data, err := this.GetConfig().ReadConfig(this.defaultData); err == nil {
 		var (
