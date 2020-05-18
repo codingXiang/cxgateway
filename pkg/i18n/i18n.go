@@ -9,6 +9,7 @@ import (
 type (
 	I18nMessageHandlerInterface interface {
 		SetCore(data gogo_i18n.GoGoi18nInterface)
+		SetModule(module string)
 		GetSuccess(result interface{}) (int, *e.Response)
 		CreateSuccess(result interface{}) (int, *e.Response)
 		UpdateSuccess(result interface{}) (int, *e.Response)
@@ -41,6 +42,10 @@ func NewI18nMessageHandler(moduleName string) I18nMessageHandlerInterface {
 
 func (handler *i18nMessageHandler) SetCore(data gogo_i18n.GoGoi18nInterface) {
 	handler.i18n.SetCore(data)
+}
+
+func (handler *i18nMessageHandler) SetModule(module string) {
+	handler.i18n.SetModule(module)
 }
 
 /*
