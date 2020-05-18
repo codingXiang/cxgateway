@@ -19,6 +19,7 @@ type ApiGateway struct {
 	Api         *gin.RouterGroup
 	handler     util.RequestHandlerInterface
 	configName  string
+	uploadPath  string
 	defaultData []byte
 }
 
@@ -53,6 +54,7 @@ func NewApiGatewayWithData(configName string, defaultData []byte) delivery.HttpH
 			engine:      gin.Default(),
 			defaultData: defaultData,
 			configName:  configName,
+			uploadPath:  data.GetString("application.uploadPath"),
 		}
 
 		gateway.handler = util.NewRequestHandler()
@@ -116,6 +118,7 @@ i18n:
 			appId        = data.GetString("application.appId")
 			apiBaseRoute = data.GetString("application.apiBaseRoute")
 			mode         = data.GetString("application.mode")
+			uploadPath   = data.GetString("application.uploadPath")
 		)
 		//設定 log 等級與格式
 		logger.Log = logger.NewLogger(logger.InterfaceToLogger(log))
@@ -126,6 +129,7 @@ i18n:
 		gateway = &ApiGateway{
 			engine:     gin.Default(),
 			configName: configName,
+			uploadPath: uploadPath,
 		}
 
 		//設定 cors

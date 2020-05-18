@@ -16,6 +16,7 @@ application:
     read: 1000
     write: 1000
   port: 8080
+  uploadPath: "./upload"
   mode: "debug"
   log:
     level: "debug"
