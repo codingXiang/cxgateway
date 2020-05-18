@@ -1,13 +1,14 @@
 package i18n
 
 import (
-	"github.com/codingXiang/cxgateway/pkg/util"
 	"github.com/codingXiang/cxgateway/pkg/e"
-
+	"github.com/codingXiang/cxgateway/pkg/util"
+	"github.com/codingXiang/gogo-i18n"
 )
 
 type (
 	I18nMessageHandlerInterface interface {
+		SetCore(data gogo_i18n.GoGoi18nInterface)
 		GetSuccess(result interface{}) (int, *e.Response)
 		CreateSuccess(result interface{}) (int, *e.Response)
 		UpdateSuccess(result interface{}) (int, *e.Response)
@@ -35,6 +36,10 @@ func NewI18nMessageHandler(moduleName string) I18nMessageHandlerInterface {
 	return &i18nMessageHandler{
 		i18n: util.NewI18nMsg(moduleName),
 	}
+}
+
+func (handler *i18nMessageHandler) SetCore(data gogo_i18n.GoGoi18nInterface) {
+	handler.i18n.SetCore(data)
 }
 
 /*
