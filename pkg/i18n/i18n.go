@@ -59,27 +59,27 @@ func (handler *i18nMessageHandler) GetSuccess(result interface{}) (int, *e.Respo
 
 //CreateSuccess 建立成功
 func (handler *i18nMessageHandler) CreateSuccess(result interface{}) (int, *e.Response) {
-	return e.StatusSuccess(handler.i18n.Create(true, nil), result)
+	return e.StatusCreated(handler.i18n.Create(true, nil), result)
 }
 
 //UpdateSuccess 更新成功
 func (handler *i18nMessageHandler) UpdateSuccess(result interface{}) (int, *e.Response) {
-	return e.StatusSuccess(handler.i18n.Update(true, nil), result)
+	return e.StatusCreated(handler.i18n.Update(true, nil), result)
 }
 
 //ModifySuccess 修正成功
 func (handler *i18nMessageHandler) ModifySuccess(result interface{}) (int, *e.Response) {
-	return e.StatusSuccess(handler.i18n.Modify(true, nil), result)
+	return e.StatusCreated(handler.i18n.Modify(true, nil), result)
 }
 
 //DeleteSuccess 刪除成功
 func (handler *i18nMessageHandler) DeleteSuccess(result interface{}) (int, *e.Response) {
-	return e.StatusSuccess(handler.i18n.Delete(true, nil), result)
+	return e.StatusNoContent("")
 }
 
 //AppendSuccess 加入成功
 func (handler *i18nMessageHandler) AppendSuccess(module string, result interface{}) (int, *e.Response) {
-	return e.StatusSuccess(handler.i18n.Append(true, module, nil), result)
+	return e.StatusCreated(handler.i18n.Append(true, module, nil), result)
 }
 
 //RemoveSuccess 移除成功
