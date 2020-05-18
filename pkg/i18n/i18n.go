@@ -16,7 +16,8 @@ type (
 		DeleteSuccess(result interface{}) (int, *e.Response)
 		AppendSuccess(module string, result interface{}) (int, *e.Response)
 		RemoveSuccess(module string, result interface{}) (int, *e.Response)
-		ParameterError(data string, err error) *e.APIException
+		ParameterFormatError() *e.APIException
+		ParameterIntError(data string, err error) *e.APIException
 		GetError(err error) *e.APIException
 		GetModuleError(module string, err error) *e.APIException
 		CreateError(err error) *e.APIException
@@ -84,12 +85,18 @@ func (handler *i18nMessageHandler) RemoveSuccess(module string, result interface
 /*
 錯誤訊息
  */
-func (handler *i18nMessageHandler) ParameterError(data string, err error) *e.APIException {
+func (handler *i18nMessageHandler) ParameterIntError(data string, err error) *e.APIException {
 	return e.ParameterError(
 		handler.i18n.ParamIntError(map[string]interface{}{
 			"data":  data,
 			"error": err.Error(),
 		}),
+	)
+}
+
+func (handler *i18nMessageHandler) ParameterFormatError() *e.APIException {
+	return e.ParameterError(
+		handler.i18n.ParamRequiredError(nil),
 	)
 }
 
