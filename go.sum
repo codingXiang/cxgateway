@@ -62,6 +62,8 @@ github.com/codingXiang/go-orm v1.0.1 h1:wdBFR5UquKkR77lvm+5h+1yHCKOsdBF7962Ff2Bs
 github.com/codingXiang/go-orm v1.0.1/go.mod h1:gDcy0zIDJOyYkTXYARXwvTef3TK6jzn9B3mRVcoas+0=
 github.com/codingXiang/go-orm v1.0.2-0.20200518050103-8f90f7797af3 h1:vtHfREOMCeBOgDCsx5K/chUB2X746DOFLPefELE09tk=
 github.com/codingXiang/go-orm v1.0.2-0.20200518050103-8f90f7797af3/go.mod h1:gDcy0zIDJOyYkTXYARXwvTef3TK6jzn9B3mRVcoas+0=
+github.com/codingXiang/go-orm v1.0.3-0.20200519091032-3b8020c6d66d h1:vLlc2W+9xsJ0ZMf8YONNF4eI8RMaJW8FEtylAimCHYY=
+github.com/codingXiang/go-orm v1.0.3-0.20200519091032-3b8020c6d66d/go.mod h1:/A5ltkO2rSpmFJm60X9DMpSQUeovwzZMOTcggT2eYqI=
 github.com/codingXiang/gogo-i18n v1.0.0 h1:Dqbww066ZTkL21lMSFAF5kN2ZJfbHh/8Qi3Utj2Qtw8=
 github.com/codingXiang/gogo-i18n v1.0.0/go.mod h1:0ZyAThznpOQp5tY7nuX/YDZ/DqMjzXs2HKedRLUmXxg=
 github.com/codingXiang/gogo-i18n v1.0.1 h1:sCGrKuwy4vpV8evA5A8MdeRKGAdifAri8ofwjhI1je8=

@@ -6,7 +6,7 @@ require (
 	github.com/astaxie/beego v1.12.1
 	github.com/codingXiang/configer v1.0.2-0.20200513072245-ec8070de9a16
 	github.com/codingXiang/go-logger v1.0.0
-	github.com/codingXiang/go-orm v1.0.2-0.20200518050103-8f90f7797af3
+	github.com/codingXiang/go-orm v1.0.3-0.20200519091032-3b8020c6d66d
 	github.com/codingXiang/gogo-i18n v1.0.2-0.20200417093325-c191114c00c4
 	github.com/gin-contrib/cors v1.3.1
 	github.com/gin-gonic/gin v1.6.2

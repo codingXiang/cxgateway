@@ -1,12 +1,42 @@
-- orm.create.success:
-    other: 建立 {{.Data}} 成功
-- orm.create.failed:
-    other: 建立 {{.Data}} 失敗，原因為 {{.Error}}
-- orm.update.success:
-    other: 更新 {{.Data}} 成功
-- orm.update.failed:
-    other: 更新 {{.Data}} 失敗，原因為 {{.Error}}
-- orm.get.success:
-    other: 取得 {{.Data}} 成功
-- orm.get.failed:
-    other: 取得 {{.Data}} 失敗，原因為 {{.Error}}
+# 通用
+# 標點符號
+- comma:
+      other: ，
+- period:
+      other: 。
+# 失敗與成功
+- success:
+      other: 成功
+- failed:
+      other: 失敗
+- reason:
+      other: 原因為 {{ .error }}
+
+## 方法
+- get:
+      other: 取得{{ .data }}
+- create:
+      other: 建立{{ .data }}
+- update:
+      other: 更新{{ .data }}
+- modify:
+      other: 修正{{ .data }}
+- delete:
+      other: 刪除{{ .data }}
+- append:
+      other: 加入{{ .object }}到{{ .data }}
+- remove:
+      other: 從{{ .data }}移除{{ .object }}
+## 錯誤訊息
+- errMsg.parameter.int:
+      other: 傳入的 id `{{ .data }}` 必須為整數，請重新檢查 id `{{ .data }}` 是否為整數。
+- errMsg.parameter.format:
+      other: 錯誤的參數格式，請重新檢查傳入的參數是否正確。
+- errMsg.parameter.required:
+      other: 參數 `{{ .data }}` 為必要參數，請重新檢查傳入的參數是否遺漏。
+
+# 客製化模組
+## ticket
+
+- module.version:
+      other: 版本
