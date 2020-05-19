@@ -2,15 +2,14 @@ package service
 
 import (
 	"github.com/codingXiang/cxgateway/module/version"
-	"github.com/codingXiang/cxgateway/module/version/repository"
 	"github.com/codingXiang/go-orm/model"
 )
 
 type VersionService struct {
-	repo repository.VersionRepository
+	repo version.Repository
 }
 
-func NewVersionService(repo repository.VersionRepository) version.Service {
+func NewVersionService(repo version.Repository) version.Service {
 	return &VersionService{
 		repo: repo,
 	}
