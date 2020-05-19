@@ -11,9 +11,10 @@ type VersionRepository struct {
 	tables []interface{}
 }
 
-func NewVersionRepository(db orm.OrmInterface) version.Repository {
+func NewVersionRepository(db orm.OrmInterface, tables ...interface{}) version.Repository {
 	return &VersionRepository{
-		db: db,
+		db:     db,
+		tables: tables,
 	}
 }
 func (this *VersionRepository) GetServerVersion() (*model.Version, error) {
