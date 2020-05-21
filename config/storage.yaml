@@ -10,9 +10,7 @@ database:
   maxIdleConns: 1000
   maxLifeTime: 5
   logMode: true
-  upgradeFilePath: 'sql/'
-  version:
-    version: "1.0.2"
+  version: "1.0.2"
 redis:
   url: '127.0.0.1'
   port: 6379

@@ -18,9 +18,6 @@ application:
   port: 8080
   uploadPath: "./upload"
   mode: "debug"
-  log:
-    level: "debug"
-    format: "json"
   appId: "iam"
   appToken: ""
   apiBaseRoute: "/api"
@@ -29,3 +26,7 @@ i18n:
   file:
     path: "./i18n"
     type: "yaml"
+log:
+  level: "debug"
+  format: "json"
+  path: "log"

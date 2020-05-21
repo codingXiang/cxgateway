@@ -114,14 +114,15 @@ i18n:
 	}
 	if data, err := gateway.GetConfig().ReadConfig(gateway.defaultData); err == nil {
 		var (
-			log          = data.Get("application.log")
+			//log          = data.Get("application.log")
 			appId        = data.GetString("application.appId")
 			apiBaseRoute = data.GetString("application.apiBaseRoute")
 			mode         = data.GetString("application.mode")
 			uploadPath   = data.GetString("application.uploadPath")
 		)
 		//設定 log 等級與格式
-		logger.Log = logger.NewLogger(logger.InterfaceToLogger(log))
+		//logger.Log = logger.NewLogger(logger.InterfaceToLogger(log))
+		logger.Log = logger.NewLoggerWithConfiger(data)
 		//伺服器模式
 		logger.Log.Info("Server Mode =", mode)
 		gin.SetMode(mode)
