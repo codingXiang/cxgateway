@@ -76,6 +76,8 @@ github.com/codingXiang/go-logger v1.0.1-0.20200521072706-39d270921cf1 h1:qrtCBT7
 github.com/codingXiang/go-logger v1.0.1-0.20200521072706-39d270921cf1/go.mod h1:0YgBzRT0nE9WYoZcVEXh1HgDD5JZEiA7Lls8gllKNfQ=
 github.com/codingXiang/go-logger v1.0.1 h1:fLwNWkX9zWwPiUqVI0p4ScO/DPN+pQkqGxQ3eRqx9Yk=
 github.com/codingXiang/go-logger v1.0.1/go.mod h1:0YgBzRT0nE9WYoZcVEXh1HgDD5JZEiA7Lls8gllKNfQ=
+github.com/codingXiang/go-logger v1.0.2-0.20200521075543-213975e83f41 h1:ukqWncoV+eFQx6V6g6WAVQqeXU5uaLo970Bg6AlC/lk=
+github.com/codingXiang/go-logger v1.0.2-0.20200521075543-213975e83f41/go.mod h1:0YgBzRT0nE9WYoZcVEXh1HgDD5JZEiA7Lls8gllKNfQ=
 github.com/codingXiang/go-orm v1.0.1-0.20200414075438-006e6ca570cf h1:Hd2EI3Dd5G4AABuNAmy2GhCBL3TELCVhDmMpJEpAh/c=
 github.com/codingXiang/go-orm v1.0.1-0.20200414075438-006e6ca570cf/go.mod h1:EHF+9pTnljAGu5hWqhaSaw7EYMgJifGkS2vgf4QfyA8=
 github.com/codingXiang/go-orm v1.0.1 h1:wdBFR5UquKkR77lvm+5h+1yHCKOsdBF7962Ff2Bst1Q=

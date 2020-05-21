@@ -30,3 +30,4 @@ log:
   level: "debug"
   format: "json"
   path: "log"
+  filename: "gateway.log"
