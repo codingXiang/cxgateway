@@ -10,6 +10,7 @@ import (
 	"github.com/spf13/viper"
 	"math"
 	"os"
+	"strconv"
 	"time"
 )
 
@@ -106,4 +107,18 @@ func GoCors(data *viper.Viper) gin.HandlerFunc {
 	config.AllowHeaders = allowHeaders
 	config.AllowMethods = allowMethods
 	return cors.New(config)
+}
+
+//GoCache 是否允許存取快取（realtime = true 時存取快取）
+func GoCache(c *gin.Context) {
+	var (
+		enableCache = true
+	)
+	if tmp, isExist := c.GetQuery("realtime"); isExist {
+		if cache, err := strconv.ParseBool(tmp); err == nil {
+			enableCache = !cache
+		}
+	}
+	c.Set("enableCache", enableCache)
+	c.Next()
 }
