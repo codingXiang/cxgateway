@@ -52,6 +52,7 @@ github.com/codingXiang/configer v1.0.2-0.20200419161117-a512be4c66b5 h1:e47ZfwqW
 github.com/codingXiang/configer v1.0.2-0.20200419161117-a512be4c66b5/go.mod h1:wqXpFanBrOjlre2/KWQWv1UxtX55UO6XoEgNXsb6j1c=
 github.com/codingXiang/configer v1.0.2-0.20200513072245-ec8070de9a16 h1:Ht4TiGS/X08jMD7V+zS1fwSS+unAr86ALbGIC/ujEsY=
 github.com/codingXiang/configer v1.0.2-0.20200513072245-ec8070de9a16/go.mod h1:wqXpFanBrOjlre2/KWQWv1UxtX55UO6XoEgNXsb6j1c=
+github.com/codingXiang/cxgateway v1.0.7-0.20200519093115-6d6c47ad8a9d/go.mod h1:+M9XtzWVCxbjYovCxv8B10GwSBHdwev3zsRF0r//PwQ=
 github.com/codingXiang/go-logger v0.0.0-20200413095609-e84fcee56812 h1:Atgx1ak7CcRabMwrzm/w6DYmH18/VoOMc4TWtlnP4rg=
 github.com/codingXiang/go-logger v0.0.0-20200413095609-e84fcee56812/go.mod h1:qYgivc8J4H7zK5hpZUiUsCdNDpaI4dACjGCFuDbG9Wg=
 github.com/codingXiang/go-logger v1.0.0 h1:0jDfu5Dysa9Wvt8VR22Juz+dqR7fWRnxQwZEYfrphuM=
@@ -86,6 +87,8 @@ github.com/codingXiang/go-orm v1.0.2-0.20200518050103-8f90f7797af3 h1:vtHfREOMCe
 github.com/codingXiang/go-orm v1.0.2-0.20200518050103-8f90f7797af3/go.mod h1:gDcy0zIDJOyYkTXYARXwvTef3TK6jzn9B3mRVcoas+0=
 github.com/codingXiang/go-orm v1.0.3-0.20200519091032-3b8020c6d66d h1:vLlc2W+9xsJ0ZMf8YONNF4eI8RMaJW8FEtylAimCHYY=
 github.com/codingXiang/go-orm v1.0.3-0.20200519091032-3b8020c6d66d/go.mod h1:/A5ltkO2rSpmFJm60X9DMpSQUeovwzZMOTcggT2eYqI=
+github.com/codingXiang/go-orm v1.0.3-0.20200521090549-dd6d07415403 h1:wGlSJY9ew1ZF2VeDbqlBhyexlgBC0dvKh2kxpG69D18=
+github.com/codingXiang/go-orm v1.0.3-0.20200521090549-dd6d07415403/go.mod h1:adetB1B0YFHbre3N2yLadi7xxgvQv1D3UMruk/OoE48=
 github.com/codingXiang/gogo-i18n v1.0.0 h1:Dqbww066ZTkL21lMSFAF5kN2ZJfbHh/8Qi3Utj2Qtw8=
 github.com/codingXiang/gogo-i18n v1.0.0/go.mod h1:0ZyAThznpOQp5tY7nuX/YDZ/DqMjzXs2HKedRLUmXxg=
 github.com/codingXiang/gogo-i18n v1.0.1 h1:sCGrKuwy4vpV8evA5A8MdeRKGAdifAri8ofwjhI1je8=
@@ -149,6 +152,8 @@ github.com/go-playground/validator/v10 v10.2.0/go.mod h1:uOYAAleCW8F/7oMFd6aG0GO
 github.com/go-redis/redis v6.14.2+incompatible/go.mod h1:NAIEuMOZ/fxfXJIrKDQDz8wamY7mA7PouImQ2Jvg6kA=
 github.com/go-redis/redis v6.15.7+incompatible h1:3skhDh95XQMpnqeqNftPkQD9jL9e5e36z/1SUm6dy1U=
 github.com/go-redis/redis v6.15.7+incompatible/go.mod h1:NAIEuMOZ/fxfXJIrKDQDz8wamY7mA7PouImQ2Jvg6kA=
+github.com/go-redis/redis v6.15.8+incompatible h1:BKZuG6mCnRj5AOaWJXoCgf6rqTYnYJLe4en2hxT7r9o=
+github.com/go-redis/redis v6.15.8+incompatible/go.mod h1:NAIEuMOZ/fxfXJIrKDQDz8wamY7mA7PouImQ2Jvg6kA=
 github.com/go-sql-driver/mysql v1.4.1/go.mod h1:zAC/RDZ24gD3HViQzih4MyKcchzm+sOG5ZlKdlhCg5w=
 github.com/go-sql-driver/mysql v1.5.0 h1:ozyZYNQW3x3HtqT1jira07DN2PArx2v7/mN66gGcHOs=
 github.com/go-sql-driver/mysql v1.5.0/go.mod h1:DCzpHaOWr8IXmIStZouvnhqoel9Qv2LBy8hT2VhHyBg=

@@ -1,10 +1,13 @@
 package util
 
 import (
+	"bytes"
+	"encoding/json"
 	"fmt"
 	"github.com/astaxie/beego/validation"
 	"github.com/codingXiang/cxgateway/pkg/e"
 	"github.com/gin-gonic/gin"
+	"net/http"
 )
 
 type RequestHandlerInterface interface {
@@ -39,4 +42,92 @@ func (r *RequestHandler) ValidValidation(v *validation.Validation) error {
 		}
 	}
 	return nil
+}
+
+type RequesterInterface interface {
+	GET(uri string) (*http.Response, error)
+	POST(uri string, param interface{}) (*http.Response, error)
+	PUT(uri string, param interface{}) (*http.Response, error)
+	PATCH(uri string, param interface{}) (*http.Response, error)
+	DELETE(uri string, param interface{}) (*http.Response, error)
+}
+
+type Requester struct {
+	client *http.Client
+}
+
+func NewRequester(client *http.Client) RequesterInterface {
+	if client == nil {
+		client = &http.Client{}
+	}
+	return &Requester{
+		client: client,
+	}
+}
+
+func (r *Requester) GET(uri string) (*http.Response, error) {
+	req, err := http.NewRequest(http.MethodGet, uri, nil)
+	if err != nil {
+		return nil, err
+	}
+
+	resp, err := r.client.Do(req)
+	defer resp.Body.Close()
+	return resp, err
+}
+
+func (r *Requester) POST(uri string, param interface{}) (*http.Response, error) {
+	// 轉換參數
+	jsonByte, _ := json.Marshal(param)
+
+	// 將 json data 放在 body 進行 request
+	req, err := http.NewRequest(http.MethodPost, uri, bytes.NewReader(jsonByte))
+	if err != nil {
+		return nil, err
+	}
+	resp, err := r.client.Do(req)
+	defer resp.Body.Close()
+	return resp, err
+}
+
+func (r *Requester) PUT(uri string, param interface{}) (*http.Response, error) {
+	// 轉換參數
+	jsonByte, _ := json.Marshal(param)
+
+	// 將 json data 放在 body 進行 request
+	req, err := http.NewRequest(http.MethodPut, uri, bytes.NewReader(jsonByte))
+	if err != nil {
+		return nil, err
+	}
+	resp, err := r.client.Do(req)
+	defer resp.Body.Close()
+	return resp, err
+}
+
+func (r *Requester) PATCH(uri string, param interface{}) (*http.Response, error) {
+	// 轉換參數
+	jsonByte, _ := json.Marshal(param)
+
+	// 將 json data 放在 body 進行 request
+	req, err := http.NewRequest(http.MethodPatch, uri, bytes.NewReader(jsonByte))
+	if err != nil {
+		return nil, err
+	}
+	resp, err := r.client.Do(req)
+	defer resp.Body.Close()
+	return resp, err
+}
+
+func (r *Requester) DELETE(uri string, param interface{}) (*http.Response, error) {
+	// 轉換參數
+	jsonByte, _ := json.Marshal(param)
+
+	// 將 json data 放在 body 進行 request
+	req, err := http.NewRequest(http.MethodDelete, uri, bytes.NewReader(jsonByte))
+	if err != nil {
+		return nil, err
+	}
+	resp, err := r.client.Do(req)
+	defer resp.Body.Close()
+	return resp, err
 }
