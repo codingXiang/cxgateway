@@ -12,5 +12,6 @@ type HttpHandler interface {
 	GetHandler() util.RequestHandlerInterface
 	GetConfig() configer.CoreInterface
 	GetUploadPath() string
+	EnableAutoRegistration(configName string, configType string, configPath ...string) error
 	Run()
 }

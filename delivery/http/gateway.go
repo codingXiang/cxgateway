@@ -5,6 +5,9 @@ import (
 	"github.com/codingXiang/configer"
 	"github.com/codingXiang/cxgateway/delivery"
 	"github.com/codingXiang/cxgateway/middleware"
+	http2 "github.com/codingXiang/cxgateway/module/auto_register/delivery/http"
+	"github.com/codingXiang/cxgateway/module/auto_register/repository"
+	"github.com/codingXiang/cxgateway/module/auto_register/service"
 	"github.com/codingXiang/cxgateway/pkg/util"
 	"github.com/codingXiang/go-logger"
 	"github.com/codingXiang/gogo-i18n"
@@ -163,6 +166,20 @@ func (gateway *ApiGateway) GetHandler() util.RequestHandlerInterface {
 
 func (gateway *ApiGateway) GetApiRoute() *gin.RouterGroup {
 	return gateway.Api
+}
+
+func (this *ApiGateway) EnableAutoRegistration(configName string, configType string, configPath ...string) error {
+	data := configer.NewConfigerCore(configType, configName, configPath...)
+	data.SetAutomaticEnv("auto_registration")
+
+	repo, err := repository.NewAutoRegisteredRepository(data)
+	if err != nil {
+		return err
+	}
+	svc := service.NewAutoRegisteredService(repo)
+	http2.NewAutoRegisteredHttpHandler(this, svc)
+
+	return nil
 }
 
 func (this *ApiGateway) GetConfig() configer.CoreInterface {

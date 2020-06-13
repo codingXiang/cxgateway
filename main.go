@@ -43,6 +43,7 @@ func init() {
 }
 
 func main() {
+	Gateway.EnableAutoRegistration("registration", "yaml", "./config")
 	//運行 Gateway
 	Gateway.Run()
 }

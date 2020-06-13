@@ -50,7 +50,7 @@ func (handler *i18nMessageHandler) SetModule(module string) {
 
 /*
 成功訊息
- */
+*/
 
 //GetSuccess 取得成功
 func (handler *i18nMessageHandler) GetSuccess(result interface{}) (int, *e.Response) {
@@ -89,7 +89,7 @@ func (handler *i18nMessageHandler) RemoveSuccess(module string, result interface
 
 /*
 錯誤訊息
- */
+*/
 func (handler *i18nMessageHandler) ParameterIntError(data string, err error) *e.APIException {
 	return e.ParameterError(
 		handler.i18n.ParamIntError(map[string]interface{}{
