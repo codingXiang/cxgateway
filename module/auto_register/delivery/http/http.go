@@ -80,7 +80,9 @@ func (g *AutoRegisteredHttpHandler) Registered(c *gin.Context) error {
 	}
 }
 
-func (g *AutoRegisteredHttpHandler) Initial(c *gin.Context) error{
+func (g *AutoRegisteredHttpHandler) Initial(c *gin.Context) error {
+	//將 middleware 傳入的 i18n 進行轉換
+	g.i18nMsg.SetCore(util.GetI18nData(c))
 	if err := g.svc.Initial(); err == nil {
 		c.JSON(g.i18nMsg.GetSuccess(""))
 		return nil
