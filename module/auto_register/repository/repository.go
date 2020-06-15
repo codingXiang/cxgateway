@@ -78,26 +78,34 @@ func (a *AutoRegisteredRepository) Initial() error {
 		logger.Log.Error("auto service registration remote init failed, err =", err.Error())
 		return err
 	}
-	//local
-	localObj := &model.ServiceRegister{local.Name, local.Url}
-	for _, destination := range local.Destinations {
-		url := destination + registeredPath
-		_, err := requester.POST(url, localObj)
-		if err != nil {
-			logger.Log.Error("auto service registration local failed, err =", err.Error())
-			return err
+	if a.data.GetBool("auto-registered.local.startInit") {
+		//local
+		localObj := &model.ServiceRegister{local.Name, local.Url}
+		for _, destination := range local.Destinations {
+			url := destination + registeredPath
+			_, err := requester.POST(url, localObj)
+			if err != nil {
+				logger.Log.Error("auto service registration local failed, err =", err.Error())
+				return err
+			}
 		}
+	} else {
+		logger.Log.Info("not auto registered local")
 	}
 
-	//remote
-	remoteObj := &model.ServiceRegister{remote.Name, remote.Url}
-	for _, destination := range remote.Destinations {
-		url := destination + registeredPath
-		_, err := requester.POST(url, remoteObj)
-		if err != nil {
-			logger.Log.Error("auto service registration remote failed, err =", err.Error())
-			return err
+	if a.data.GetBool("auto-registered.remote.startInit") {
+		//remote
+		remoteObj := &model.ServiceRegister{remote.Name, remote.Url}
+		for _, destination := range remote.Destinations {
+			url := destination + registeredPath
+			_, err := requester.POST(url, remoteObj)
+			if err != nil {
+				logger.Log.Error("auto service registration remote failed, err =", err.Error())
+				return err
+			}
 		}
+	}else {
+		logger.Log.Info("not auto registered remote")
 	}
 
 	logger.Log.Info("auto service registration success")

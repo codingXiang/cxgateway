@@ -176,14 +176,7 @@ func (this *ApiGateway) EnableAutoRegistration(configName string, configType str
 	if err != nil {
 		return err
 	}
-	if config, err := data.ReadConfig(nil); err == nil {
-		startInit := config.GetBool("auto-registered.startInit")
-		if startInit {
-			repo.Initial()
-		}
-	} else {
-		return err
-	}
+	repo.Initial()
 
 	svc := service.NewAutoRegisteredService(repo)
 	http2.NewAutoRegisteredHttpHandler(this, svc)
