@@ -45,11 +45,11 @@ func (r *RequestHandler) ValidValidation(v *validation.Validation) error {
 }
 
 type RequesterInterface interface {
-	GET(uri string) (*http.Response, error)
-	POST(uri string, param interface{}) (*http.Response, error)
-	PUT(uri string, param interface{}) (*http.Response, error)
-	PATCH(uri string, param interface{}) (*http.Response, error)
-	DELETE(uri string, param interface{}) (*http.Response, error)
+	GET(uri string) (*e.Response, error)
+	POST(uri string, param interface{}) (*e.Response, error)
+	PUT(uri string, param interface{}) (*e.Response, error)
+	PATCH(uri string, param interface{}) (*e.Response, error)
+	DELETE(uri string, param interface{}) (*e.Response, error)
 }
 
 type Requester struct {
@@ -65,18 +65,27 @@ func NewRequester(client *http.Client) RequesterInterface {
 	}
 }
 
-func (r *Requester) GET(uri string) (*http.Response, error) {
+func (r *Requester) ReadJSONResponse(in *http.Response) (*e.Response, error) {
+	defer in.Body.Close()
+	var resp = new(e.Response)
+	err := json.NewDecoder(in.Body).Decode(resp)
+	return resp, err
+}
+
+func (r *Requester) GET(uri string) (*e.Response, error) {
 	req, err := http.NewRequest(http.MethodGet, uri, nil)
 	if err != nil {
 		return nil, err
 	}
 
 	resp, err := r.client.Do(req)
-	defer resp.Body.Close()
-	return resp, err
+	if err != nil {
+		return nil, err
+	}
+	return r.ReadJSONResponse(resp)
 }
 
-func (r *Requester) POST(uri string, param interface{}) (*http.Response, error) {
+func (r *Requester) POST(uri string, param interface{}) (*e.Response, error) {
 	// 轉換參數
 	jsonByte, _ := json.Marshal(param)
 
@@ -86,11 +95,13 @@ func (r *Requester) POST(uri string, param interface{}) (*http.Response, error) 
 		return nil, err
 	}
 	resp, err := r.client.Do(req)
-	defer resp.Body.Close()
-	return resp, err
+	if err != nil {
+		return nil, err
+	}
+	return r.ReadJSONResponse(resp)
 }
 
-func (r *Requester) PUT(uri string, param interface{}) (*http.Response, error) {
+func (r *Requester) PUT(uri string, param interface{}) (*e.Response, error) {
 	// 轉換參數
 	jsonByte, _ := json.Marshal(param)
 
@@ -100,11 +111,13 @@ func (r *Requester) PUT(uri string, param interface{}) (*http.Response, error) {
 		return nil, err
 	}
 	resp, err := r.client.Do(req)
-	defer resp.Body.Close()
-	return resp, err
+	if err != nil {
+		return nil, err
+	}
+	return r.ReadJSONResponse(resp)
 }
 
-func (r *Requester) PATCH(uri string, param interface{}) (*http.Response, error) {
+func (r *Requester) PATCH(uri string, param interface{}) (*e.Response, error) {
 	// 轉換參數
 	jsonByte, _ := json.Marshal(param)
 
@@ -114,11 +127,13 @@ func (r *Requester) PATCH(uri string, param interface{}) (*http.Response, error)
 		return nil, err
 	}
 	resp, err := r.client.Do(req)
-	defer resp.Body.Close()
-	return resp, err
+	if err != nil {
+		return nil, err
+	}
+	return r.ReadJSONResponse(resp)
 }
 
-func (r *Requester) DELETE(uri string, param interface{}) (*http.Response, error) {
+func (r *Requester) DELETE(uri string, param interface{}) (*e.Response, error) {
 	// 轉換參數
 	jsonByte, _ := json.Marshal(param)
 
@@ -128,6 +143,8 @@ func (r *Requester) DELETE(uri string, param interface{}) (*http.Response, error
 		return nil, err
 	}
 	resp, err := r.client.Do(req)
-	defer resp.Body.Close()
-	return resp, err
+	if err != nil {
+		return nil, err
+	}
+	return r.ReadJSONResponse(resp)
 }
