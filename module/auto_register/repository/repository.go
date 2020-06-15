@@ -83,6 +83,7 @@ func (a *AutoRegisteredRepository) Initial() error {
 		localObj := &model.ServiceRegister{local.Name, local.Url}
 		for _, destination := range local.Destinations {
 			url := destination + registeredPath
+			logger.Log.Info("register", url, "name =", localObj.Name, "url =", local.Url)
 			_, err := requester.POST(url, localObj)
 			if err != nil {
 				logger.Log.Error("auto service registration local failed, err =", err.Error())
@@ -98,6 +99,7 @@ func (a *AutoRegisteredRepository) Initial() error {
 		remoteObj := &model.ServiceRegister{remote.Name, remote.Url}
 		for _, destination := range remote.Destinations {
 			url := destination + registeredPath
+			logger.Log.Info("register", url, "name =", remote.Name, "url =", remote.Url)
 			_, err := requester.POST(url, remoteObj)
 			if err != nil {
 				logger.Log.Error("auto service registration remote failed, err =", err.Error())
