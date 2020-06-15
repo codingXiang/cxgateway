@@ -5,14 +5,17 @@ redis:
   db: 3
   expiration: 0
 registeredPath: "/api/register"
-auto-registered:
-  remote:
-    startInit: false
-    name: test
-    url: http://127.0.0.1
-    destinations: ['http://127.0.0.1:8081', 'http://127.0.0.1:8081']
-  local:
-    startInit: false
-    name: test1
-    url: http://127.0.0.1
-    destinations: ['http://127.0.0.1:8081', 'http://127.0.0.1:8081']
+remote:
+  startInit: true
+  name: test
+  url: http://127.0.0.1
+  destinations:
+    0: 'http://127.0.0.1:8081'
+    1: 'http://127.0.0.1:8081'
+local:
+  startInit: false
+  name: test1
+  url: http://127.0.0.1
+  destinations:
+    0: 'http://127.0.0.1:8081'
+    1: 'http://127.0.0.1:8081'

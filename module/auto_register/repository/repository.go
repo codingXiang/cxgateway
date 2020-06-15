@@ -70,15 +70,15 @@ func (a *AutoRegisteredRepository) Initial() error {
 	requester := util.NewRequester(nil)
 	registeredPath := a.data.GetString("registeredPath")
 
-	if local, err = a.toAutoRegistrationInfo(a.data.Get("auto-registered.local")); err != nil {
+	if local, err = a.toAutoRegistrationInfo(a.data.Get("local")); err != nil {
 		logger.Log.Error("auto service registration local init failed, err =", err.Error())
 		return err
 	}
-	if remote, err = a.toAutoRegistrationInfo(a.data.Get("auto-registered.remote")); err != nil {
+	if remote, err = a.toAutoRegistrationInfo(a.data.Get("remote")); err != nil {
 		logger.Log.Error("auto service registration remote init failed, err =", err.Error())
 		return err
 	}
-	if a.data.GetBool("auto-registered.local.startInit") {
+	if a.data.GetBool("local.startInit") {
 		//local
 		localObj := &model.ServiceRegister{local.Name, local.Url}
 		for _, destination := range local.Destinations {
@@ -93,7 +93,7 @@ func (a *AutoRegisteredRepository) Initial() error {
 		logger.Log.Info("not auto registered local")
 	}
 
-	if a.data.GetBool("auto-registered.remote.startInit") {
+	if a.data.GetBool("remote.startInit") {
 		//remote
 		remoteObj := &model.ServiceRegister{remote.Name, remote.Url}
 		for _, destination := range remote.Destinations {

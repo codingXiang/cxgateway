@@ -6,7 +6,7 @@ type ServiceRegister struct {
 }
 
 type AutoRegistrationInfo struct {
-	Name         string   `json:"name" yaml:"name"`
-	Url          string   `json:"url" yaml:"url"`
-	Destinations []string `json:"destinations" yaml:"destinations"`
+	Name         string            `json:"name" yaml:"name"`
+	Url          string            `json:"url" yaml:"url"`
+	Destinations map[string]string `json:"destinations" yaml:"destinations"`
 }
