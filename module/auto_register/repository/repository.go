@@ -11,20 +11,23 @@ import (
 	"github.com/spf13/viper"
 )
 
+var AutoRegisteredRedisClient orm.RedisClientInterface
+
 type AutoRegisteredRepository struct {
 	data   *viper.Viper
 	Client orm.RedisClientInterface
 }
 
 func NewAutoRegisteredRepository(config configer.CoreInterface) (auto_register.Repository, error) {
-	client, err := orm.NewRedisClient("auto_registration", config)
+	var err error
+	AutoRegisteredRedisClient, err = orm.NewRedisClient("auto_registration", config)
 	if err != nil {
 		logger.Log.Error("connect to auto registration redis failed, err =", err.Error())
 		return nil, err
 	}
 	if data, err := config.ReadConfig(nil); err == nil {
 		return &AutoRegisteredRepository{
-			Client: client,
+			Client: AutoRegisteredRedisClient,
 			data:   data,
 		}, nil
 	} else {
