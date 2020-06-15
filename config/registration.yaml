@@ -9,11 +9,9 @@ remote:
   startInit: true
   name: test1
   url: http://127.0.0.1
-  destinations:
-    0: 'http://10.40.41.128:8081'
+  destinations: "http://10.40.41.128:000"
 local:
   startInit: false
   name: test1
   url: http://127.0.0.1
-  destinations:
-    0: 'http://127.0.0.1:8081'
+  destinations: 'http://127.0.0.1:8081'

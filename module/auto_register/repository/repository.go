@@ -9,6 +9,7 @@ import (
 	"github.com/codingXiang/go-logger"
 	"github.com/codingXiang/go-orm"
 	"github.com/spf13/viper"
+	"strings"
 )
 
 var AutoRegisteredRedisClient orm.RedisClientInterface
@@ -61,29 +62,16 @@ func (a *AutoRegisteredRepository) toAutoRegistrationInfo(data interface{}) (*mo
 }
 
 func (a *AutoRegisteredRepository) Initial() error {
-	var (
-		err    error
-		local  *model.AutoRegistrationInfo
-		remote *model.AutoRegistrationInfo
-	)
 	logger.Log.Info("start auto service registration")
 	requester := util.NewRequester(nil)
 	registeredPath := a.data.GetString("registeredPath")
 
-	if local, err = a.toAutoRegistrationInfo(a.data.Get("local")); err != nil {
-		logger.Log.Error("auto service registration local init failed, err =", err.Error())
-		return err
-	}
-	if remote, err = a.toAutoRegistrationInfo(a.data.Get("remote")); err != nil {
-		logger.Log.Error("auto service registration remote init failed, err =", err.Error())
-		return err
-	}
 	if a.data.GetBool("local.startInit") {
 		//local
-		localObj := &model.ServiceRegister{local.Name, local.Url}
-		for _, destination := range local.Destinations {
+		localObj := &model.ServiceRegister{a.data.GetString("local.name"), a.data.GetString("local.url")}
+		for _, destination := range strings.Split(a.data.GetString("local.destinations"), ",") {
 			url := destination + registeredPath
-			logger.Log.Info("register", url, "name =", localObj.Name, "url =", local.Url)
+			logger.Log.Info("register", url, "name =", localObj.Name, "url =", localObj.URL)
 			_, err := requester.POST(url, localObj)
 			if err != nil {
 				logger.Log.Error("auto service registration local failed, err =", err.Error())
@@ -96,17 +84,17 @@ func (a *AutoRegisteredRepository) Initial() error {
 
 	if a.data.GetBool("remote.startInit") {
 		//remote
-		remoteObj := &model.ServiceRegister{remote.Name, remote.Url}
-		for _, destination := range remote.Destinations {
+		remoteObj := &model.ServiceRegister{a.data.GetString("remote.name"), a.data.GetString("remote.url")}
+		for _, destination := range strings.Split(a.data.GetString("remote.destinations"), ",") {
 			url := destination + registeredPath
-			logger.Log.Info("register", url, "name =", remote.Name, "url =", remote.Url)
+			logger.Log.Info("register", url, "name =", remoteObj.Name, "url =", remoteObj.URL)
 			_, err := requester.POST(url, remoteObj)
 			if err != nil {
 				logger.Log.Error("auto service registration remote failed, err =", err.Error())
 				return err
 			}
 		}
-	}else {
+	} else {
 		logger.Log.Info("not auto registered remote")
 	}
 
