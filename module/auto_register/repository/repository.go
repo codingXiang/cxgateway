@@ -9,12 +9,11 @@ import (
 	"github.com/codingXiang/go-logger"
 	"github.com/codingXiang/go-orm"
 	"github.com/spf13/viper"
-	"gopkg.in/yaml.v2"
 )
 
 type AutoRegisteredRepository struct {
 	data   *viper.Viper
-	client orm.RedisClientInterface
+	Client orm.RedisClientInterface
 }
 
 func NewAutoRegisteredRepository(config configer.CoreInterface) (auto_register.Repository, error) {
@@ -25,7 +24,7 @@ func NewAutoRegisteredRepository(config configer.CoreInterface) (auto_register.R
 	}
 	if data, err := config.ReadConfig(nil); err == nil {
 		return &AutoRegisteredRepository{
-			client: client,
+			Client: client,
 			data:   data,
 		}, nil
 	} else {
@@ -35,7 +34,7 @@ func NewAutoRegisteredRepository(config configer.CoreInterface) (auto_register.R
 
 func (a *AutoRegisteredRepository) GetConfig(key string) (*model.ServiceRegister, error) {
 	var result *model.ServiceRegister
-	val, err := a.client.GetValue(key)
+	val, err := a.Client.GetValue(key)
 
 	if err != nil {
 		return nil, err
@@ -53,41 +52,66 @@ func (a *AutoRegisteredRepository) Register(data *model.ServiceRegister) (*model
 	if err != nil {
 		return nil, err
 	}
-	err = a.client.SetKeyValue(data.Name, string(in), 0)
+	err = a.Client.SetKeyValue(data.Name, string(in), 0)
 	if err != nil {
 		return nil, err
 	}
 	return data, nil
 }
 
+func (a *AutoRegisteredRepository) toAutoRegistrationInfo(data interface{}) (*model.AutoRegistrationInfo, error) {
+	var result *model.AutoRegistrationInfo
+	tmp, err := json.Marshal(data)
+	if err != nil {
+		return nil, err
+	}
+	err = json.Unmarshal(tmp, &result)
+	if err != nil {
+		return nil, err
+	}
+	return result, nil
+}
+
 func (a *AutoRegisteredRepository) Initial() error {
+	var (
+		err    error
+		local  *model.AutoRegistrationInfo
+		remote *model.AutoRegistrationInfo
+	)
 	logger.Log.Info("start auto service registration")
 	requester := util.NewRequester(nil)
 	registeredPath := a.data.GetString("registeredPath")
-	var infos = []*model.AutoRegistrationInfo{}
 
-	data := a.data.Get("auto-registered")
-	tmp, err := yaml.Marshal(data)
-	if err != nil {
-		logger.Log.Error("auto service registration init failed, err =", err.Error())
+	if local, err = a.toAutoRegistrationInfo(a.data.Get("auto-registered.local")); err != nil {
+		logger.Log.Error("auto service registration local init failed, err =", err.Error())
 		return err
 	}
-	err = yaml.Unmarshal(tmp, &infos)
-	if err != nil {
-		logger.Log.Error("auto service registration init failed, err =", err.Error())
+	if remote, err = a.toAutoRegistrationInfo(a.data.Get("auto-registered.remote")); err != nil {
+		logger.Log.Error("auto service registration remote init failed, err =", err.Error())
 		return err
 	}
-	for _, info := range infos {
-		obj := &model.ServiceRegister{info.Name, info.Url}
-		for _, destination := range info.Destinations {
-			url := destination + registeredPath
-			_, err := requester.POST(url, obj)
-			if err != nil {
-				logger.Log.Error("auto service registration failed, err =", err.Error())
-				return err
-			}
+	//local
+	localObj := &model.ServiceRegister{local.Name, local.Url}
+	for _, destination := range local.Destinations {
+		url := destination + registeredPath
+		_, err := requester.POST(url, localObj)
+		if err != nil {
+			logger.Log.Error("auto service registration local failed, err =", err.Error())
+			return err
 		}
 	}
+
+	//remote
+	remoteObj := &model.ServiceRegister{remote.Name, remote.Url}
+	for _, destination := range remote.Destinations {
+		url := destination + registeredPath
+		_, err := requester.POST(url, remoteObj)
+		if err != nil {
+			logger.Log.Error("auto service registration remote failed, err =", err.Error())
+			return err
+		}
+	}
+
 	logger.Log.Info("auto service registration success")
 	return nil
 }

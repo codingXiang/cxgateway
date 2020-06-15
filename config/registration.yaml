@@ -6,13 +6,11 @@ redis:
   expiration: 0
 registeredPath: "/api/register"
 auto-registered:
-  - name: test
+  remote:
+    name: test
     url: http://127.0.0.1
-    destinations:
-      - http://127.0.0.1:8081
-      - http://127.0.0.1:8081
-  - name: test1
+    destinations: ['http://127.0.0.1:8081', 'http://127.0.0.1:8081']
+  local:
+    name: test1
     url: http://127.0.0.1
-    destinations:
-      - http://127.0.0.1:8081
-      - http://127.0.0.1:8081
+    destinations: ['http://127.0.0.1:8081', 'http://127.0.0.1:8081']
