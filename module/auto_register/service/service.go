@@ -13,7 +13,7 @@ func NewAutoRegisteredService(repo auto_register.Repository) auto_register.Servi
 	return &AutoRegisteredService{Repo: repo}
 }
 
-func (a *AutoRegisteredService) GetConfig(key string) (*model.ServiceRegister, error) {
+func (a *AutoRegisteredService) GetConfig(key string) (string, error) {
 	return a.Repo.GetConfig(key)
 }
 

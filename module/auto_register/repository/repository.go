@@ -35,19 +35,8 @@ func NewAutoRegisteredRepository(config configer.CoreInterface) (auto_register.R
 	}
 }
 
-func (a *AutoRegisteredRepository) GetConfig(key string) (*model.ServiceRegister, error) {
-	var result *model.ServiceRegister
-	val, err := a.Client.GetValue(key)
-
-	if err != nil {
-		return nil, err
-	}
-
-	if err := json.Unmarshal([]byte(val), &result); err == nil {
-		return result, nil
-	} else {
-		return nil, err
-	}
+func (a *AutoRegisteredRepository) GetConfig(key string) (string, error) {
+	return a.Client.GetValue(key)
 }
 
 func (a *AutoRegisteredRepository) Register(data *model.ServiceRegister) (*model.ServiceRegister, error) {

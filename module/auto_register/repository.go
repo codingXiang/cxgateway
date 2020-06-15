@@ -10,7 +10,7 @@ type Repository interface {
 	/*
 	   以下宣告 Repository 方法
 	*/
-	GetConfig(key string) (*model.ServiceRegister, error)
+	GetConfig(key string) (string, error)
 	Register(data *model.ServiceRegister) (*model.ServiceRegister, error)
 	Initial() error
 }
