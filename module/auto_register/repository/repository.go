@@ -51,11 +51,7 @@ func (a *AutoRegisteredRepository) GetConfig(key string) (*model.ServiceRegister
 }
 
 func (a *AutoRegisteredRepository) Register(data *model.ServiceRegister) (*model.ServiceRegister, error) {
-	in, err := json.Marshal(data)
-	if err != nil {
-		return nil, err
-	}
-	err = a.Client.SetKeyValue(data.Name, string(in), 0)
+	err := a.Client.SetKeyValue(data.Name, data.URL, 0)
 	if err != nil {
 		return nil, err
 	}
