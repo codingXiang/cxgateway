@@ -1,14 +1,18 @@
 package middleware
 
 import (
+	"encoding/json"
 	"fmt"
+	"github.com/codingXiang/cxgateway/pkg/e"
 	"github.com/codingXiang/go-logger"
 	"github.com/codingXiang/gogo-i18n"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
+	"io/ioutil"
 	"math"
+	"net/http"
 	"os"
 	"strconv"
 	"time"
@@ -121,4 +125,64 @@ func GoCache(c *gin.Context) {
 	}
 	c.Set("enableCache", enableCache)
 	c.Next()
+}
+
+//PermissionAuth 權限驗證
+func PermissionAuth(config, auth *viper.Viper) gin.HandlerFunc {
+	var (
+		//取得 auth server 資料
+		permissionApi = auth.GetString("auth.server") + auth.GetString("auth.permissionCheck.path")
+		method        = auth.GetString("auth.permissionCheck.method")
+		// 取得 application 資料
+		targetApp = config.GetString("application.appId")
+	)
+	return func(c *gin.Context) {
+		client := &http.Client{}
+
+		//對 permission 的 api 進行存取
+		req, err := http.NewRequest(method, permissionApi, nil)
+		if err != nil {
+			c.AbortWithStatusJSON(http.StatusBadRequest, e.UnknownError(err.Error()))
+			return
+		}
+
+		//設定權限控制相關 header
+		req.Header.Set("auth-app", c.GetHeader("auth-app"))
+		req.Header.Set("auth-token", c.GetHeader("auth-token"))
+		req.Header.Set("target-app", targetApp)
+		req.Header.Set("auth-path", c.Request.URL.Path)
+		req.Header.Set("auth-method", c.Request.Method)
+
+		//送出 request
+		resp, err := client.Do(req)
+
+		if resp == nil {
+			c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{
+				"errMsg": "Connect to authority service failed.",
+			})
+			return
+		}
+
+		defer resp.Body.Close()
+
+		if resp.StatusCode == http.StatusOK {
+			c.Next()
+			return
+		}
+
+		//讀取 response body
+		bodyBytes, err := ioutil.ReadAll(resp.Body)
+		if err != nil {
+			c.AbortWithStatusJSON(http.StatusBadRequest, err.Error())
+			return
+		}
+		//將 response body 轉換成 map
+		var response = new(map[string]interface{})
+		if err := json.Unmarshal(bodyBytes, response); err != nil {
+			c.AbortWithStatusJSON(http.StatusBadRequest, err.Error())
+			return
+		}
+		c.AbortWithStatusJSON(http.StatusUnauthorized, response)
+		return
+	}
 }
