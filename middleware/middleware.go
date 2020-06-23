@@ -130,13 +130,24 @@ func GoCache(c *gin.Context) {
 //PermissionAuth 權限驗證
 func PermissionAuth(config, auth *viper.Viper) gin.HandlerFunc {
 	var (
+		//直接通過的 key（ app 專用 )
+		disregardKey = auth.GetString("auth.disregard.key")
 		//取得 auth server 資料
 		permissionApi = auth.GetString("auth.server") + auth.GetString("auth.permissionCheck.path")
 		method        = auth.GetString("auth.permissionCheck.method")
 		// 取得 application 資料
-		targetApp = config.GetString("application.appId")
+		appId = config.GetString("application.appId")
 	)
 	return func(c *gin.Context) {
+
+		//判斷是否有直接通過的 key 在 header
+		if key := c.GetHeader("auth-disregard-key"); key != "" {
+			if key == disregardKey {
+				c.Next()
+				return
+			}
+		}
+
 		client := &http.Client{}
 
 		//對 permission 的 api 進行存取
@@ -147,9 +158,9 @@ func PermissionAuth(config, auth *viper.Viper) gin.HandlerFunc {
 		}
 
 		//設定權限控制相關 header
-		req.Header.Set("auth-app", c.GetHeader("auth-app"))
-		req.Header.Set("auth-token", c.GetHeader("auth-token"))
-		req.Header.Set("target-app", targetApp)
+		req.Header.Set("auth-app", appId)
+		req.Header.Set("auth-token", c.GetHeader(appId+"-auth-token"))
+		req.Header.Set("auth-salt", c.GetHeader(appId+"-auth-salt"))
 		req.Header.Set("auth-path", c.Request.URL.Path)
 		req.Header.Set("auth-method", c.Request.Method)
 
