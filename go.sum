@@ -15,7 +15,6 @@ github.com/BurntSushi/toml v0.3.0/go.mod h1:xHWCNGjB5oqiDr8zfno3MHue2Ht5sIBksp03
 github.com/BurntSushi/toml v0.3.1 h1:WXkYYl6Yr3qBf1K79EBnL4mak0OimBfB0XUf9Vl28OQ=
 github.com/BurntSushi/toml v0.3.1/go.mod h1:xHWCNGjB5oqiDr8zfno3MHue2Ht5sIBksp03qcyfWMU=
 github.com/BurntSushi/xgb v0.0.0-20160522181843-27f122750802/go.mod h1:IVnqGOEym/WlBOVXweHU+Q+/VP0lqqI8lqeDx9IjBqo=
-github.com/DATA-DOG/go-sqlmock v1.4.1/go.mod h1:f/Ixk793poVmq4qj/V1dPUg2JEAKC73Q5eFN3EC/SaM=
 github.com/Knetic/govaluate v3.0.0+incompatible/go.mod h1:r7JcOSlj0wfOMncg0iLm8Leh48TZaKVeNIfJntJ2wa0=
 github.com/OneOfOne/xxhash v1.2.2/go.mod h1:HSdplMjZKSmBqAxg5vPj2TmRDmfkzw+cTzAElWljhcU=
 github.com/OwnLocal/goes v1.0.0/go.mod h1:8rIFjBGTue3lCU0wplczcUgt9Gxgrkkrw7etMIcn8TM=
@@ -40,15 +39,10 @@ github.com/client9/misspell v0.3.4/go.mod h1:qj6jICC3Q7zFZvVWo7KLAzC3yx5G7kyvSDk
 github.com/cloudflare/golz4 v0.0.0-20150217214814-ef862a3cdc58/go.mod h1:EOBUe0h4xcZ5GoxqC5SDxFQ8gwyZPKQoEzownBlhI80=
 github.com/codingXiang/configer v1.0.2-0.20200513072245-ec8070de9a16 h1:Ht4TiGS/X08jMD7V+zS1fwSS+unAr86ALbGIC/ujEsY=
 github.com/codingXiang/configer v1.0.2-0.20200513072245-ec8070de9a16/go.mod h1:wqXpFanBrOjlre2/KWQWv1UxtX55UO6XoEgNXsb6j1c=
-github.com/codingXiang/cxgateway v1.0.7-0.20200519093115-6d6c47ad8a9d/go.mod h1:+M9XtzWVCxbjYovCxv8B10GwSBHdwev3zsRF0r//PwQ=
 github.com/codingXiang/go-logger v1.0.0 h1:0jDfu5Dysa9Wvt8VR22Juz+dqR7fWRnxQwZEYfrphuM=
 github.com/codingXiang/go-logger v1.0.0/go.mod h1:qYgivc8J4H7zK5hpZUiUsCdNDpaI4dACjGCFuDbG9Wg=
 github.com/codingXiang/go-logger v1.0.2-0.20200521075543-213975e83f41 h1:ukqWncoV+eFQx6V6g6WAVQqeXU5uaLo970Bg6AlC/lk=
 github.com/codingXiang/go-logger v1.0.2-0.20200521075543-213975e83f41/go.mod h1:0YgBzRT0nE9WYoZcVEXh1HgDD5JZEiA7Lls8gllKNfQ=
-github.com/codingXiang/go-orm v1.0.3-0.20200519091032-3b8020c6d66d h1:vLlc2W+9xsJ0ZMf8YONNF4eI8RMaJW8FEtylAimCHYY=
-github.com/codingXiang/go-orm v1.0.3-0.20200519091032-3b8020c6d66d/go.mod h1:/A5ltkO2rSpmFJm60X9DMpSQUeovwzZMOTcggT2eYqI=
-github.com/codingXiang/go-orm v1.0.3-0.20200521090549-dd6d07415403 h1:wGlSJY9ew1ZF2VeDbqlBhyexlgBC0dvKh2kxpG69D18=
-github.com/codingXiang/go-orm v1.0.3-0.20200521090549-dd6d07415403/go.mod h1:adetB1B0YFHbre3N2yLadi7xxgvQv1D3UMruk/OoE48=
 github.com/codingXiang/go-orm v1.0.3 h1:o8KUfzhoSl1tzLVhCYczeuiwa+fHmINWRe+GcCB2zZA=
 github.com/codingXiang/go-orm v1.0.3/go.mod h1:aI59JyRUM08EZHqpzWZtDWW8PqJvDg8E80PrfSLi8Ak=
 github.com/codingXiang/gogo-i18n v1.0.2-0.20200417093325-c191114c00c4 h1:+r68mbuh5uG5/ymWFPP5zaNWhyx2fa1A2IukD5Z2ns8=
@@ -325,7 +319,6 @@ github.com/spf13/viper v1.7.0/go.mod h1:8WkrPz2fc9jxqZNCJI/76HCieCp4Q8HaLFoCha5q
 github.com/ssdb/gossdb v0.0.0-20180723034631-88f6b59b84ec/go.mod h1:QBvMkMya+gXctz3kmljlUCu/yB3GZ6oee+dUozsezQE=
 github.com/stretchr/objx v0.1.0/go.mod h1:HFkY916IF+rwdDfMAkV7OtwuqBVzrE8GR6GFx+wExME=
 github.com/stretchr/objx v0.1.1/go.mod h1:HFkY916IF+rwdDfMAkV7OtwuqBVzrE8GR6GFx+wExME=
-github.com/stretchr/objx v0.2.0/go.mod h1:qt09Ya8vawLte6SNmTgCsAVtYtaKzEcn8ATUoHMkEqE=
 github.com/stretchr/testify v1.2.2/go.mod h1:a8OnRcib4nhh0OaRAV+Yts87kKdq0PP7pXfy6kDkUVs=
 github.com/stretchr/testify v1.3.0/go.mod h1:M5WIy9Dh21IEIfnGCwXGc5bZfKNJtfHm1UVUgZn+9EI=
 github.com/stretchr/testify v1.4.0 h1:2E4SXV/wtOkTonXsotYi4li6zVWxYlZuYNCXe9XRJyk=

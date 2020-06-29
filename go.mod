@@ -3,7 +3,6 @@ module github.com/codingXiang/cxgateway
 go 1.13
 
 require (
-	github.com/DATA-DOG/go-sqlmock v1.4.1 // indirect
 	github.com/astaxie/beego v1.12.1
 	github.com/codingXiang/configer v1.0.2-0.20200513072245-ec8070de9a16
 	github.com/codingXiang/go-logger v1.0.2-0.20200521075543-213975e83f41
@@ -16,6 +15,5 @@ require (
 	github.com/satori/go.uuid v1.2.0
 	github.com/sirupsen/logrus v1.6.0
 	github.com/spf13/viper v1.7.0
-	github.com/stretchr/objx v0.2.0 // indirect
 	golang.org/x/text v0.3.2
 )
