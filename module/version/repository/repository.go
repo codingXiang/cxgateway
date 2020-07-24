@@ -44,10 +44,16 @@ func (this *VersionRepository) GetServerVersion() (*model.Version, error) {
 		buildVersion = strings.ReplaceAll(string(buildVersionTmp), "\n", "")
 	}
 	version.ServerVersion = "v" + string(appVersion) + "." + string(buildVersion)
-	version.DatabaseVersion = this.db.ShowVersion()
-	if info := this.redis.Info("server")["server"]; info != nil {
-		if v := info["redis_version"]; v != nil || v != "" {
-			version.RedisVersion = v.(string)
+	// 抓取資料庫版本
+	if this.db != nil {
+		version.DatabaseVersion = this.db.ShowVersion()
+	}
+	// 抓取 redis 版本
+	if this.redis != nil {
+		if info := this.redis.Info("server")["server"]; info != nil {
+			if v := info["redis_version"]; v != nil || v != "" {
+				version.RedisVersion = v.(string)
+			}
 		}
 	}
 	return version, err
