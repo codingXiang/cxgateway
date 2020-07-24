@@ -5,6 +5,7 @@ import (
 	"github.com/codingXiang/cxgateway/module/version"
 	"github.com/codingXiang/go-orm"
 	"io/ioutil"
+	"strings"
 )
 
 var VERSION_CONTROL = "./version_control"
@@ -24,17 +25,23 @@ func NewVersionRepository(db orm.OrmInterface, redis orm.RedisClientInterface, t
 }
 func (this *VersionRepository) GetServerVersion() (*model.Version, error) {
 	var (
-		version = new(model.Version)
+		version      = new(model.Version)
+		appVersion   string
+		buildVersion string
 	)
 	err := this.db.GetInstance().First(&version).Error
 
-	appVersion, err := ioutil.ReadFile(VERSION_CONTROL + "/APP_VERSION")
+	appVersionTmp, err := ioutil.ReadFile(VERSION_CONTROL + "/APP_VERSION")
 	if err != nil {
 		return nil, err
+	} else {
+		appVersion = strings.ReplaceAll(string(appVersionTmp), "\n", "")
 	}
-	buildVersion, err := ioutil.ReadFile(VERSION_CONTROL + "/BUILD")
+	buildVersionTmp, err := ioutil.ReadFile(VERSION_CONTROL + "/BUILD")
 	if err != nil {
 		return nil, err
+	} else {
+		buildVersion = strings.ReplaceAll(string(buildVersionTmp), "\n", "")
 	}
 	version.ServerVersion = "v" + string(appVersion) + "." + string(buildVersion)
 	version.DatabaseVersion = this.db.ShowVersion()
