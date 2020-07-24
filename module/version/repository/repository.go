@@ -29,8 +29,6 @@ func (this *VersionRepository) GetServerVersion() (*model.Version, error) {
 		appVersion   string
 		buildVersion string
 	)
-	err := this.db.GetInstance().First(&version).Error
-
 	appVersionTmp, err := ioutil.ReadFile(VERSION_CONTROL + "/APP_VERSION")
 	if err != nil {
 		return nil, err
