@@ -1,8 +1,8 @@
 package service
 
 import (
+	"github.com/codingXiang/cxgateway/model"
 	"github.com/codingXiang/cxgateway/module/version"
-	"github.com/codingXiang/go-orm/model"
 )
 
 type VersionService struct {
