@@ -101,7 +101,7 @@ func (handler *i18nMessageHandler) ParameterIntError(data string, err error) *e.
 
 func (handler *i18nMessageHandler) ParameterFormatError() *e.APIException {
 	return e.ParameterError(
-		handler.i18n.ParamRequiredError(nil),
+		handler.i18n.ParamFormatError(nil),
 	)
 }
 
