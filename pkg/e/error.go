@@ -24,7 +24,7 @@ func NotFoundError(message string) *APIException {
 //UnknownError 未知錯誤
 func UnknownError(message string) *APIException {
 	var err = UNKNOWN_ERROR
-	return newAPIException(http.StatusForbidden, err, message)
+	return newAPIException(http.StatusUnprocessableEntity, err, message)
 }
 
 //ParameterError 參數錯誤
