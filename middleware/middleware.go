@@ -176,11 +176,6 @@ func PermissionAuth(config, auth *viper.Viper) gin.HandlerFunc {
 
 		defer resp.Body.Close()
 
-		if resp.StatusCode == http.StatusOK {
-			c.Next()
-			return
-		}
-
 		//讀取 response body
 		bodyBytes, err := ioutil.ReadAll(resp.Body)
 		if err != nil {
@@ -188,9 +183,15 @@ func PermissionAuth(config, auth *viper.Viper) gin.HandlerFunc {
 			return
 		}
 		//將 response body 轉換成 map
-		var response = new(map[string]interface{})
-		if err := json.Unmarshal(bodyBytes, response); err != nil {
+		var response = make(map[string]interface{})
+		if err := json.Unmarshal(bodyBytes, &response); err != nil {
 			c.AbortWithStatusJSON(http.StatusBadRequest, err.Error())
+			return
+		}
+		if resp.StatusCode == http.StatusOK {
+			data := response["data"].(map[string]interface{})["id"]
+			c.Set("user", data)
+			c.Next()
 			return
 		}
 		c.AbortWithStatusJSON(http.StatusUnauthorized, response)
