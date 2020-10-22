@@ -29,10 +29,10 @@ func NewVersionHttpHandler(gateway cx.HttpHandler, svc version.Service) delivery
 	/*
 		v1 版本的 Ticket API
 	*/
-	v1 := gateway.GetApiRoute().Group("/version")
+	v1 := gateway.GetEngine().Group("")
 	v1.GET("", e.Wrapper(handler.GetServerVersion))
-	v1.GET("/check", e.Wrapper(handler.CheckVersion))
-	v1.POST("/upgrade", e.Wrapper(handler.Upgrade))
+	//v1.GET("/check", e.Wrapper(handler.CheckVersion))
+	//v1.POST("/upgrade", e.Wrapper(handler.Upgrade))
 	return handler
 }
 
