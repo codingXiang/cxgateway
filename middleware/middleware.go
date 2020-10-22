@@ -190,10 +190,13 @@ func PermissionAuth(config, auth *viper.Viper) gin.HandlerFunc {
 			return
 		}
 		if resp.StatusCode == http.StatusOK {
-			data := response["data"].(map[string]interface{})["metaData"].([]*model.UserMeta)
+			data := response["data"].(map[string]interface{})["metaData"].([]interface{})
 			for _, d := range data {
-				if d.Key == "role" {
-					c.Set("user", data)
+				meta := new(model.UserMeta)
+				tmp, _ := json.Marshal(d)
+				json.Unmarshal(tmp, &meta)
+				if meta.Key == "role" {
+					c.Set("user", meta)
 					break
 				}
 			}
