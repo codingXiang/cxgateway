@@ -3,6 +3,7 @@ package middleware
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/codingXiang/cxgateway/model"
 	"github.com/codingXiang/cxgateway/pkg/e"
 	"github.com/codingXiang/go-logger"
 	"github.com/codingXiang/gogo-i18n"
@@ -189,8 +190,13 @@ func PermissionAuth(config, auth *viper.Viper) gin.HandlerFunc {
 			return
 		}
 		if resp.StatusCode == http.StatusOK {
-			data := response["data"].(map[string]interface{})["id"]
-			c.Set("user", data)
+			data := response["data"].(map[string]interface{})["metaData"].([]*model.UserMeta)
+			for _, d := range data {
+				if d.Key == "role" {
+					c.Set("user", data)
+					break
+				}
+			}
 			c.Next()
 			return
 		}
