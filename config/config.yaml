@@ -1,16 +1,8 @@
 cors:
-  allowOrigins:
-    - http://cxgateway.com
-    - http://cxgateway1.com
-  allowHeaders:
-    - Origin
-  allowMethods:
-    - GET
-    - POST
-    - PUT
-    - PATCH
-    - DELETE
-    - OPTIONS
+  allowAllOrigin: true
+  allowOrigins: ""
+  allowHeaders: ""
+  allowMethods: ""
 application:
   timeout:
     read: 1000

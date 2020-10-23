@@ -16,6 +16,7 @@ import (
 	"net/http"
 	"os"
 	"strconv"
+	"strings"
 	"time"
 )
 
@@ -102,15 +103,17 @@ func GoI18nMiddleware(data *viper.Viper) gin.HandlerFunc {
 
 func GoCors(data *viper.Viper) gin.HandlerFunc {
 	var (
-		allowOrigins = data.GetStringSlice("cors.allowOrigins")
-		allowMethods = data.GetStringSlice("cors.allowMethods")
-		allowHeaders = data.GetStringSlice("cors.allowHeaders")
+		allowAllOrigin = data.GetBool("cors.allowAllOrigin")
 	)
 	logger.Log.Info("go cors")
 	config := cors.DefaultConfig()
-	config.AllowOrigins = allowOrigins
-	config.AllowHeaders = allowHeaders
-	config.AllowMethods = allowMethods
+	if !allowAllOrigin {
+		config.AllowAllOrigins = allowAllOrigin
+	} else {
+		config.AllowOrigins = strings.Split(data.GetString("cors.allowOrigins"), ",")
+	}
+	config.AllowHeaders = strings.Split(data.GetString("cors.allowHeaders"), ",")
+	config.AllowMethods = strings.Split(data.GetString("cors.allowMethods"), ",")
 	return cors.New(config)
 }
 
