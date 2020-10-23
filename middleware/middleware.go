@@ -107,7 +107,7 @@ func GoCors(data *viper.Viper) gin.HandlerFunc {
 	)
 	logger.Log.Info("go cors")
 	config := cors.DefaultConfig()
-	if !allowAllOrigin {
+	if allowAllOrigin {
 		config.AllowAllOrigins = allowAllOrigin
 	} else {
 		config.AllowOrigins = strings.Split(data.GetString("cors.allowOrigins"), ",")
