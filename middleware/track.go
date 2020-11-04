@@ -16,3 +16,11 @@ func RequestIDMiddleware(appID string) gin.HandlerFunc {
 		c.Next()
 	}
 }
+
+//RequestVersion
+func RequestVersion(version string) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		c.Writer.Header().Set("app-version", version)
+		c.Next()
+	}
+}

@@ -13,6 +13,7 @@ application:
   appId: "iam"
   appToken: ""
   apiBaseRoute: "/api"
+  version: 1.0.0
 i18n:
   defaultLanguage: "zh_Hant"
   file:

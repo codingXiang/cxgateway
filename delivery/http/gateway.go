@@ -66,6 +66,7 @@ func NewApiGatewayWithData(configName string, defaultData []byte) delivery.HttpH
 			Use(cors.Default()).
 			Use(middleware.Logger(), gin.Recovery()).
 			Use(middleware.RequestIDMiddleware(data.GetString("application.appId"))).
+			Use(middleware.RequestVersion(data.GetString("application.version"))).
 			Use(middleware.GoI18nMiddleware(data))
 		gateway.Api = gateway.engine.Group(data.GetString("application.apiBaseRoute"))
 	} else {
@@ -119,6 +120,7 @@ i18n:
 		var (
 			//log          = data.Get("application.log")
 			appId        = data.GetString("application.appId")
+			appVersion   = data.GetString("application.version")
 			apiBaseRoute = data.GetString("application.apiBaseRoute")
 			mode         = data.GetString("application.mode")
 			uploadPath   = data.GetString("application.uploadPath")
@@ -147,6 +149,7 @@ i18n:
 		gateway.engine.
 			Use(middleware.Logger(), gin.Recovery()).
 			Use(middleware.RequestIDMiddleware(appId)).
+			Use(middleware.RequestVersion(appVersion)).
 			Use(middleware.GoI18nMiddleware(data))
 		gateway.Api = gateway.engine.Group(apiBaseRoute)
 	} else {
