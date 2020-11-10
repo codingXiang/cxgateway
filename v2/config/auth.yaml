@@ -1,0 +1,8 @@
+auth:
+  server: "http://127.0.0.1:9999"
+  permissionCheck:
+    path: "/api/v1/auth/permission/api"
+    method: "POST"
+  disregard:
+    key: "88224466ab"
+  enable: false
