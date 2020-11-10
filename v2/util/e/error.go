@@ -9,57 +9,71 @@ import (
 //HandlerFunc 錯誤 handler
 type HandlerFunc func(c *gin.Context) error
 
+/*
+	500 系列
+*/
 //ServerError 500 伺服器錯誤
-func ServerError() *APIException {
-	var err = SERVER_ERROR
-	return newAPIException(http.StatusInternalServerError, err, StatusText(err))
+func StatusInternalServerError() *APIException {
+	return newAPIException(http.StatusInternalServerError, SERVER_ERROR, StatusText(SERVER_ERROR))
+}
+
+//StatusNotImplemented 501
+func StatusNotImplemented(message string) *APIException {
+	return newAPIException(http.StatusNotImplemented, SERVER_ERROR, message)
+}
+
+//StatusBadGateway 502
+func StatusBadGateway(message string) *APIException {
+	return newAPIException(http.StatusBadGateway, SERVER_ERROR, message)
+}
+
+//StatusServiceUnavailable 503
+func StatusServiceUnavailable(message string) *APIException {
+	return newAPIException(http.StatusServiceUnavailable, SERVER_ERROR, message)
+}
+
+//StatusGatewayTimeout 504
+func StatusGatewayTimeout(message string) *APIException {
+	return newAPIException(http.StatusGatewayTimeout, SERVER_ERROR, message)
+}
+
+/*
+ 400 系列
+*/
+//StatusBadRequest 400
+func StatusBadRequest(message string) *APIException {
+	return newAPIException(http.StatusBadRequest, PARAMETER_ERROR, message)
+}
+
+//StatusUnauthorized 401
+func StatusUnauthorized(message string) *APIException {
+	return newAPIException(http.StatusUnauthorized, AUTH_ERROR, message)
+}
+
+//StatusForbidden 403
+func StatusForbidden(message string) *APIException {
+	return newAPIException(http.StatusForbidden, AUTH_ERROR, message)
 }
 
 //NotFoundError 404 錯誤
-func NotFoundError(message string) *APIException {
-	var err = NOT_FOUND
-	return newAPIException(http.StatusNotFound, err, message)
+func StatusNotFound(message string) *APIException {
+	return newAPIException(http.StatusNotFound, NOT_FOUND, message)
+}
+
+//StatusConflict 409
+func StatusConflict(message string) *APIException {
+	return newAPIException(http.StatusConflict, DUPLICATE_ERROR, message)
 }
 
 //UnknownError 未知錯誤
 func UnknownError(message string) *APIException {
-	var err = UNKNOWN_ERROR
-	return newAPIException(http.StatusUnprocessableEntity, err, message)
+	return newAPIException(http.StatusForbidden, UNKNOWN_ERROR, message)
 }
 
-//ParameterError 參數錯誤
-func ParameterError(message string) *APIException {
-	var err = PARAMETER_ERROR
-	return newAPIException(http.StatusBadRequest, err, message)
-}
-
-//DuplicateError 重複資料
-func DuplicateError(message string) *APIException {
-	var err = DUPLICATE_ERROR
-	return newAPIException(http.StatusConflict, err, message)
-}
-
-//NoContentError 沒有資料
-func NoContentError(message string) *APIException {
-	var err = NO_CONTENT
-	return newAPIException(http.StatusNoContent, err, message)
-}
-
-//AuthError token 驗證錯誤
-func AuthError(message string) *APIException {
-	var err = AUTH_ERROR
-	return newAPIException(http.StatusUnauthorized, err, message)
-}
-
-//SuccessError 未知錯誤
-func SuccessError(message string) *APIException {
-	var err = SUCCESS
-	return newAPIException(http.StatusOK, err, message)
-}
 
 //HandleNotFound 處理404頁面
 func HandleNotFound(c *gin.Context) {
-	handleErr := NotFoundError("this api is not found")
+	handleErr := StatusNotFound("this api is not found")
 	handleErr.Request = c.Request.Method + " " + c.Request.URL.String()
 	c.JSON(handleErr.Code, handleErr)
 	return
@@ -77,15 +91,13 @@ func Wrapper(handler HandlerFunc) func(c *gin.Context) {
 			if h, ok := err.(*APIException); ok {
 				apiException = h
 			} else if e, ok := err.(error); ok {
-				if gin.Mode() == "debug" {
-					// 错误
+				if gin.Mode() == gin.DebugMode {
 					apiException = UnknownError(e.Error())
 				} else {
-					// 未知错误
 					apiException = UnknownError(e.Error())
 				}
 			} else {
-				apiException = ServerError()
+				apiException = StatusInternalServerError()
 			}
 			apiException.Request = c.Request.Method + " " + c.Request.URL.String()
 			c.JSON(apiException.Code, apiException)

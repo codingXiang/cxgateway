@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"github.com/codingXiang/configer/v2"
 	"github.com/codingXiang/cxgateway/v2/middleware"
-	config2 "github.com/codingXiang/cxgateway/v2/util/config"
 	"github.com/codingXiang/go-logger/v2"
 	gogo_i18n "github.com/codingXiang/gogo-i18n"
 	"github.com/gin-gonic/gin"
@@ -37,7 +36,7 @@ func Default() *Server {
 func New(engine *gin.Engine, config *viper.Viper) *Server {
 	s := new(Server)
 	//設定 gin 啟動模式
-	gin.SetMode(config.GetString(config2.GetConfigPath(Application, Mode)))
+	gin.SetMode(config.GetString(configer.GetConfigPath(Application, Mode)))
 	//設定 server config
 	s.config = config
 	//設定 server engine
@@ -48,10 +47,10 @@ func New(engine *gin.Engine, config *viper.Viper) *Server {
 	}
 
 	var (
-		appId        = config.GetString(config2.GetConfigPath(Application, AppId))
-		port         = config.GetInt(config2.GetConfigPath(Application, Port))           //伺服器的 port
-		writeTimeout = config.GetInt(config2.GetConfigPath(Application, Timeout, Write)) //伺服器的寫入超時時間
-		readTimeout  = config.GetInt(config2.GetConfigPath(Application, Timeout, Read))  //伺服器讀取超時時間
+		appId        = config.GetString(configer.GetConfigPath(Application, AppId))
+		port         = config.GetInt(configer.GetConfigPath(Application, Port))           //伺服器的 port
+		writeTimeout = config.GetInt(configer.GetConfigPath(Application, Timeout, Write)) //伺服器的寫入超時時間
+		readTimeout  = config.GetInt(configer.GetConfigPath(Application, Timeout, Read))  //伺服器讀取超時時間
 	)
 	// 設定 http server
 	s.server = &http.Server{
@@ -62,7 +61,7 @@ func New(engine *gin.Engine, config *viper.Viper) *Server {
 		MaxHeaderBytes: 1 << 20,
 	}
 	s.appId = appId
-	s.uploadPath = config.GetString(config2.GetConfigPath(Application, UploadPath))
+	s.uploadPath = config.GetString(configer.GetConfigPath(Application, UploadPath))
 	return s
 }
 
@@ -97,7 +96,7 @@ func (s *Server) Use(handle ...middleware.Object) *gin.Engine {
 		s.GetEngine().Use(h.Handle())
 	}
 	// 設定 api routing
-	s.api = s.GetEngine().Group(s.config.GetString(config2.GetConfigPath(Application, BaseRoute)))
+	s.api = s.GetEngine().Group(s.config.GetString(configer.GetConfigPath(Application, BaseRoute)))
 
 	return s.GetEngine()
 }

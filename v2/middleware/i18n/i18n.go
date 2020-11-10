@@ -1,9 +1,9 @@
 package i18n
 
 import (
+	"github.com/codingXiang/configer/v2"
 	"github.com/codingXiang/cxgateway/v2/middleware"
 	"github.com/codingXiang/cxgateway/v2/server"
-	"github.com/codingXiang/cxgateway/v2/util/config"
 	gogo_i18n "github.com/codingXiang/gogo-i18n"
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/viper"
@@ -21,12 +21,12 @@ func New(config *viper.Viper) middleware.Object {
 
 //Version
 func (r *I18n) Handle() gin.HandlerFunc {
-	if r.config.GetBool(config.GetConfigPath(server.I18n, server.Enable)) {
+	if r.config.GetBool(configer.GetConfigPath(server.I18n, server.Enable)) {
 		var i18n gogo_i18n.GoGoi18nInterface
 		if gogo_i18n.LangHandler == nil {
 			gogo_i18n.LangHandler = gogo_i18n.NewLanguageHandler()
 		}
-		if lang, err := gogo_i18n.LangHandler.GetLanguageTag(r.config.GetString(config.GetConfigPath(server.I18n, server.DefaultLanguage))); err == nil {
+		if lang, err := gogo_i18n.LangHandler.GetLanguageTag(r.config.GetString(configer.GetConfigPath(server.I18n, server.DefaultLanguage))); err == nil {
 			i18n = gogo_i18n.NewGoGoi18n(lang)
 			i18n.SetFileType(r.config.GetString("i18n.file.type"))
 			i18n.LoadTranslationFileArray(r.config.GetString("i18n.file.path"),

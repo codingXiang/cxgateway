@@ -1,9 +1,9 @@
 package version
 
 import (
+	"github.com/codingXiang/configer/v2"
 	"github.com/codingXiang/cxgateway/v2/middleware"
 	"github.com/codingXiang/cxgateway/v2/server"
-	config2 "github.com/codingXiang/cxgateway/v2/util/config"
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/viper"
 )
@@ -20,10 +20,10 @@ func New(config *viper.Viper) middleware.Object {
 
 //Version
 func (r *RequestVersion) Handle() gin.HandlerFunc {
-	enable := r.config.GetBool(config2.GetConfigPath(server.Application, server.Version, server.Enable))
+	enable := r.config.GetBool(configer.GetConfigPath(server.Application, server.Version, server.Enable))
 	if enable {
-		key := r.config.GetString(config2.GetConfigPath(config2.Application, server.Version, server.Key))
-		value := r.config.GetString(config2.GetConfigPath(config2.Application, server.Version, server.Value))
+		key := r.config.GetString(configer.GetConfigPath(server.Application, server.Version, server.Key))
+		value := r.config.GetString(configer.GetConfigPath(server.Application, server.Version, server.Value))
 		return func(c *gin.Context) {
 			c.Writer.Header().Set(key, value)
 			c.Next()

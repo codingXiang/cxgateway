@@ -118,7 +118,7 @@ type (
 	}
 )
 
-func NewI18nMsg(module string) I18nMsgInterface {
+func NewI18nMsg(module string) *I18nMsg {
 	return &I18nMsg{
 		Module: module,
 	}
@@ -161,23 +161,23 @@ func (i *I18nMsg) ParamRequiredError(data map[string]interface{}) string {
  */
 
 func (i *I18nMsg) Get(isSuccess bool, data map[string]interface{}) string {
-	return i.handlMsg(GET, isSuccess, data)
+	return i.handleMsg(GET, isSuccess, data)
 }
 
 func (i *I18nMsg) Create(isSuccess bool, data map[string]interface{}) string {
-	return i.handlMsg(CREATE, isSuccess, data)
+	return i.handleMsg(CREATE, isSuccess, data)
 }
 
 func (i *I18nMsg) Update(isSuccess bool, data map[string]interface{}) string {
-	return i.handlMsg(UPDATE, isSuccess, data)
+	return i.handleMsg(UPDATE, isSuccess, data)
 }
 
 func (i *I18nMsg) Modify(isSuccess bool, data map[string]interface{}) string {
-	return i.handlMsg(MODIFY, isSuccess, data)
+	return i.handleMsg(MODIFY, isSuccess, data)
 }
 
 func (i *I18nMsg) Delete(isSuccess bool, data map[string]interface{}) string {
-	return i.handlMsg(DELETE, isSuccess, data)
+	return i.handleMsg(DELETE, isSuccess, data)
 }
 
 func (i *I18nMsg) Append(isSuccess bool, module string, data map[string]interface{}) string {
@@ -185,7 +185,7 @@ func (i *I18nMsg) Append(isSuccess bool, module string, data map[string]interfac
 		data = map[string]interface{}{}
 	}
 	data["object"] = i.GetModule(module)
-	return i.handlMsg(APPEND, isSuccess, data)
+	return i.handleMsg(APPEND, isSuccess, data)
 }
 
 func (i *I18nMsg) Remove(isSuccess bool, module string, data map[string]interface{}) string {
@@ -193,10 +193,10 @@ func (i *I18nMsg) Remove(isSuccess bool, module string, data map[string]interfac
 		data = map[string]interface{}{}
 	}
 	data["object"] = i.GetModule(module)
-	return i.handlMsg(REMOVE, isSuccess, data)
+	return i.handleMsg(REMOVE, isSuccess, data)
 }
 
-func (i *I18nMsg) handlMsg(method string, isSuccess bool, data map[string]interface{}) string {
+func (i *I18nMsg) handleMsg(method string, isSuccess bool, data map[string]interface{}) string {
 	info := map[string]interface{}{}
 	if data["object"] != nil {
 		info["object"] = data["object"]

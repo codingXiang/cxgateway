@@ -29,7 +29,7 @@ func NewRequestHandler() RequestHandlerInterface {
 func (r *RequestHandler) BindBody(c *gin.Context, body interface{}) error {
 	var err = c.Bind(&body)
 	if err != nil {
-		return e.ParameterError("error parameter, please check your parameter again.")
+		return e.StatusBadRequest("error parameter, please check your parameter again.")
 	}
 	return nil
 }
@@ -38,7 +38,7 @@ func (r *RequestHandler) BindBody(c *gin.Context, body interface{}) error {
 func (r *RequestHandler) ValidValidation(v *validation.Validation) error {
 	if v.HasErrors() {
 		for _, err := range v.Errors {
-			return e.ParameterError(fmt.Sprintf("parameter `%s` %s.", err.Key, err.Message))
+			return e.StatusBadRequest(fmt.Sprintf("parameter `%s` %s.", err.Key, err.Message))
 		}
 	}
 	return nil

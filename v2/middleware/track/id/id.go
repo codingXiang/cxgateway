@@ -2,9 +2,9 @@ package id
 
 import (
 	"fmt"
+	"github.com/codingXiang/configer/v2"
 	"github.com/codingXiang/cxgateway/v2/middleware"
 	"github.com/codingXiang/cxgateway/v2/server"
-	config2 "github.com/codingXiang/cxgateway/v2/util/config"
 	"github.com/gin-gonic/gin"
 	uuid "github.com/satori/go.uuid"
 	"github.com/spf13/viper"
@@ -22,7 +22,7 @@ func New(config *viper.Viper) middleware.Object {
 }
 
 func (r *RequestID) Handle() gin.HandlerFunc {
-	id := r.config.GetString(config2.GetConfigPath(server.Application, server.AppId))
+	id := r.config.GetString(configer.GetConfigPath(server.Application, server.AppId))
 	if id == "" {
 		return func(c *gin.Context) {
 			c.Next()

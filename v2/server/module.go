@@ -6,18 +6,18 @@ import (
 
 type HttpModule interface {
 	SetI18n(moduleName string)
-	GetI18n() i18n.I18nMessageHandlerInterface
+	GetI18n() *i18n.I18nMessageHandler
 	SetGateway(s *Server)
 	GetGateway() *Server
 	Setup()
 }
 
 type Http struct {
-	i18nMsg i18n.I18nMessageHandlerInterface
+	i18nMsg *i18n.I18nMessageHandler
 	gateway *Server
 }
 
-func (h *Http) GetI18n() i18n.I18nMessageHandlerInterface {
+func (h *Http) GetI18n() *i18n.I18nMessageHandler {
 	return h.i18nMsg
 }
 func (h *Http) SetI18n(n string) {
