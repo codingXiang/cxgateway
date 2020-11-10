@@ -24,6 +24,7 @@ type Server struct {
 	api        *gin.RouterGroup
 	server     *http.Server
 	i18n       gogo_i18n.LanguageHandlerInterface
+	appId      string
 	uploadPath string
 }
 
@@ -47,6 +48,7 @@ func New(engine *gin.Engine, config *viper.Viper) *Server {
 	}
 
 	var (
+		appId        = config.GetString(config2.GetConfigPath(Application, AppId))
 		port         = config.GetInt(config2.GetConfigPath(Application, Port))           //伺服器的 port
 		writeTimeout = config.GetInt(config2.GetConfigPath(Application, Timeout, Write)) //伺服器的寫入超時時間
 		readTimeout  = config.GetInt(config2.GetConfigPath(Application, Timeout, Read))  //伺服器讀取超時時間
@@ -59,6 +61,7 @@ func New(engine *gin.Engine, config *viper.Viper) *Server {
 		WriteTimeout:   time.Duration(writeTimeout) * time.Second,
 		MaxHeaderBytes: 1 << 20,
 	}
+	s.appId = appId
 	s.uploadPath = config.GetString(config2.GetConfigPath(Application, UploadPath))
 	return s
 }
@@ -73,6 +76,10 @@ func (s *Server) GetApiRoute() *gin.RouterGroup {
 
 func (s *Server) GetServer() *http.Server {
 	return s.server
+}
+
+func (s *Server) GetAppID() string {
+	return s.appId
 }
 
 //Run 運行 Server
