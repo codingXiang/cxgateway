@@ -3,7 +3,7 @@ package main
 import (
 	"github.com/codingXiang/configer/v2"
 	"github.com/codingXiang/cxgateway/v2/middleware/i18n"
-	"github.com/codingXiang/cxgateway/v2/middleware/log"
+	"github.com/codingXiang/cxgateway/v2/middleware/logger"
 	"github.com/codingXiang/cxgateway/v2/middleware/track/id"
 	"github.com/codingXiang/cxgateway/v2/middleware/track/version"
 	http2 "github.com/codingXiang/cxgateway/v2/module/auto_register/delivery/http"
