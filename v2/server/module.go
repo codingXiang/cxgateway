@@ -17,6 +17,12 @@ type Http struct {
 	gateway *Server
 }
 
+func NewHttp(n string) *Http {
+	return &Http{
+		i18nMsg: i18n.NewI18nMessageHandler(n),
+	}
+}
+
 func (h *Http) GetI18n() *i18n.I18nMessageHandler {
 	return h.i18nMsg
 }
