@@ -25,12 +25,6 @@ type Server struct {
 	uploadPath string
 }
 
-func Default() *Server {
-	config, _ := configer.NewCoreWithData(configer.YAML, DefaultConfig).ReadConfig()
-	s := New(nil, config)
-	return s
-}
-
 func New(engine *gin.Engine, config *viper.Viper) *Server {
 	s := new(Server)
 	//設定 gin 啟動模式
@@ -105,4 +99,8 @@ func (s *Server) AddModule(modules ...HttpModule) error {
 		m.Setup()
 	}
 	return nil
+}
+
+func (s *Server) GetConfig() *viper.Viper {
+	return s.config
 }
