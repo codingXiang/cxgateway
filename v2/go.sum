@@ -50,6 +50,8 @@ github.com/codingXiang/configer/v2 v2.0.1 h1:6mK2zDP087/d+3uEbVGsosbgwPAYBS1ZpPr
 github.com/codingXiang/configer/v2 v2.0.1/go.mod h1:DeZph2rxwENwvs3C+BVw644W3uQt+zTwppg0SNzzCO0=
 github.com/codingXiang/configer/v2 v2.0.2 h1:4miCcw99TsJ0n7uYc3xdfUwZ9Mqrcqd/3+uvH9ulC38=
 github.com/codingXiang/configer/v2 v2.0.2/go.mod h1:DeZph2rxwENwvs3C+BVw644W3uQt+zTwppg0SNzzCO0=
+github.com/codingXiang/configer/v2 v2.0.3 h1:LYKJOb36IxQRstbzQ9ppn/pQPfeOVlhwXG1fbKu7Qsk=
+github.com/codingXiang/configer/v2 v2.0.3/go.mod h1:DeZph2rxwENwvs3C+BVw644W3uQt+zTwppg0SNzzCO0=
 github.com/codingXiang/cxgateway v1.1.0 h1:6Jpha1YjzqHV18i3FH1pOrWKFikptJiaz0LnyY0Uuw8=
 github.com/codingXiang/go-logger v1.0.0 h1:0jDfu5Dysa9Wvt8VR22Juz+dqR7fWRnxQwZEYfrphuM=
 github.com/codingXiang/go-logger v1.0.0/go.mod h1:qYgivc8J4H7zK5hpZUiUsCdNDpaI4dACjGCFuDbG9Wg=
@@ -63,6 +65,10 @@ github.com/codingXiang/go-logger/v2 v2.0.2 h1:yhMb0DfMMEJbdbf+QUfnwcPgN/mhSDyoVh
 github.com/codingXiang/go-logger/v2 v2.0.2/go.mod h1:m7GLFuuT+OuTInkbmFdLyZTlPQjnInaok13NM6KepCo=
 github.com/codingXiang/go-logger/v2 v2.0.3 h1:kfB20qOP4cT37/8a83nJrSWfRQ+v9X26xsibuli3wG4=
 github.com/codingXiang/go-logger/v2 v2.0.3/go.mod h1:m7GLFuuT+OuTInkbmFdLyZTlPQjnInaok13NM6KepCo=
+github.com/codingXiang/go-logger/v2 v2.0.4 h1:xQJAvy6gNPS7mvHrXrnjDTJZjzswXioA+2c9dOFKecc=
+github.com/codingXiang/go-logger/v2 v2.0.4/go.mod h1:jCqcmKAVHBn0usWaRxNtx21IDrfVf82w2k8gdKReriA=
+github.com/codingXiang/go-logger/v2 v2.0.5 h1:53yraElcWQ07Uj0EYUR+In+ZUM3ddy7hl3+xsVUD1Go=
+github.com/codingXiang/go-logger/v2 v2.0.5/go.mod h1:+UIHXhWCx4RPxyyI1wUjQrk8MqIOEDJ8CwSAY+if6RU=
 github.com/codingXiang/go-orm v1.0.7 h1:Hapg4PT4JuSYZNvBYTLoTYnSDT1UOOtDO2Khq8dNQY4=
 github.com/codingXiang/go-orm v1.0.7/go.mod h1:KFuYq6gfteQXvuHoribh5CQ2wR+tSK4PjpwsmCPbTGg=
 github.com/codingXiang/go-orm/v2 v2.0.0-20201110085628-a0718e82c99e h1:IA2S9SbqrRAUP6t6dRBel0L1ngMkcMan1OrGCJ5MmNY=

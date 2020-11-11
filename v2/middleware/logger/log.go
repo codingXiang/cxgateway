@@ -29,9 +29,9 @@ func (c *Log) Handle() gin.HandlerFunc {
 		hostname = "unknown"
 	}
 	if c.config == nil{
-		server.Log = logger.Default()
+		logger.Log = logger.Default()
 	} else {
-		server.Log = logger.New(c.config)
+		logger.Log = logger.New(c.config)
 	}
 	return func(c *gin.Context) {
 		// other handler can change c.Path so:
