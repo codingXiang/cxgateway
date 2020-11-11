@@ -46,6 +46,10 @@ github.com/codingXiang/configer/v2 v2.0.0-20201109090430-f809086ede4f h1:+nWqVOa
 github.com/codingXiang/configer/v2 v2.0.0-20201109090430-f809086ede4f/go.mod h1:DeZph2rxwENwvs3C+BVw644W3uQt+zTwppg0SNzzCO0=
 github.com/codingXiang/configer/v2 v2.0.0 h1:HgTRooMC8bEOUy2vUX44+FVWyufiSwd/xcRPzfdIGwY=
 github.com/codingXiang/configer/v2 v2.0.0/go.mod h1:DeZph2rxwENwvs3C+BVw644W3uQt+zTwppg0SNzzCO0=
+github.com/codingXiang/configer/v2 v2.0.1 h1:6mK2zDP087/d+3uEbVGsosbgwPAYBS1ZpPrTayDoiE4=
+github.com/codingXiang/configer/v2 v2.0.1/go.mod h1:DeZph2rxwENwvs3C+BVw644W3uQt+zTwppg0SNzzCO0=
+github.com/codingXiang/configer/v2 v2.0.2 h1:4miCcw99TsJ0n7uYc3xdfUwZ9Mqrcqd/3+uvH9ulC38=
+github.com/codingXiang/configer/v2 v2.0.2/go.mod h1:DeZph2rxwENwvs3C+BVw644W3uQt+zTwppg0SNzzCO0=
 github.com/codingXiang/cxgateway v1.1.0 h1:6Jpha1YjzqHV18i3FH1pOrWKFikptJiaz0LnyY0Uuw8=
 github.com/codingXiang/go-logger v1.0.0 h1:0jDfu5Dysa9Wvt8VR22Juz+dqR7fWRnxQwZEYfrphuM=
 github.com/codingXiang/go-logger v1.0.0/go.mod h1:qYgivc8J4H7zK5hpZUiUsCdNDpaI4dACjGCFuDbG9Wg=

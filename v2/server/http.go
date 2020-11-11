@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"github.com/codingXiang/configer/v2"
 	"github.com/codingXiang/cxgateway/v2/middleware"
-	"github.com/codingXiang/go-logger/v2"
 	gogo_i18n "github.com/codingXiang/gogo-i18n"
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/viper"
@@ -14,7 +13,6 @@ import (
 
 var (
 	Gateway *Server
-	Log     *logger.Logger
 )
 
 type Server struct {
@@ -28,7 +26,7 @@ type Server struct {
 }
 
 func Default() *Server {
-	config, _ := configer.NewCoreWithData(DefaultConfig).ReadConfig()
+	config, _ := configer.NewCoreWithData(configer.YAML, DefaultConfig).ReadConfig()
 	s := New(nil, config)
 	return s
 }

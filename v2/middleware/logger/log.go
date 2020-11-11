@@ -49,7 +49,7 @@ func (c *Log) Handle() gin.HandlerFunc {
 			dataLength = 0
 		}
 
-		entry := server.Log.WithFields(logrus.Fields{
+		entry := logger.Log.WithFields(logrus.Fields{
 			"hostname":   hostname,
 			"statusCode": statusCode,
 			"latency":    latency, // time to process

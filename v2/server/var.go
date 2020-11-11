@@ -36,6 +36,7 @@ const (
 )
 
 var DefaultConfig = []byte(`cors:
+  default: true
   allowAllOrigin: true
   allowOrigins: "*"
   allowHeaders: "*"
@@ -47,8 +48,8 @@ application:
   port: 9999
   uploadPath: "./upload"
   mode: "debug"
-  appId: ""
-  appToken: ""
+  appId: "false"
+  appToken: ""git 
   apiBaseRoute: "/api"
   version:
     enable: true
@@ -63,5 +64,6 @@ i18n:
 log:
   level: "debug"
   format: "json"
+  maxAge: 7
   path: "log"
   filename: "gateway.log"`)
