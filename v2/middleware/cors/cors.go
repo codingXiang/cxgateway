@@ -47,9 +47,9 @@ func NewConfig(data *viper.Viper) cors.Config {
 	if allowAllOrigin {
 		config.AllowAllOrigins = allowAllOrigin
 	} else {
-		config.AllowOrigins = strings.Split(configer.GetConfigPath(server.Cors, server.AllowOrigins), ",")
+		config.AllowOrigins = strings.Split(data.GetString(configer.GetConfigPath(server.Cors, server.AllowOrigins)), ",")
 	}
-	config.AllowHeaders = strings.Split(configer.GetConfigPath(server.Cors, server.AllowHeaders), ",")
-	config.AllowMethods = strings.Split(configer.GetConfigPath(server.Cors, server.AllowMethods), ",")
+	config.AllowHeaders = strings.Split(data.GetString(configer.GetConfigPath(server.Cors, server.AllowHeaders)), ",")
+	config.AllowMethods = strings.Split(data.GetString(configer.GetConfigPath(server.Cors, server.AllowMethods)), ",")
 	return config
 }
