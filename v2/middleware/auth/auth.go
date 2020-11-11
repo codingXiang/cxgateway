@@ -30,7 +30,7 @@ const (
 
 const (
 	_data     = "data"
-	_metadata = "metadata"
+	_metadata = "metaData"
 	_user     = "user"
 	_role     = "role"
 )
