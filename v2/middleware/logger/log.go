@@ -23,6 +23,14 @@ func New(config *viper.Viper) middleware.Object {
 	}
 }
 
+func (c *Log) GetConfig() *viper.Viper {
+	return c.config
+}
+
+func (c *Log) SetConfig(config *viper.Viper) {
+	c.config = config
+}
+
 func (c *Log) Handle() gin.HandlerFunc {
 	hostname, err := os.Hostname()
 	if err != nil {

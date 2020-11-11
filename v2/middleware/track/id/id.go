@@ -21,6 +21,15 @@ func New(config *viper.Viper) middleware.Object {
 	}
 }
 
+func (c *RequestID) GetConfig() *viper.Viper {
+	return c.config
+}
+
+
+func (r *RequestID) SetConfig(config *viper.Viper) {
+	r.config = config
+}
+
 func (r *RequestID) Handle() gin.HandlerFunc {
 	id := r.config.GetString(configer.GetConfigPath(server.Application, server.AppId))
 	if id == "" {

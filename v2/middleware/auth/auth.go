@@ -47,6 +47,14 @@ func New(appId string, config *viper.Viper) middleware.Object {
 	}
 }
 
+func (c *Auth) GetConfig() *viper.Viper {
+	return c.config
+}
+
+func (a *Auth) SetConfig(config *viper.Viper) {
+	a.config = config
+}
+
 func (a *Auth) Handle() gin.HandlerFunc {
 	var (
 		enable = a.config.GetBool(configer.GetConfigPath(_auth, _enable))

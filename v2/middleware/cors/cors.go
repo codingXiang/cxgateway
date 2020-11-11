@@ -21,6 +21,15 @@ func New(config *viper.Viper) middleware.Object {
 
 }
 
+func (c *Cors) GetConfig() *viper.Viper {
+	return c.config
+}
+
+
+func (c *Cors) SetConfig(config *viper.Viper) {
+	c.config = config
+}
+
 func (c *Cors) Handle() gin.HandlerFunc {
 	if c.config.GetBool(server.Default_) {
 		return cors.Default()

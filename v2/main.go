@@ -37,8 +37,8 @@ func main() {
 	if config, err := configer.Config.GetCore(CONFIG).ReadConfig(); err == nil {
 		server.Gateway = server.New(nil, config)
 		server.Gateway.Use(
-			log.New(config),
-			version.New(config),
+			log.New(nil),
+			version.New(nil),
 			id.New(config),
 			i18n.New(config),
 			cache.New(),

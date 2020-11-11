@@ -85,6 +85,9 @@ func (s *Server) Stop() {
 
 func (s *Server) Use(handle ...middleware.Object) *gin.Engine {
 	for _, h := range handle {
+		if h.GetConfig() == nil {
+			h.SetConfig(s.GetConfig())
+		}
 		s.GetEngine().Use(h.Handle())
 	}
 	// 設定 api routing

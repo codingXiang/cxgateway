@@ -19,6 +19,15 @@ func New(config *viper.Viper) middleware.Object {
 	}
 }
 
+func (c *I18n) GetConfig() *viper.Viper {
+	return c.config
+}
+
+
+func (r *I18n) SetConfig(config *viper.Viper) {
+	r.config = config
+}
+
 //Version
 func (r *I18n) Handle() gin.HandlerFunc {
 	if r.config.GetBool(configer.GetConfigPath(server.I18n, server.Enable)) {

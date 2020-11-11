@@ -3,6 +3,7 @@ package cache
 import (
 	"github.com/codingXiang/cxgateway/v2/middleware"
 	"github.com/gin-gonic/gin"
+	"github.com/spf13/viper"
 	"strconv"
 )
 
@@ -15,6 +16,14 @@ type Cache struct{}
 
 func New() middleware.Object {
 	return new(Cache)
+}
+
+func (*Cache) SetConfig(config *viper.Viper) {
+
+}
+
+func (c *Cache) GetConfig() *viper.Viper {
+	return viper.New()
 }
 
 func (c *Cache) Handle() gin.HandlerFunc {
