@@ -1,0 +1,11 @@
+etcd:
+  endpoints: "127.0.0.1:32770"
+  username: ""
+  password: ""
+  dialTimeout: 5
+register:
+  prefix: "/app/component/"
+  key: "example"
+  name: "cxgateway v2"
+  addr: "http://127.0.0.1:9999"
+  lease: 5

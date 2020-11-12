@@ -2,8 +2,11 @@ package main
 
 import (
 	"github.com/codingXiang/configer/v2"
+	example2 "github.com/codingXiang/cxgateway/v2/example/grpc/pb"
+	grpc2 "github.com/codingXiang/cxgateway/v2/example/grpc/server"
 	"github.com/codingXiang/cxgateway/v2/middleware/auth"
 	"github.com/codingXiang/cxgateway/v2/middleware/cache"
+	"github.com/codingXiang/cxgateway/v2/middleware/cors"
 	"github.com/codingXiang/cxgateway/v2/middleware/i18n"
 	"github.com/codingXiang/cxgateway/v2/middleware/logger"
 	"github.com/codingXiang/cxgateway/v2/middleware/track/id"
@@ -11,14 +14,21 @@ import (
 	http2 "github.com/codingXiang/cxgateway/v2/module/auto_register/delivery/http"
 	"github.com/codingXiang/cxgateway/v2/module/auto_register/repository"
 	"github.com/codingXiang/cxgateway/v2/module/auto_register/service"
+	"github.com/codingXiang/cxgateway/v2/module/service_discovery"
 	"github.com/codingXiang/cxgateway/v2/server"
+	"github.com/codingXiang/cxgateway/v2/server/grpc"
+	"github.com/codingXiang/go-logger"
+	"github.com/gin-gonic/gin"
+	"net/http"
 )
 
 const (
-	CONFIG_PATH = "./config"
-	CONFIG      = "config"
-	AUTH        = "auth"
-	AUTO        = "registration"
+	CONFIG_PATH       = "./config"
+	CONFIG            = "config"
+	AUTH              = "auth"
+	AUTO              = "registration"
+	GRPC              = "grpc"
+	SERVICE_DISCOVERY = "service_discovery"
 )
 
 func init() {
@@ -31,12 +41,21 @@ func init() {
 
 	auth := configer.NewCore(configer.YAML, AUTH, CONFIG_PATH)
 	configer.Config.AddCore(AUTH, auth)
+
+	grpc := configer.NewCore(configer.YAML, GRPC, CONFIG_PATH)
+	configer.Config.AddCore(GRPC, grpc)
 }
 
 func main() {
+
+	service_discovery.Init(configer.YAML, SERVICE_DISCOVERY, CONFIG_PATH)
+	service_discovery.StartWatch("/service/backend/")
 	if config, err := configer.Config.GetCore(CONFIG).ReadConfig(); err == nil {
+		logger.Log = logger.NewLoggerWithConfiger(config)
 		server.Gateway = server.New(nil, config)
 		server.Gateway.Use(
+			auth.New(server.Gateway.GetAppID(), nil),
+			cors.New(nil),
 			log.New(nil),
 			version.New(nil),
 			id.New(config),
@@ -70,5 +89,22 @@ func main() {
 	} else {
 		panic(err.Error())
 	}
+
+	// grpc service 範例
+	{
+		if config, err := configer.Config.GetCore(GRPC).ReadConfig(); err == nil {
+			grpc.Gateway = grpc.New(nil, config)
+		}
+		example := grpc2.NewExampleService()
+		example2.RegisterExampleServiceServer(grpc.Gateway.GetServer(), example)
+		grpc.Gateway.RunBackground()
+	}
+	server.Gateway.GetEngine().Use(func(c *gin.Context) {
+		method := c.Request.Method
+		url := c.Request.URL
+		logger.Log.Debug(method, url)
+	}).GET("/api/v1/test/test", func(context *gin.Context) {
+		context.JSON(http.StatusOK, "test")
+	})
 	server.Gateway.Run()
 }
