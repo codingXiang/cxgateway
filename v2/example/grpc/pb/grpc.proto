@@ -1,0 +1,19 @@
+syntax = "proto3";
+option go_package = "example";
+import "google/protobuf/struct.proto";
+
+service ExampleService {
+    rpc Add(Request) returns(Reply){}
+    rpc Remove(Request) returns(Reply){}
+}
+
+
+message Request {
+    string id = 1;
+    google.protobuf.Struct args = 2;
+}
+
+message Reply {
+    string id = 1;
+    google.protobuf.Struct args = 2;
+}
