@@ -7,6 +7,7 @@ import (
 	"github.com/codingXiang/service-discovery/register"
 	"github.com/codingXiang/service-discovery/util"
 	"strings"
+	"time"
 )
 
 var ServiceDiscovery *discovery.ServiceDiscovery
@@ -46,11 +47,26 @@ func Init(_type configer.FileType, configName string, path ...string) {
 		}
 
 		ServiceDiscovery = discovery.New(auth)
+		go healthCheck(auth, info.New(prefix, key, name, addr), lease)
+	}
+}
 
-		if r, err := register.New(auth, info.New(prefix, key, name, addr), lease); err == nil {
-			Register = r
-		} else {
+func healthCheck(auth *util.ETCDAuth, i *info.ServiceInfo, lease int64) {
+	exec := func() {
+		o, err := ServiceDiscovery.GetServiceValue(i.Prefix + i.Key)
+		if o == nil || err != nil {
+			if r, err := register.New(auth, i, lease); err == nil {
+				Register = r
+			} else {
 
+			}
+		}
+	}
+	exec()
+	for {
+		select {
+		case <-time.Tick(10 * time.Second):
+			exec()
 		}
 	}
 }
