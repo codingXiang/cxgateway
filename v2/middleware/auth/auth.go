@@ -5,6 +5,7 @@ import (
 	"github.com/codingXiang/configer/v2"
 	"github.com/codingXiang/cxgateway/v2/middleware"
 	"github.com/codingXiang/cxgateway/v2/model"
+	"github.com/codingXiang/cxgateway/v2/module/service_discovery"
 	"github.com/codingXiang/cxgateway/v2/util/e"
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/viper"
@@ -61,13 +62,22 @@ func (a *Auth) Handle() gin.HandlerFunc {
 		//直接通過的 key（ app 專用 )
 		disregardKey = a.config.GetString(configer.GetConfigPath(_auth, _disregard, _key))
 		//取得 auth server 資料
-		permissionApi = a.config.GetString(configer.GetConfigPath(_auth, _server)) + a.config.GetString(configer.GetConfigPath(_auth, _permissionCheck, _path))
+		//permissionApi = a.config.GetString(configer.GetConfigPath(_auth, _server)) + a.config.GetString(configer.GetConfigPath(_auth, _permissionCheck, _path))
+		permissionApiRouting = a.config.GetString(configer.GetConfigPath(_auth, _permissionCheck, _path))
 		method        = a.config.GetString(configer.GetConfigPath(_auth, _permissionCheck, _method))
 	)
 	if enable {
 		return func(c *gin.Context) {
 
 			//判斷是否有直接通過的 key 在 header
+			info, err := service_discovery.ServiceDiscovery.GetServiceValue("/ops/component/ams")
+			if info == nil {
+				c.AbortWithStatusJSON(http.StatusForbidden, gin.H{
+					"errMsg": "ams 尚未部署，請檢查部署狀態！",
+				})
+				return
+			}
+			permissionApi := info.Addr + permissionApiRouting
 
 			if key := c.GetHeader(strings.Join([]string{_auth, _disregard, _key}, _symbol)); key != "" {
 				if key == disregardKey {

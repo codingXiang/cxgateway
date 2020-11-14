@@ -5,4 +5,4 @@ auth:
     method: "POST"
   disregard:
     key: "88224466ab"
-  enable: false
+  enable: true
