@@ -5,6 +5,7 @@ import (
 	"github.com/codingXiang/service-discovery/discovery"
 	"github.com/codingXiang/service-discovery/info"
 	"github.com/codingXiang/service-discovery/register"
+	"github.com/codingXiang/service-discovery/util"
 	"strings"
 )
 
@@ -14,6 +15,8 @@ var Register *register.ServiceRegister
 const (
 	_etcd      = "etcd"
 	_endpoints = "endpoints"
+	_username  = "username"
+	_password  = "password"
 )
 
 const (
@@ -28,15 +31,23 @@ const (
 func Init(_type configer.FileType, configName string, path ...string) {
 	if config, err := configer.NewCore(_type, configName, path...).ReadConfig(); err == nil {
 		endpoints := strings.Split(config.GetString(configer.GetConfigPath(_etcd, _endpoints)), ",")
+		username := config.GetString(configer.GetConfigPath(_etcd, _username))
+		password := config.GetString(configer.GetConfigPath(_etcd, _password))
 		lease := config.GetInt64(configer.GetConfigPath(_register, _leave))
 		prefix := config.GetString(configer.GetConfigPath(_register, _prefix))
 		name := config.GetString(configer.GetConfigPath(_register, _name))
 		key := config.GetString(configer.GetConfigPath(_register, _key))
 		addr := config.GetString(configer.GetConfigPath(_register, _addr))
 
-		ServiceDiscovery = discovery.New(endpoints)
+		auth := &util.ETCDAuth{
+			Endpoints: endpoints,
+			Username:  username,
+			Password:  password,
+		}
 
-		if r, err := register.New(endpoints, info.New(prefix, key, name, addr), lease); err == nil {
+		ServiceDiscovery = discovery.New(auth)
+
+		if r, err := register.New(auth, info.New(prefix, key, name, addr), lease); err == nil {
 			Register = r
 		} else {
 
@@ -46,4 +57,8 @@ func Init(_type configer.FileType, configName string, path ...string) {
 
 func StartWatch(prefix string) {
 	ServiceDiscovery.WatchService(prefix)
+}
+
+func StartWatchBackground(prefix string) {
+	go StartWatch(prefix)
 }

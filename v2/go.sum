@@ -78,8 +78,8 @@ github.com/codingXiang/go-orm/v2 v2.0.0 h1:NsI3IxwywrENcSMjj/AqcQkEoupkVrnCOArhS
 github.com/codingXiang/go-orm/v2 v2.0.0/go.mod h1:CW2NtrplSJRYaWwMhWwMtEygsuUwILoXTIJZWJEc5ko=
 github.com/codingXiang/gogo-i18n v1.0.2-0.20200417093325-c191114c00c4 h1:+r68mbuh5uG5/ymWFPP5zaNWhyx2fa1A2IukD5Z2ns8=
 github.com/codingXiang/gogo-i18n v1.0.2-0.20200417093325-c191114c00c4/go.mod h1:0ZyAThznpOQp5tY7nuX/YDZ/DqMjzXs2HKedRLUmXxg=
-github.com/codingXiang/service-discovery v0.0.0-20201112091739-5e482e399760 h1:WOTq3sOQVoKz04cwmV9FJx+L9144n2aGoge1Lt0UrvI=
-github.com/codingXiang/service-discovery v0.0.0-20201112091739-5e482e399760/go.mod h1:2HYB9scfgNUgVVkLk422Sz+PnA7MPdsireBoyxWyrC0=
+github.com/codingXiang/service-discovery v1.0.0 h1:AcWst53iIMhtKwHdrUD5zX4eS27suZPXMgiz39KiL2Q=
+github.com/codingXiang/service-discovery v1.0.0/go.mod h1:2HYB9scfgNUgVVkLk422Sz+PnA7MPdsireBoyxWyrC0=
 github.com/coreos/bbolt v1.3.2/go.mod h1:iRUV2dpdMOn7Bo10OQBFzIJO9kkE559Wcmn+qkEiiKk=
 github.com/coreos/etcd v3.3.10+incompatible/go.mod h1:uF7uidLiAD3TWHmW31ZFd/JWoc32PjwdhPthX9715RE=
 github.com/coreos/etcd v3.3.13+incompatible h1:8F3hqu9fGYLBifCmRCJsicFqDx/D68Rt3q1JMazcgBQ=

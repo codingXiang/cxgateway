@@ -1,7 +1,7 @@
 etcd:
-  endpoints: "127.0.0.1:32770"
-  username: ""
-  password: ""
+  endpoints: "127.0.0.1:2379"
+  username: "root"
+  password: "a12345"
   dialTimeout: 5
 register:
   prefix: "/app/component/"
