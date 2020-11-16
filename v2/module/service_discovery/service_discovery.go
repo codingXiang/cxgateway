@@ -29,8 +29,10 @@ const (
 	_leave    = "leave"
 )
 
-func Init(_type configer.FileType, configName string, path ...string) {
-	if config, err := configer.NewCore(_type, configName, path...).ReadConfig(); err == nil {
+func Init(prefix string, _type configer.FileType, configName string, path ...string) {
+	c := configer.NewCore(_type, configName, path...)
+	c.SetAutomaticEnv(prefix, ".", "_")
+	if config, err := c.ReadConfig(); err == nil {
 		endpoints := strings.Split(config.GetString(configer.GetConfigPath(_etcd, _endpoints)), ",")
 		username := config.GetString(configer.GetConfigPath(_etcd, _username))
 		password := config.GetString(configer.GetConfigPath(_etcd, _password))
