@@ -45,7 +45,7 @@ func init() {
 
 func main() {
 
-	service_discovery.Init(configer.YAML, SERVICE_DISCOVERY, CONFIG_PATH)
+	service_discovery.Init("", configer.YAML, SERVICE_DISCOVERY, CONFIG_PATH)
 	service_discovery.StartWatchBackground("/service/backend/")
 	if config, err := configer.Config.GetCore(CONFIG).ReadConfig(); err == nil {
 		logger.Log = logger.NewLoggerWithConfiger(config)
