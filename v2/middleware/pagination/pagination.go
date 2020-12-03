@@ -1,9 +1,13 @@
 package pagination
 
 import (
+	"errors"
 	"github.com/codingXiang/cxgateway/v2/middleware"
+	"github.com/codingXiang/cxgateway/v2/util/e"
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/viper"
+	"net/http"
+	"strconv"
 )
 
 const (
@@ -28,14 +32,42 @@ func (c *Handler) GetConfig() *viper.Viper {
 
 func (c *Handler) Handle() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		data := make(map[string]interface{})
-		if in, isExist := c.GetQuery(PAGE_SIZE); isExist {
-			data[PAGE_SIZE] = in
+		exceptionMsg := &e.APIException{
+			Code:      http.StatusBadRequest,
+			ErrorCode: http.StatusBadRequest,
+			Message:   "",
 		}
-		if in, isExist := c.GetQuery(PAGE); isExist {
-			data[PAGE] = in
+		data := make(map[string]interface{})
+		if d, err := setData(c, data, PAGE_SIZE); err == nil {
+			data = d
+		} else {
+			exceptionMsg.Message = err.Error()
+			c.AbortWithStatusJSON(http.StatusBadRequest, exceptionMsg)
+			return
+		}
+		if d, err := setData(c, data, PAGE); err == nil {
+			data = d
+		} else {
+			exceptionMsg.Message = err.Error()
+			c.AbortWithStatusJSON(http.StatusBadRequest, exceptionMsg)
+			return
 		}
 		c.Set(DATA, data)
 		c.Next()
 	}
+}
+
+func setData(c *gin.Context, data map[string]interface{}, key string) (map[string]interface{}, error) {
+	if in, isExist := c.GetQuery(key); isExist {
+		if isInt(in) != nil {
+			return data, errors.New(PAGE_SIZE + " must to be int")
+		}
+		data[PAGE_SIZE] = in
+	}
+	return data, nil
+}
+
+func isInt(in string) error {
+	_, err := strconv.Atoi(in)
+	return err
 }

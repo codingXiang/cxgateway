@@ -3,6 +3,7 @@ package util
 import (
 	"github.com/codingXiang/cxgateway/v2/middleware/pagination"
 	"github.com/jinzhu/gorm"
+	"strconv"
 )
 
 func Pagination(in *gorm.DB, data map[string]interface{}) (*gorm.DB, map[string]interface{}) {
@@ -17,11 +18,11 @@ func Pagination(in *gorm.DB, data map[string]interface{}) (*gorm.DB, map[string]
 		)
 
 		if in := data[pagination.PAGE_SIZE]; in != nil {
-			pageSize = in.(int)
+			pageSize, _ = strconv.Atoi(in.(string))
 			delete(data, pagination.PAGE_SIZE)
 		}
 		if in := data[pagination.PAGE]; in != nil {
-			page = in.(int)
+			page, _ = strconv.Atoi(in.(string))
 			delete(data, pagination.PAGE)
 		}
 		return in.Limit(pageSize).Offset((page - 1) * pageSize), data
