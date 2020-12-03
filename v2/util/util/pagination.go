@@ -6,6 +6,17 @@ import (
 	"strconv"
 )
 
+type PaginationData struct {
+	Total int         `json:"total"`
+	Data  interface{} `json:"data"`
+}
+
+func NewPaginationData(total int, data interface{}) *PaginationData {
+	return &PaginationData{
+		total, data,
+	}
+}
+
 //func Pagination(in *gorm.DB, data map[string]interface{}) (*gorm.DB, map[string]interface{}) {
 //	if data == nil {
 //		return in, data
