@@ -18,9 +18,11 @@ func Pagination(in *gorm.DB, data map[string]interface{}) *gorm.DB {
 
 		if in := data[pagination.PAGE_SIZE]; in != nil {
 			pageSize = in.(int)
+			delete(data, pagination.PAGE_SIZE)
 		}
-		if in := data[pagination.PAGE_SIZE]; in != nil {
+		if in := data[pagination.PAGE]; in != nil {
 			page = in.(int)
+			delete(data, pagination.PAGE)
 		}
 		return in.Limit(pageSize).Offset((page - 1) * pageSize)
 	}
