@@ -60,9 +60,9 @@ func (c *Handler) Handle() gin.HandlerFunc {
 func setData(c *gin.Context, data map[string]interface{}, key string) (map[string]interface{}, error) {
 	if in, isExist := c.GetQuery(key); isExist {
 		if isInt(in) != nil {
-			return data, errors.New(PAGE_SIZE + " must to be int")
+			return data, errors.New(key + " must to be int")
 		}
-		data[PAGE_SIZE] = in
+		data[key] = in
 	}
 	return data, nil
 }
