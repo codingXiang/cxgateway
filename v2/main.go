@@ -9,6 +9,7 @@ import (
 	"github.com/codingXiang/cxgateway/v2/middleware/cors"
 	"github.com/codingXiang/cxgateway/v2/middleware/i18n"
 	"github.com/codingXiang/cxgateway/v2/middleware/logger"
+	"github.com/codingXiang/cxgateway/v2/middleware/pagination"
 	"github.com/codingXiang/cxgateway/v2/middleware/track/id"
 	"github.com/codingXiang/cxgateway/v2/middleware/track/version"
 	"github.com/codingXiang/cxgateway/v2/module/service_discovery"
@@ -58,6 +59,7 @@ func main() {
 			id.New(config),
 			i18n.New(config),
 			cache.New(),
+			pagination.New(),
 		)
 	} else {
 		panic(err.Error())
