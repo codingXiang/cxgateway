@@ -5,11 +5,11 @@ import (
 	"github.com/jinzhu/gorm"
 )
 
-func Pagination(in *gorm.DB, data map[string]interface{}) *gorm.DB {
+func Pagination(in *gorm.DB, data map[string]interface{}) (*gorm.DB, map[string]interface{}) {
 	if data == nil {
-		return in
+		return in, data
 	} else if data[pagination.PAGE_SIZE] == nil && data[pagination.PAGE] == nil {
-		return in
+		return in, data
 	} else {
 		var (
 			pageSize = 10
@@ -24,6 +24,6 @@ func Pagination(in *gorm.DB, data map[string]interface{}) *gorm.DB {
 			page = in.(int)
 			delete(data, pagination.PAGE)
 		}
-		return in.Limit(pageSize).Offset((page - 1) * pageSize)
+		return in.Limit(pageSize).Offset((page - 1) * pageSize), data
 	}
 }
