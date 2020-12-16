@@ -11,9 +11,9 @@ require (
 	github.com/codingXiang/go-logger v1.0.2
 	github.com/codingXiang/go-logger/v2 v2.0.5
 	github.com/codingXiang/go-orm v1.0.7
-	github.com/codingXiang/go-orm/v2 v2.0.0
-	github.com/codingXiang/service-discovery v1.0.0
+	github.com/codingXiang/go-orm/v2 v2.0.9 // indirect
 	github.com/codingXiang/gogo-i18n v1.0.2-0.20200417093325-c191114c00c4
+	github.com/codingXiang/service-discovery v1.0.0
 	github.com/gin-contrib/cors v1.3.1
 	github.com/gin-gonic/gin v1.6.2
 	github.com/go-redis/redis v6.15.8+incompatible // indirect
