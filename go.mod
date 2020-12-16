@@ -7,7 +7,7 @@ require (
 	github.com/codingXiang/configer v1.0.2-0.20200513072245-ec8070de9a16
 	github.com/codingXiang/go-logger v1.0.2
 	github.com/codingXiang/go-orm v1.0.7
-	github.com/codingXiang/go-orm/v2 v2.0.8 // indirect
+	github.com/codingXiang/go-orm/v2 v2.0.9 // indirect
 	github.com/codingXiang/gogo-i18n v1.0.2-0.20200417093325-c191114c00c4
 	github.com/codingXiang/service-discovery v1.0.0 // indirect
 	github.com/gin-contrib/cors v1.3.1
