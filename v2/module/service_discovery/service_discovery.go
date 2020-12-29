@@ -2,12 +2,12 @@ package service_discovery
 
 import (
 	"github.com/codingXiang/configer/v2"
+	"github.com/codingXiang/go-logger"
 	"github.com/codingXiang/service-discovery/discovery"
 	"github.com/codingXiang/service-discovery/info"
 	"github.com/codingXiang/service-discovery/register"
 	"github.com/codingXiang/service-discovery/util"
 	"strings"
-	"time"
 )
 
 var ServiceDiscovery *discovery.ServiceDiscovery
@@ -49,32 +49,22 @@ func Init(prefix string, _type configer.FileType, configName string, path ...str
 		}
 
 		ServiceDiscovery = discovery.New(auth)
-		go healthCheck(auth, info.New(prefix, key, name, addr), lease)
+		healthCheck(auth, info.New(prefix, key, name, addr), lease)
 	}
 }
 
 func healthCheck(auth *util.ETCDAuth, i *info.ServiceInfo, lease int64) {
-	exec := func() {
-		o, err := ServiceDiscovery.GetServiceValue(i.Prefix + i.Key)
-		if o == nil || err != nil {
-			if r, err := register.New(auth, i, lease); err == nil {
-				Register = r
-			} else {
-
-			}
-		}
-	}
-	exec()
-	for {
-		select {
-		case <-time.Tick(10 * time.Second):
-			exec()
-		}
+	if r, err := register.New(auth, i, lease); err == nil {
+		Register = r
+	} else {
+		logger.Log.Error(err)
 	}
 }
 
-func StartWatch(prefix string) {
-	ServiceDiscovery.WatchService(prefix)
+func StartWatch(prefix string) error{
+	defer Register.Close()
+	defer ServiceDiscovery.Close()
+	return ServiceDiscovery.WatchService(prefix)
 }
 
 func StartWatchBackground(prefix string) {
