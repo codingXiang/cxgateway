@@ -11,9 +11,9 @@ import (
 
 type RequestHandlerInterface interface {
 	//BindBody : 綁定 body
-	BindBody(c *gin.Context, body interface{}) error
+	BindBody(c *gin.Context, body interface{}) (int, *response.Response)
 	//ValidValidation : 驗證表單資訊
-	ValidValidation(c *gin.Context, v *validation.Validation) error
+	ValidValidation(c *gin.Context, v *validation.Validation) (int, *response.Response)
 }
 
 type RequestHandler struct {
@@ -25,16 +25,16 @@ func NewRequestHandler() RequestHandlerInterface {
 }
 
 //BindBody : 綁定 body
-func (r *RequestHandler) BindBody(c *gin.Context, body interface{}) error {
+func (r *RequestHandler) BindBody(c *gin.Context, body interface{}) (int, *response.Response) {
 	var err = c.Bind(&body)
 	if err != nil {
 		return response.StatusBadRequest(c)
 	}
-	return nil
+	return http.StatusOK, nil
 }
 
 //ValidValidation : 驗證表單資訊
-func (r *RequestHandler) ValidValidation(c *gin.Context, v *validation.Validation) error {
+func (r *RequestHandler) ValidValidation(c *gin.Context, v *validation.Validation) (int, *response.Response) {
 	if v.HasErrors() {
 		var fails []string = make([]string, 0)
 		for _, err := range v.Errors {
@@ -42,7 +42,7 @@ func (r *RequestHandler) ValidValidation(c *gin.Context, v *validation.Validatio
 		}
 		return response.StatusBadRequest(c)
 	}
-	return nil
+	return http.StatusOK, nil
 }
 
 type RequesterInterface interface {
