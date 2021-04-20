@@ -2,7 +2,7 @@ package log
 
 import (
 	"fmt"
-	"github.com/codingXiang/cxgateway/v2/middleware"
+	"github.com/codingXiang/cxgateway/v3/middleware"
 	"github.com/codingXiang/cxgateway/v3/server"
 	"github.com/codingXiang/go-logger/v2"
 	"github.com/gin-gonic/gin"
