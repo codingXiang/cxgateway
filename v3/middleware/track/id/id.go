@@ -3,8 +3,8 @@ package id
 import (
 	"fmt"
 	"github.com/codingXiang/configer/v2"
-	"github.com/codingXiang/cxgateway/v2/middleware"
-	"github.com/codingXiang/cxgateway/v2/server"
+	"github.com/codingXiang/cxgateway/v3/middleware"
+	"github.com/codingXiang/cxgateway/v3/server"
 	"github.com/gin-gonic/gin"
 	uuid "github.com/satori/go.uuid"
 	"github.com/spf13/viper"

@@ -3,7 +3,7 @@ package service
 import (
 	"errors"
 	"github.com/codingXiang/cxgateway/v3/middleware"
-	response "github.com/codingXiang/cxgateway/v3/util/response"
+	"github.com/codingXiang/cxgateway/v3/util/response"
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/viper"
 	"strconv"

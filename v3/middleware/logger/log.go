@@ -3,8 +3,8 @@ package log
 import (
 	"fmt"
 	"github.com/codingXiang/cxgateway/v2/middleware"
-	"github.com/codingXiang/cxgateway/v2/server"
-	"github.com/codingXiang/go-logger/v2"
+	"github.com/codingXiang/cxgateway/v3/server"
+	"github.com/codingXiang/go-logger/v3"
 	"github.com/gin-gonic/gin"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/viper"

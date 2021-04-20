@@ -1,7 +1,7 @@
 package cache
 
 import (
-	"github.com/codingXiang/cxgateway/v2/middleware"
+	"github.com/codingXiang/cxgateway/v3/middleware"
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/viper"
 	"strconv"
