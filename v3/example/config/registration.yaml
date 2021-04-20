@@ -1,0 +1,17 @@
+redis:
+  url: '127.0.0.1'
+  port: 6379
+  password: 'a12345'
+  db: 3
+  expiration: 0
+registeredPath: "/api/register"
+remote:
+  startInit: true
+  name: test1
+  url: http://127.0.0.1
+  destinations: "http://10.40.41.128:000"
+local:
+  startInit: false
+  name: test1
+  url: http://127.0.0.1
+  destinations: 'http://127.0.0.1:8081'

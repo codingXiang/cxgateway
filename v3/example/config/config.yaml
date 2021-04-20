@@ -1,0 +1,26 @@
+cors:
+  allowAllOrigin: true
+  allowOrigins: ""
+  allowHeaders: ""
+  allowMethods: ""
+application:
+  timeout:
+    read: 1000
+    write: 1000
+  port: 8888
+  uploadPath: "./upload"
+  mode: "debug"
+  appId: "iam"
+  appToken: ""
+  apiBaseRoute: "/api"
+  version: 1.0.0
+i18n:
+  defaultLanguage: "zh_Hant"
+  file:
+    path: "./i18n"
+    type: "yaml"
+log:
+  level: "debug"
+  format: "json"
+  path: "log"
+  filename: "gateway.log"
