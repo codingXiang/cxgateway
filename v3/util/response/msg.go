@@ -1,6 +1,7 @@
 package response
 
 import (
+	"github.com/codingXiang/cxgateway/v3/middleware/pagination"
 	"github.com/gin-gonic/gin"
 )
 
@@ -11,8 +12,16 @@ type PageInfo struct {
 	CurrentPage int `json:"currentPage"` //目前所在頁數
 }
 
-func (p *PageInfo) NewPageInfo(c *gin.Context) *PageInfo {
-	return &PageInfo{}
+func NewPageInfo(count int) *PageInfo {
+	return &PageInfo{
+		Count: count,
+	}
+}
+
+func (p *PageInfo) Setup(c *gin.Context) *PageInfo {
+	p.Limit = c.GetInt(pagination.PageSize)
+	p.CurrentPage = c.GetInt(pagination.Page)
+	return p.GetTotalPage()
 }
 
 func (p *PageInfo) GetTotalPage() *PageInfo {

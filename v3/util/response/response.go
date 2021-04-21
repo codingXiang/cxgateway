@@ -32,7 +32,7 @@ func SetResponse(c *gin.Context, message string, data interface{}, fails []strin
 	c.Set(MessageKey, message)
 	c.Set(DataKey, data)
 	if pageInfo != nil {
-		c.Set(PageKey, pageInfo)
+		c.Set(PageKey, pageInfo.Setup(c))
 	}
 	if fails != nil {
 		c.Set(FailKey, fails)
