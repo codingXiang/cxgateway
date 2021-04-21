@@ -3,7 +3,6 @@ package util
 import (
 	"github.com/codingXiang/cxgateway/v3/middleware/pagination"
 	"github.com/jinzhu/gorm"
-	"strconv"
 )
 
 type PaginationData struct {
@@ -35,12 +34,12 @@ func GetLimit(data map[string]interface{}) (map[string]interface{}, int, int) {
 		page     = 1
 	)
 
-	if in := data[pagination.PageSize]; in != nil {
-		pageSize, _ = strconv.Atoi(in.(string))
+	if in, ok := data[pagination.PageSize]; ok {
+		pageSize = in.(int)
 		delete(data, pagination.PageSize)
 	}
-	if in := data[pagination.Page]; in != nil {
-		page, _ = strconv.Atoi(in.(string))
+	if in, ok := data[pagination.Page]; ok {
+		page = in.(int)
 		delete(data, pagination.Page)
 	}
 	return data, pageSize, page
