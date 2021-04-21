@@ -1,12 +1,26 @@
 package response
 
-import "github.com/gin-gonic/gin"
+import (
+	"github.com/gin-gonic/gin"
+)
 
 type PageInfo struct {
 	Count       int `json:"count"`       //全部資料數量
 	Limit       int `json:"limit"`       //限制搜尋筆數
 	TotalPage   int `json:"totalPage"`   //總共頁數
 	CurrentPage int `json:"currentPage"` //目前所在頁數
+}
+
+func (p *PageInfo) NewPageInfo(c *gin.Context) *PageInfo {
+	return &PageInfo{}
+}
+
+func (p *PageInfo) GetTotalPage() *PageInfo {
+	p.TotalPage = p.Count / p.Limit
+	if p.Count%p.Limit > 0 {
+		p.TotalPage += 1
+	}
+	return p
 }
 
 type Response struct {
