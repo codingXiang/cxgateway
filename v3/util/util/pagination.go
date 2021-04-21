@@ -1,8 +1,12 @@
 package util
 
 import (
-	"github.com/codingXiang/cxgateway/v3/middleware/pagination"
 	"github.com/jinzhu/gorm"
+)
+
+const (
+	Page     = "page"  //分頁
+	PageSize = "limit" //每頁資料限制筆數
 )
 
 type PaginationData struct {
@@ -34,13 +38,13 @@ func GetLimit(data map[string]interface{}) (map[string]interface{}, int, int) {
 		page     = 1
 	)
 
-	if in, ok := data[pagination.PageSize]; ok {
+	if in, ok := data[PageSize]; ok {
 		pageSize = in.(int)
-		delete(data, pagination.PageSize)
+		delete(data, PageSize)
 	}
-	if in, ok := data[pagination.Page]; ok {
+	if in, ok := data[Page]; ok {
 		page = in.(int)
-		delete(data, pagination.Page)
+		delete(data, Page)
 	}
 	return data, pageSize, page
 }
