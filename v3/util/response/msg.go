@@ -1,7 +1,7 @@
 package response
 
 import (
-	"github.com/codingXiang/cxgateway/v3/util/util"
+	"github.com/codingXiang/cxgateway/v3/constants"
 	"github.com/gin-gonic/gin"
 )
 
@@ -19,8 +19,8 @@ func NewPageInfo(count int) *PageInfo {
 }
 
 func (p *PageInfo) Setup(c *gin.Context) *PageInfo {
-	p.Limit = c.GetInt(util.PageSize)
-	p.CurrentPage = c.GetInt(util.Page)
+	p.Limit = c.GetInt(constants.PageSize)
+	p.CurrentPage = c.GetInt(constants.Page)
 	return p.GetTotalPage()
 }
 

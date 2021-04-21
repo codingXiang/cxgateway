@@ -2,9 +2,9 @@ package pagination
 
 import (
 	"errors"
+	"github.com/codingXiang/cxgateway/v3/constants"
 	"github.com/codingXiang/cxgateway/v3/middleware"
 	"github.com/codingXiang/cxgateway/v3/util/response"
-	"github.com/codingXiang/cxgateway/v3/util/util"
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/viper"
 	"strconv"
@@ -12,7 +12,7 @@ import (
 
 
 
-var defaultDatas = []*defaultData{newDefaultData(util.PageSize, 10), newDefaultData(util.Page, 1)}
+var defaultDatas = []*defaultData{newDefaultData(constants.PageSize, 10), newDefaultData(constants.Page, 1)}
 
 type Handler struct{}
 

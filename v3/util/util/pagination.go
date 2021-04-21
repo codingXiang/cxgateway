@@ -1,13 +1,11 @@
 package util
 
 import (
+	"github.com/codingXiang/cxgateway/v3/constants"
 	"github.com/jinzhu/gorm"
 )
 
-const (
-	Page     = "page"  //分頁
-	PageSize = "limit" //每頁資料限制筆數
-)
+
 
 type PaginationData struct {
 	Total int         `json:"total"`
@@ -38,13 +36,13 @@ func GetLimit(data map[string]interface{}) (map[string]interface{}, int, int) {
 		page     = 1
 	)
 
-	if in, ok := data[PageSize]; ok {
+	if in, ok := data[constants.PageSize]; ok {
 		pageSize = in.(int)
-		delete(data, PageSize)
+		delete(data, constants.PageSize)
 	}
-	if in, ok := data[Page]; ok {
+	if in, ok := data[constants.Page]; ok {
 		page = in.(int)
-		delete(data, Page)
+		delete(data, constants.Page)
 	}
 	return data, pageSize, page
 }
