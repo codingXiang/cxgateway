@@ -25,9 +25,13 @@ func (p *PageInfo) Setup(c *gin.Context) *PageInfo {
 }
 
 func (p *PageInfo) GetTotalPage() *PageInfo {
-	p.TotalPage = p.Count / p.Limit
-	if p.Count%p.Limit > 0 {
-		p.TotalPage += 1
+	if p.Limit > 0 {
+		p.TotalPage = p.Count / p.Limit
+		if p.Count%p.Limit > 0 {
+			p.TotalPage += 1
+		}
+	} else {
+		p.TotalPage = 1
 	}
 	return p
 }
