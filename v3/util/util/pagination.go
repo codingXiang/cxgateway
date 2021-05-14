@@ -5,8 +5,6 @@ import (
 	"github.com/jinzhu/gorm"
 )
 
-
-
 type PaginationData struct {
 	Total int         `json:"total"`
 	Data  interface{} `json:"data"`
@@ -25,7 +23,10 @@ func Pagination(data map[string]interface{}) func(in *gorm.DB) *gorm.DB {
 		} else {
 			var pageSize, page int
 			data, pageSize, page = GetLimit(data)
-			return in.Limit(pageSize).Offset((page - 1) * pageSize)
+			if pageSize > 0 {
+				return in.Limit(pageSize).Offset((page - 1) * pageSize)
+			}
+			return in
 		}
 	}
 }
