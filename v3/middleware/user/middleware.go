@@ -89,9 +89,9 @@ func (h *Handler) Handle() gin.HandlerFunc {
 				return
 			}
 		}
-
+		c.Set("AuthStatus", true)
 		c.Set(UserInfo, info)
-		c.Set(response.ModuleName, h.GetConfig().Get(response.ModuleName))
+		//c.Set(response.ModuleName, h.GetConfig().Get(response.ModuleName))
 		c.Next()
 	}
 }
