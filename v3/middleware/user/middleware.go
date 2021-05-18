@@ -23,15 +23,15 @@ type Handler struct {
 
 const (
 	userService = "userservice"
+	_url        = "url"
 	appId       = "appId"
 	namespace   = "namespace"
-	//authUrl     = "http://order.10.96.155.72.nip.io/v1.0/invoke/%s/method/api/user"
-	authUrl = "http://localhost:3500/v1.0/invoke/%s/method/api/user"
 )
 
 func New(config *viper.Viper, cache *redis.RedisClient) middleware.Object {
 	var (
 		url        string
+		authUrl    = config.GetString(configer.GetConfigPath(userService, _url))
 		_appId     = config.GetString(configer.GetConfigPath(userService, appId))
 		_namespace = config.GetString(configer.GetConfigPath(userService, namespace))
 	)
