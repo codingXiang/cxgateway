@@ -61,6 +61,7 @@ func (h *Handler) Handle() gin.HandlerFunc {
 		jwt := c.GetHeader("Authorization")
 		if jwt == "" {
 			response.SetResponse(c, "header must have `Authorization`", nil, []string{"header must have `Authorization`"}, nil)
+			c.Set("AuthStatus", false)
 			c.AbortWithStatusJSON(response.StatusBadRequest(c))
 			return
 		}
@@ -78,10 +79,12 @@ func (h *Handler) Handle() gin.HandlerFunc {
 				} else {
 					response.SetResponse(c, "Set cache failed", nil, []string{err.Error()}, nil)
 					c.AbortWithStatusJSON(response.StatusUnauthorized(c))
+					c.Set("AuthStatus", false)
 					return
 				}
 			} else {
 				response.SetResponse(c, "JWT Auth Failed", nil, []string{err.Error()}, nil)
+				c.Set("AuthStatus", false)
 				c.AbortWithStatusJSON(response.StatusUnauthorized(c))
 				return
 			}
