@@ -24,3 +24,11 @@ log:
   format: "json"
   path: "log"
   filename: "gateway.log"
+userservice:
+  url: "http://localhost:3500/v1.0/invoke/%s/method/api/user"
+  appId: userservice
+  namespace: userservice
+iam:
+  url: "http://localhost:3500/v1.0/invoke/%s/method/api/v1/permission/check"
+  appId: "iam"
+  namespace: ""

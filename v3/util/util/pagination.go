@@ -2,7 +2,7 @@ package util
 
 import (
 	"github.com/codingXiang/cxgateway/v3/constants"
-	"github.com/jinzhu/gorm"
+	"gorm.io/gorm"
 )
 
 type PaginationData struct {
@@ -48,8 +48,7 @@ func GetLimit(data map[string]interface{}) (map[string]interface{}, int, int) {
 	return data, pageSize, page
 }
 
-func TotalSize(in *gorm.DB) int {
-	total := 0
+func TotalSize(in *gorm.DB) (total int64) {
 	in.Count(&total)
 	return total
 }
