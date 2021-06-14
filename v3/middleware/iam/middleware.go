@@ -68,10 +68,16 @@ func (h *Handler) Handle() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		jwt := c.GetHeader("Authorization")
 		salt := c.GetHeader("AuthSalt")
+
 		obj := &Object{
-			Type:   c.GetHeader(PolicyType),
 			Object: c.Request.RequestURI,
 			Action: c.Request.Method,
+		}
+
+		if _type := c.GetHeader(PolicyType); _type != "" {
+			obj.Type = _type
+		} else {
+			obj.Type = c.GetString(PolicyType)
 		}
 
 		if statusCode, err := h.verify(jwt, salt, obj); err != nil {
