@@ -62,16 +62,14 @@ func (h *Handler) GetConfig() *viper.Viper {
 func (h *Handler) Handle() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		jwt := c.GetHeader("Authorization")
-		c.GetHeader(PolicyType)
-		c.GetHeader(Endpoint)
-		c.GetHeader(Method)
+		salt := c.GetHeader("AuthSalt")
 		obj := &Object{
-			Type:   "rbac",
+			Type:   c.GetHeader(PolicyType),
 			Object: c.Request.RequestURI,
 			Action: c.Request.Method,
 		}
 
-		if statusCode, err := h.verify(jwt, obj); err != nil {
+		if statusCode, err := h.verify(jwt, salt, obj); err != nil {
 			response.SetResponse(c, "Can not access", nil, []string{err.Error()}, nil)
 			if statusCode == 401 {
 				c.AbortWithStatusJSON(response.StatusUnauthorized(c))
@@ -91,7 +89,7 @@ func (h *Handler) Handle() gin.HandlerFunc {
 	}
 }
 
-func (h *Handler) verify(jwt string, object *Object) (int, error) {
+func (h *Handler) verify(jwt, salt string, object *Object) (int, error) {
 	logger.Log.Info("start get user auth")
 	req := fasthttp.AcquireRequest()
 	resp := fasthttp.AcquireResponse()
@@ -101,6 +99,7 @@ func (h *Handler) verify(jwt string, object *Object) (int, error) {
 	req.SetRequestURI(h.url)
 
 	req.Header.Add("Authorization", jwt)
+	req.Header.Add("AuthSalt", salt)
 	req.Header.Add("Accept", "application/json")
 	req.Header.Add(PolicyType, object.Type)
 	req.Header.Add(Endpoint, object.Object)

@@ -12,15 +12,9 @@ type Response struct {
 }
 
 type User struct {
-	ID              int64         `json:"id"`
-	Name            string        `json:"name"`
-	RogAccount      string        `json:"rogaccount"`
-	Email           string        `json:"email"`
-	EmailVerifiedAt time.Time     `json:"email_verified_at"`
-	CreatedAt       time.Time     `json:"created_at"`
-	UpdatedAt       time.Time     `json:"updated_at"`
-	Roles           []*Role       `json:"roles"`
-	Permissions     []*Permission `json:"permissions"`
+	ID     int64    `json:"id"`
+	Roles  []*Role  `json:"roles"`
+	Groups []*Group `json:"groups"`
 }
 
 func GetUser(c *gin.Context) (*User, error) {
@@ -41,12 +35,15 @@ func GetUser(c *gin.Context) (*User, error) {
 }
 
 type Role struct {
-	ID        int64     `json:"id"`
-	Name      string    `json:"name"`
-	GuardName string    `json:"guardName"`
-	CreatedAt time.Time `json:"created_at"`
-	UpdatedAt time.Time `json:"updated_at"`
-	Pivot     *Pivot    `json:"pivot"`
+	ID       string  `json:"id"`
+	Name     string  `json:"name"`
+	Children []*Role `json:"children"`
+}
+
+type Group struct {
+	ID       string   `json:"id"`
+	Name     string   `json:"name"`
+	Children []*Group `json:"children"`
 }
 
 type Pivot struct {

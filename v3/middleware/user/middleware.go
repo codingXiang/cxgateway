@@ -12,7 +12,6 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/viper"
 	"github.com/valyala/fasthttp"
-	"time"
 )
 
 type Handler struct {
@@ -59,8 +58,15 @@ func (h *Handler) GetConfig() *viper.Viper {
 func (h *Handler) Handle() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		jwt := c.GetHeader("Authorization")
+		salt := c.GetHeader("AuthSalt")
 		if jwt == "" {
 			response.SetResponse(c, "header must have `Authorization`", nil, []string{"header must have `Authorization`"}, nil)
+			c.Set("AuthStatus", false)
+			c.AbortWithStatusJSON(response.StatusBadRequest(c))
+			return
+		}
+		if salt == "" {
+			response.SetResponse(c, "header must have `AuthSalt`", nil, []string{"header must have `AuthSalt`"}, nil)
 			c.Set("AuthStatus", false)
 			c.AbortWithStatusJSON(response.StatusBadRequest(c))
 			return
@@ -69,25 +75,12 @@ func (h *Handler) Handle() gin.HandlerFunc {
 			info *User
 			err  error
 		)
-		if info, err = h.getCache(jwt); err == nil {
-			logger.Log.Debug("Get jwt cache from redis success, key = ", jwt)
-		} else {
-			info, err = h.verify(jwt)
-			if err == nil {
-				if err = h.setCache(jwt, info); err == nil {
-					logger.Log.Debug("Set jwt cache to redis success, key = ", jwt)
-				} else {
-					response.SetResponse(c, "Set cache failed", nil, []string{err.Error()}, nil)
-					c.AbortWithStatusJSON(response.StatusUnauthorized(c))
-					c.Set("AuthStatus", false)
-					return
-				}
-			} else {
-				response.SetResponse(c, "JWT Auth Failed", nil, []string{err.Error()}, nil)
-				c.Set("AuthStatus", false)
-				c.AbortWithStatusJSON(response.StatusUnauthorized(c))
-				return
-			}
+		info, err = h.verify(jwt, salt)
+		if err != nil {
+			response.SetResponse(c, "JWT Auth Failed", nil, []string{err.Error()}, nil)
+			c.Set("AuthStatus", false)
+			c.AbortWithStatusJSON(response.StatusUnauthorized(c))
+			return
 		}
 		c.Set("AuthStatus", true)
 		c.Set(UserInfo, info)
@@ -96,7 +89,7 @@ func (h *Handler) Handle() gin.HandlerFunc {
 	}
 }
 
-func (h *Handler) verify(jwt string) (*User, error) {
+func (h *Handler) verify(jwt, salt string) (*User, error) {
 	logger.Log.Info("start get user auth")
 	req := fasthttp.AcquireRequest()
 	resp := fasthttp.AcquireResponse()
@@ -105,60 +98,26 @@ func (h *Handler) verify(jwt string) (*User, error) {
 
 	req.SetRequestURI(h.url)
 
-	//req, err := http.NewRequest(http.MethodGet, h.url, nil)
-	//if err != nil {
-	//	return nil, err
-	//}
 	req.Header.Add("Authorization", jwt)
+	req.Header.Add("AuthSalt", salt)
 	req.Header.Add("Accept", "application/json")
 	//resp, err := http.DefaultClient.Do(req)
 
 	err := fasthttp.Do(req, resp)
 
-	logger.Log.Info("end get user auth")
+	logger.Log.Debug("end get user auth")
 	if err != nil {
 		return nil, err
 	}
-	logger.Log.Debug("[Auth] url = ", h.url, ", token = ", jwt)
+	logger.Log.Debug("[Auth] url = ", h.url, ", token = ", jwt, ", salt = ", salt)
 	//defer resp.Body.Close()
 
 	if resp.StatusCode() > 399 {
-		err = errors.New("Auth failed, please check jwt token")
+		err = errors.New("Auth failed, please check jwt token or salt")
 		return nil, err
 	}
 
-	//if resp.StatusCode > 399 {
-	//	err = errors.New("Auth failed, please check jwt token")
-	//	return nil, err
-	//}
-
-	//body, err := ioutil.ReadAll(resp.Body)
-	//if err != nil {
-	//	return nil, err
-	//}
 	return getInfo(resp.Body())
-}
-
-func (h *Handler) setCache(jwt string, user *User) error {
-	b, err := json.Marshal(user)
-	if err != nil {
-		return err
-	}
-	return h.cache.SetKeyValue(jwt, b, 1*time.Minute)
-}
-
-func (h *Handler) getCache(jwt string) (*User, error) {
-	user := new(User)
-	info, err := h.cache.GetValue(jwt)
-	if err != nil {
-		return nil, err
-	}
-	err = json.Unmarshal([]byte(info), &user)
-	if err != nil {
-		logger.Log.Error(err.Error())
-		return nil, err
-	}
-	return user, nil
 }
 
 func getInfo(in []byte) (*User, error) {
