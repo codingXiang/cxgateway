@@ -19,10 +19,12 @@ type Handler struct {
 }
 
 const (
-	svc       = "iam"
-	_url      = "url"
-	appId     = "appId"
-	namespace = "namespace"
+	svc         = "iam"
+	_url        = "url"
+	_endpoint   = "endpoint"
+	_permission = "permission"
+	appId       = "appId"
+	namespace   = "namespace"
 )
 
 const (
@@ -37,12 +39,15 @@ func New(config *viper.Viper, cache *redis.RedisClient) middleware.Object {
 		authUrl    = config.GetString(configer.GetConfigPath(svc, _url))
 		_appId     = config.GetString(configer.GetConfigPath(svc, appId))
 		_namespace = config.GetString(configer.GetConfigPath(svc, namespace))
+		e          = config.GetString(configer.GetConfigPath(svc, _endpoint, _permission))
 	)
 
+	url = authUrl + e
+
 	if _namespace != "" {
-		url = fmt.Sprintf(authUrl, _appId+"."+_namespace)
+		url = fmt.Sprintf(url, _appId+"."+_namespace)
 	} else {
-		url = fmt.Sprintf(authUrl, _appId)
+		url = fmt.Sprintf(url, _appId)
 	}
 
 	return &Handler{
