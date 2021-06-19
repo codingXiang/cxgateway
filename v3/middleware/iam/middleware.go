@@ -10,6 +10,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/viper"
 	"github.com/valyala/fasthttp"
+	"net/http"
 )
 
 type Handler struct {
@@ -79,33 +80,38 @@ func (h *Handler) Handle() gin.HandlerFunc {
 		} else {
 			obj.Type = c.GetString(PolicyType)
 		}
-
-		if statusCode, err := h.verify(jwt, salt, obj); err != nil {
+		resp, err := h.verify(jwt, salt, obj)
+		defer fasthttp.ReleaseResponse(resp)
+		if err != nil {
 			response.SetResponse(c, "Can not access", nil, []string{err.Error()}, nil)
-			if statusCode == 401 {
-				c.AbortWithStatusJSON(response.StatusUnauthorized(c))
-				return
-			}
-			if statusCode == 403 {
-				c.AbortWithStatusJSON(response.StatusForbidden(c))
-				return
-			}
-			if statusCode > 399 {
-				c.AbortWithStatusJSON(response.StatusInternalServerError(c))
-				return
-			}
+			c.AbortWithStatusJSON(response.StatusBadGateway(c))
 			return
+		} else {
+			msg := "Can not access"
+			switch resp.StatusCode() {
+			case http.StatusUnauthorized:
+				response.SetResponse(c, msg, nil, []string{"Auth failed, please check jwt token"}, nil)
+				c.AbortWithStatusJSON(response.StatusUnauthorized(c))
+				break
+			case http.StatusForbidden:
+				response.SetResponse(c, msg, nil, []string{"Auth failed, please check jwt token"}, nil)
+				c.AbortWithStatusJSON(response.StatusForbidden(c))
+				break
+			default:
+				c.Set("userInfo", resp.Body())
+				c.Next()
+			}
 		}
-		c.Next()
+
 	}
 }
 
-func (h *Handler) verify(jwt, salt string, object *Object) (int, error) {
+func (h *Handler) verify(jwt, salt string, object *Object) (*fasthttp.Response, error) {
 	logger.Log.Info("start get user auth")
 	req := fasthttp.AcquireRequest()
 	resp := fasthttp.AcquireResponse()
-	defer fasthttp.ReleaseRequest(req)   // <- do not forget to release
-	defer fasthttp.ReleaseResponse(resp) // <- do not forget to release
+	defer fasthttp.ReleaseRequest(req) // <- do not forget to release
+	//defer fasthttp.ReleaseResponse(resp) // <- do not forget to release
 
 	req.SetRequestURI(h.url)
 
@@ -118,15 +124,8 @@ func (h *Handler) verify(jwt, salt string, object *Object) (int, error) {
 
 	err := fasthttp.Do(req, resp)
 	if err != nil {
-		return 500, err
+		return nil, err
 	}
 
-	if resp.StatusCode() == 401 {
-		err = fmt.Errorf("Auth failed, please check jwt token")
-	} else if resp.StatusCode() == 403 {
-		err = fmt.Errorf("have no permission")
-	} else if resp.StatusCode() > 399 {
-		err = fmt.Errorf("unknown error")
-	}
-	return resp.StatusCode(), err
+	return resp, err
 }
