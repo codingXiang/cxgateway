@@ -3,6 +3,7 @@ package iam
 import (
 	"encoding/json"
 	"errors"
+	"github.com/codingXiang/cxgateway/v3/util/response"
 	"github.com/gin-gonic/gin"
 	"time"
 )
@@ -16,6 +17,11 @@ type Object struct {
 
 type Response struct {
 	User *User `json:"user"`
+}
+
+func Resp2User(in []byte) (resp response.Response, err error) {
+	err = json.Unmarshal(in, &resp)
+	return
 }
 
 type User struct {

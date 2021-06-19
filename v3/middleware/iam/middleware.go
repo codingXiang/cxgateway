@@ -98,7 +98,12 @@ func (h *Handler) Handle() gin.HandlerFunc {
 				c.AbortWithStatusJSON(response.StatusForbidden(c))
 				break
 			default:
-				c.Set("userInfo", resp.Body())
+				result, e  := Resp2User(resp.Body())
+				if e != nil {
+					c.Abort()
+					return
+				}
+				c.Set("userInfo", result.Data)
 				c.Next()
 			}
 		}
