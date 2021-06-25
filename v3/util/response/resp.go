@@ -59,6 +59,7 @@ type HttpStatusHandler func(c *gin.Context)
 //WrapperStatus 在 register routing 時加入錯誤 handler
 func WrapperStatus(handler HttpStatusHandler) func(c *gin.Context) {
 	return func(c *gin.Context) {
+		handler(c)
 		c.JSON(c.GetInt(StatusCodeKey), newResponse(c))
 		return
 	}
