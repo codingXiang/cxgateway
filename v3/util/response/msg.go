@@ -51,6 +51,10 @@ const (
 	MethodName = "methodName"
 )
 
+const (
+	StatusCodeKey = "statusCodeKey"
+)
+
 // message
 const (
 	MessageKey = "responseMessage"
