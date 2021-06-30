@@ -52,10 +52,13 @@ func New(config *viper.Viper, cache *redis.RedisClient) middleware.Object {
 		url = fmt.Sprintf(url, _appId)
 	}
 
-	return &Handler{
+	h := &Handler{
 		cache: cache,
 		url:   url,
 	}
+
+	h.SetConfig(config)
+	return h
 }
 
 func (h *Handler) SetConfig(config *viper.Viper) {
