@@ -71,11 +71,9 @@ func (h *Handler) Handle() gin.HandlerFunc {
 		jwt := c.GetHeader("Authorization")
 		salt := c.GetHeader("AuthSalt")
 
-		if key, exist := c.GetQuery("schedule_key"); exist {
-			if key == h.GetConfig().GetString(configer.GetConfigPath(svc, skipAuthKey)) {
-				c.Next()
-				return
-			}
+		if key := c.Request.URL.Query().Get("schedule_key"); key == h.GetConfig().GetString(configer.GetConfigPath(svc, skipAuthKey)) {
+			c.Next()
+			return
 		}
 		obj := &Object{
 			Object: c.Request.RequestURI,
