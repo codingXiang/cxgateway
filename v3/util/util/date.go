@@ -53,7 +53,7 @@ func FilterDateTimeRange(condition *QueryDateTimeCondition) func(in *gorm.DB) *g
 			in = in.Where(str)
 		}
 		if c := condition.Date; c != nil {
-			str := fmt.Sprintf("DATE(CURDATE()) - DATE(%s) %s %s", condition.Column, c.Operator, c.Number)
+			str := fmt.Sprintf("DAY(CURDATE()) - DAY(%s) %s %s", condition.Column, c.Operator, c.Number)
 			in = in.Where(str)
 		}
 		return in
