@@ -21,6 +21,7 @@ type Handler struct {
 
 const (
 	svc         = "iam"
+	skipAuthKey = "skipAuthKey"
 	_url        = "url"
 	_endpoint   = "endpoint"
 	_permission = "permission"
@@ -70,6 +71,12 @@ func (h *Handler) Handle() gin.HandlerFunc {
 		jwt := c.GetHeader("Authorization")
 		salt := c.GetHeader("AuthSalt")
 
+		if key, exist := c.GetQuery("schedule_key"); exist {
+			if key == h.GetConfig().GetString(configer.GetConfigPath(svc, skipAuthKey)) {
+				c.Next()
+				return
+			}
+		}
 		obj := &Object{
 			Object: c.Request.RequestURI,
 			Action: c.Request.Method,
@@ -98,7 +105,7 @@ func (h *Handler) Handle() gin.HandlerFunc {
 				c.AbortWithStatusJSON(response.StatusForbidden(c))
 				break
 			default:
-				result, e  := Resp2User(resp.Body())
+				result, e := Resp2User(resp.Body())
 				if e != nil {
 					c.Abort()
 					return
