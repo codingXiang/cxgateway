@@ -39,10 +39,10 @@ type DateTimeCondition struct {
 }
 
 type QueryDateTimeCondition struct {
-	Column string
-	Year   *DateTimeCondition
-	Month  *DateTimeCondition
-	Date   *DateTimeCondition
+	Column string             `json:"column"`
+	Year   *DateTimeCondition `json:"year"`
+	Month  *DateTimeCondition `json:"month"`
+	Date   *DateTimeCondition `json:"date"`
 }
 
 func NewCondition(str string) *DateTimeCondition {
