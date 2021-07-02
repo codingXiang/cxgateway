@@ -9,16 +9,33 @@ import (
 type Operator string
 
 const (
-	Less        Operator = "<"
-	LessThan    Operator = "<="
-	Equal       Operator = "="
-	Greater     Operator = ">"
-	GreaterThan Operator = ">="
+	Less        Operator = "lt"
+	LessThan    Operator = "lta"
+	Equal       Operator = "eq"
+	Greater     Operator = "gt"
+	GreaterThan Operator = "gta"
 )
 
+func (o Operator) Get() string {
+	switch o {
+	case Less:
+		return "<"
+	case LessThan:
+		return "<="
+	case Equal:
+		return "="
+	case Greater:
+		return ">"
+	case GreaterThan:
+		return ">-"
+	default:
+		return "="
+	}
+}
+
 type DateTimeCondition struct {
-	Operator Operator `json:"operator"`
-	Number   string   `json:"number"`
+	Operator string `json:"operator"`
+	Number   string `json:"number"`
 }
 
 type QueryDateTimeCondition struct {
@@ -29,15 +46,15 @@ type QueryDateTimeCondition struct {
 }
 
 func NewCondition(str string) *DateTimeCondition {
-	temp := strings.Split(str, "_")
+	temp := strings.Split(str, "__")
 	if len(temp) > 1 {
 		return &DateTimeCondition{
-			Operator: Operator(temp[0]),
+			Operator: Operator(temp[0]).Get(),
 			Number:   temp[1],
 		}
 	}
 	return &DateTimeCondition{
-		Operator: Equal,
+		Operator: Equal.Get(),
 		Number:   "0",
 	}
 }
