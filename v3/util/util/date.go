@@ -40,6 +40,7 @@ type DateTimeCondition struct {
 
 type QueryDateTimeCondition struct {
 	Column string             `json:"column"`
+	Unit   string             `json:"unit"`
 	Year   *DateTimeCondition `json:"year"`
 	Month  *DateTimeCondition `json:"month"`
 	Date   *DateTimeCondition `json:"date"`
@@ -55,22 +56,37 @@ func NewCondition(str string) *DateTimeCondition {
 	}
 	return &DateTimeCondition{
 		Operator: Equal.Get(),
-		Number:   "0",
+		Number:   "n",
 	}
 }
 
 func FilterDateTimeRange(condition *QueryDateTimeCondition) func(in *gorm.DB) *gorm.DB {
 	return func(in *gorm.DB) *gorm.DB {
 		if c := condition.Year; c != nil {
-			str := fmt.Sprintf("YEAR(CURDATE()) - YEAR(%s) %s %s", condition.Column, c.Operator, c.Number)
+			str := ""
+			if c.Number == "n" {
+				str = fmt.Sprintf("YEAR(CURDATE()) - YEAR(%s) %s %s", condition.Column, c.Operator, c.Number)
+			} else {
+				str = fmt.Sprintf("DATE_SUB(CURDATE(), INTERVAL %s YEAR) = %s", c.Number, condition.Column)
+			}
 			in = in.Where(str)
 		}
 		if c := condition.Month; c != nil {
-			str := fmt.Sprintf("MONTH(CURDATE()) - MONTH(%s) %s %s", condition.Column, c.Operator, c.Number)
+			str := ""
+			if c.Number == "n" {
+				str = fmt.Sprintf("MONTH(CURDATE()) - MONTH(%s) %s %s", condition.Column, c.Operator, c.Number)
+			} else {
+				str = fmt.Sprintf("DATE_SUB(CURDATE(), INTERVAL %s MONTH) = %s", c.Number, condition.Column)
+			}
 			in = in.Where(str)
 		}
 		if c := condition.Date; c != nil {
-			str := fmt.Sprintf("DAY(CURDATE()) - DAY(%s) %s %s", condition.Column, c.Operator, c.Number)
+			str := ""
+			if c.Number == "n" {
+				str = fmt.Sprintf("DAY(CURDATE()) - DAY(%s) %s %s", condition.Column, c.Operator, c.Number)
+			} else {
+				str = fmt.Sprintf("DATE_SUB(CURDATE(), INTERVAL %s DAY) = %s", c.Number, condition.Column)
+			}
 			in = in.Where(str)
 		}
 		return in
