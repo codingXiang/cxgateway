@@ -12,7 +12,7 @@ require (
 	github.com/codingXiang/gogo-i18n v1.0.2-0.20200417093325-c191114c00c4
 	github.com/codingXiang/service-discovery v1.0.0 // indirect
 	github.com/gin-contrib/cors v1.3.1
-	github.com/gin-gonic/gin v1.6.2
+	github.com/gin-gonic/gin v1.7.2
 	github.com/go-redis/redis v6.15.9+incompatible // indirect
 	github.com/jinzhu/gorm v1.9.16
 	github.com/lib/pq v1.9.0 // indirect
