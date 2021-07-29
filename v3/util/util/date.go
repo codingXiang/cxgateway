@@ -65,7 +65,7 @@ func FilterDateTimeRange(condition *QueryDateTimeCondition) func(in *gorm.DB) *g
 		if c := condition.Year; c != nil {
 			str := ""
 			if c.Number == "n" {
-				str = fmt.Sprintf("YEAR(CURDATE()) - YEAR(%s) %s %s", condition.Column, c.Operator, c.Number)
+				str = fmt.Sprintf("YEAR(CURDATE()) - YEAR(%s) %s 0", condition.Column, c.Operator)
 			} else {
 				str = fmt.Sprintf("DATE_SUB(CURDATE(), INTERVAL %s YEAR) = %s", c.Number, condition.Column)
 			}
@@ -74,7 +74,7 @@ func FilterDateTimeRange(condition *QueryDateTimeCondition) func(in *gorm.DB) *g
 		if c := condition.Month; c != nil {
 			str := ""
 			if c.Number == "n" {
-				str = fmt.Sprintf("MONTH(CURDATE()) - MONTH(%s) %s %s", condition.Column, c.Operator, c.Number)
+				str = fmt.Sprintf("MONTH(CURDATE()) - MONTH(%s) %s 0", condition.Column, c.Operator)
 			} else {
 				str = fmt.Sprintf("DATE_SUB(CURDATE(), INTERVAL %s MONTH) = %s", c.Number, condition.Column)
 			}
@@ -83,7 +83,7 @@ func FilterDateTimeRange(condition *QueryDateTimeCondition) func(in *gorm.DB) *g
 		if c := condition.Date; c != nil {
 			str := ""
 			if c.Number == "n" {
-				str = fmt.Sprintf("DAY(CURDATE()) - DAY(%s) %s %s", condition.Column, c.Operator, c.Number)
+				str = fmt.Sprintf("DAY(CURDATE()) - DAY(%s) %s 0", condition.Column, c.Operator)
 			} else {
 				str = fmt.Sprintf("DATE_SUB(CURDATE(), INTERVAL %s DAY) = %s", c.Number, condition.Column)
 			}
