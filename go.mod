@@ -9,7 +9,7 @@ require (
 	github.com/codingXiang/go-orm v1.0.7
 	github.com/codingXiang/gogo-i18n v1.0.2-0.20200417093325-c191114c00c4
 	github.com/gin-contrib/cors v1.3.1
-	github.com/gin-gonic/gin v1.7.0
+	github.com/gin-gonic/gin v1.7.2
 	github.com/go-redis/redis v6.15.9+incompatible // indirect
 	github.com/golang/protobuf v1.4.3 // indirect
 	github.com/jinzhu/gorm v1.9.16
