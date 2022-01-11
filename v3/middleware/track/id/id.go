@@ -25,7 +25,6 @@ func (c *RequestID) GetConfig() *viper.Viper {
 	return c.config
 }
 
-
 func (r *RequestID) SetConfig(config *viper.Viper) {
 	r.config = config
 }
@@ -38,7 +37,7 @@ func (r *RequestID) Handle() gin.HandlerFunc {
 		}
 	} else {
 		return func(c *gin.Context) {
-			trackID := uuid.NewV4()
+			trackID, _ := uuid.NewV4()
 			trackKey := fmt.Sprintf("X-%s-Track-Id", strings.ToUpper(id))
 			c.Writer.Header().Set(trackKey, trackID.String())
 			c.Next()
