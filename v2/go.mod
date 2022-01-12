@@ -15,7 +15,7 @@ require (
 	github.com/codingXiang/gogo-i18n v1.0.2-0.20200417093325-c191114c00c4
 	github.com/codingXiang/service-discovery v1.0.0
 	github.com/gin-contrib/cors v1.3.1
-	github.com/gin-gonic/gin v1.6.2
+ 	github.com/gin-gonic/gin v1.7.0
 	github.com/go-redis/redis v6.15.8+incompatible // indirect
 	github.com/golang/protobuf v1.4.3
 	github.com/jinzhu/gorm v1.9.15
