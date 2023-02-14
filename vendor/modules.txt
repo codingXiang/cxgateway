@@ -1,4 +1,5 @@
-# github.com/astaxie/beego v1.12.1
+# github.com/astaxie/beego v1.12.2
+github.com/astaxie/beego/logs
 github.com/astaxie/beego/validation
 # github.com/codingXiang/configer v1.0.2-0.20200513072245-ec8070de9a16
 github.com/codingXiang/configer
@@ -17,7 +18,7 @@ github.com/ghodss/yaml
 github.com/gin-contrib/cors
 # github.com/gin-contrib/sse v0.1.0
 github.com/gin-contrib/sse
-# github.com/gin-gonic/gin v1.7.0
+# github.com/gin-gonic/gin v1.7.2
 github.com/gin-gonic/gin
 github.com/gin-gonic/gin/binding
 github.com/gin-gonic/gin/internal/bytesconv
@@ -59,7 +60,7 @@ github.com/jinzhu/gorm/dialects/mysql
 github.com/jinzhu/gorm/dialects/postgres
 # github.com/jinzhu/inflection v1.0.0
 github.com/jinzhu/inflection
-# github.com/json-iterator/go v1.1.9
+# github.com/json-iterator/go v1.1.10
 github.com/json-iterator/go
 # github.com/leodido/go-urn v1.2.0
 github.com/leodido/go-urn
@@ -88,6 +89,8 @@ github.com/pelletier/go-toml
 github.com/pkg/errors
 # github.com/satori/go.uuid v1.2.0
 github.com/satori/go.uuid
+# github.com/shiena/ansicolor v0.0.0-20151119151921-a422bbe96644
+github.com/shiena/ansicolor
 # github.com/sirupsen/logrus v1.7.0
 github.com/sirupsen/logrus
 # github.com/snowzach/rotatefilehook v0.0.0-20180327172521-2f64f265f58c
